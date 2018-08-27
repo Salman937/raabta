@@ -1,0 +1,13 @@
+.box-footer, .main-footer, footer{
+    display: none;
+}
+
+.form-control{
+    border: none;
+   display: block;
+}
+
+.form-group{
+    /*border: none;*/
+    display: flex;
+}

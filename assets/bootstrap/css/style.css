@@ -1,0 +1,37 @@
+.card-header-title
+{
+  background: #f4f4f4
+}
+
+.card-element-title
+{
+
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 33px;
+  color: #7f7f7f;
+  
+}
+
+.card img
+{
+  text-align: left;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  margin: auto;
+  font-family: arial;
+  background: white !important;
+  height: 250px;
+}
+
+.title {
+  color: grey !important;
+  font-size: 18px;
+}
+.user-details
+{
+  margin-top: -1em;
+  padding-right: 5em;
+}
