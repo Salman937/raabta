@@ -9,7 +9,7 @@ class User extends CI_Controller
 		//Do your magic here
 		$this->load->model('common_model');
 
-		 // Prevent from Direct Access
+		// Prevent from Direct Access
         if (!isset($_SESSION['admin_id'])) 
         {
             redirect('admin/login');

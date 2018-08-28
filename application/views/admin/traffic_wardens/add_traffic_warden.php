@@ -154,7 +154,7 @@
 
  $('#map-view').locationpicker({
 
-   location: {latitude: 25.7276167, longitude: -80.24209209999998},
+   location: {latitude: 34.0149748, longitude: 71.5804899},
    enableAutocomplete: true,
    radius:0,
    onchanged: function (currentLocation, radius, isMarkerDropped) {

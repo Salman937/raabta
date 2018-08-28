@@ -3,6 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Complaints extends CI_Controller {
 
+    public function __construct()
+    {
+        parent::__construct();
+        //Do your magic here
+        $this->load->model('common_model');
+    }
+
     /*** Complaints with image uploading ***/
     public function image()
     {
@@ -17,7 +24,7 @@ class Complaints extends CI_Controller {
             // $img_size = $_FILES['image']['size'];
             $upload = move_uploaded_file($tempImage,'uploads/images/'.$image);
             
-            $phone_no = $this->common_model->getAllData('signup','phone_no',1,array('signup_id'=> $this->input->post('signup_id')));
+            $phone_no = $this->common_model->getAllData('signup','phone_no',1,array('signup_id' => $this->input->post('signup_id')));
 
             // prepare array of user data
             $dataImage = array
@@ -28,7 +35,7 @@ class Complaints extends CI_Controller {
                     'latitude'           => $this->input->post('latitude'),
                     'longitude'          => $this->input->post('longitude'),
                     'description'        => $this->input->post('description'),
-                    // 'phone'              => $phone_no->phone_no,
+                    'phone'              => $phone_no->phone_no,
                     'image'              => $image,
                     'district'           => slugify($this->input->post('district')),
                     'dated'              => date('Y-m-d')
@@ -91,7 +98,7 @@ class Complaints extends CI_Controller {
             echo json_encode($Response);
         }
 
-        $phone_no = $this->common_model->getAllData('signup','phone_no',1,array('signup_id'=> $this->input->post('signup_id')));
+        $phone_no = $this->common_model->getAllData('signup','phone_no',1,array('signup_id' => $this->input->post('signup_id')));
         
         // prepare video array for insert
         $dataVideo = array
@@ -102,7 +109,7 @@ class Complaints extends CI_Controller {
                 'latitude'           => $this->input->post('latitude'),
                 'longitude'          => $this->input->post('longitude'),
                 'description'        => $this->input->post('description'),
-                // 'phone'              => $phone_no->phone_no,
+                'phone'              => $phone_no->phone_no,
                 'video'              => $uploaded_video,
                 'district'           => slugify($this->input->post('district')),
                 'dated'              => date('Y-m-d')

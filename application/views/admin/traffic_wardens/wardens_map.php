@@ -52,14 +52,22 @@
   <!-- /.content-wrapper -->
 
 <script type="text/javascript">
-    var locations = [
-      ['Bondi Beach', 34.7788814, 72.3488721],
-      ['Coogee Beach', 34.0009803, 71.54517420000002],
+    var locations = 
+    [
+      <?php foreach ($wardens as $value) 
+       {
+      ?>  
+
+        ['<?php echo $value->name ?>', <?php echo $value->latitude ?>, <?php echo $value->longitude ?>],
+
+      <?php
+        } 
+      ?>
     ];
 
     var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 10,
-      center: new google.maps.LatLng(34.7788814, 72.3488721),
+      zoom: 12,
+      center: new google.maps.LatLng(33.995476, 71.486102),
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 

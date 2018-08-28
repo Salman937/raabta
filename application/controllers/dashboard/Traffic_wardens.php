@@ -8,6 +8,12 @@ class Traffic_wardens extends CI_Controller
 		parent::__construct();
 		//Do your magic here
 		$this->load->model('common_model');
+
+		// Prevent from Direct Access
+        if (!isset($_SESSION['admin_id'])) 
+        {
+            redirect('admin/login');
+        }
 	}
 
 	/**
@@ -80,6 +86,7 @@ class Traffic_wardens extends CI_Controller
 							'created_at'   => date('Y-m-d H:i:s'),
 							'updated_at'   => date('Y-m-d H:i:s'),
 						 );
+
 
 			$result = $this->common_model->InsertData('traffic_wardens',$data);
 
@@ -305,6 +312,11 @@ class Traffic_wardens extends CI_Controller
         $data['heading']    =  'Traffic Wardens Map';
         $data['page_name']  =  'admin/traffic_wardens/wardens_map';
 
+        $data['wardens'] = $this->common_model->getAllData('traffic_wardens');
+
+        // pr($data['wardens']);die;
+
+        
 		view('template',$data);
 	}
 }
