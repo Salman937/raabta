@@ -53,6 +53,8 @@
         </li>
       </ul>
     </li>
+
+    <?php if ($this->session->userdata('admin_district') == 'peshawar'): ?>
     
     <li class="<?= $this->uri->segment(2) == "map"?"active":"";?>">
       <a href="<?= base_url().'admin/map'; ?>">
@@ -160,7 +162,6 @@
         </ul>
       </li>
 
-      <?php if ($this->session->userdata('admin_district') == 'peshawar'): ?>
 
         <li class="treeview <?= $heading == "Users"?"active":"";?>">
           <a href="#">
@@ -179,7 +180,6 @@
           </ul>
         </li>
 
-      <?php endif ?>
 
         <li class="treeview <?= $heading == "Add Traffic Warden"?"active":"";?>">
           <a href="#">
@@ -195,12 +195,14 @@
             <li class="<?= $this->uri->segment(3) == "show"?"active":"";?>">
               <a href="<?= base_url()."dashboard/Traffic_wardens/show"; ?>"><i class="fa fa-eye"></i> View Traffic wardens</a>
             </li>
-            <li class="<?= $this->uri->segment(3) == "show"?"active":"";?>">
+            <li class="<?= $this->uri->segment(3) == "traffic_wardens_map"?"active":"";?>">
               <a href="<?= base_url()."dashboard/Traffic_wardens/traffic_wardens_map"; ?>">
                 <i class="fa fa-map-marker" aria-hidden="true"></i> Traffic Wardens Map</a>
             </li>
           </ul>
         </li>
+
+      <?php endif ?>
 
     </ul>
   </section>

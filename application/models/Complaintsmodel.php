@@ -111,12 +111,12 @@ class Complaintsmodel extends CI_Model{
     **/
     function login($cnic)
     {
-        $this -> db -> select('signup_id, cnic, user_id');
+        $this -> db -> select('*');
         $this -> db -> from('signup');
         $this -> db -> where('cnic', $cnic);
         //$this -> db -> where('password', md5($password));
 
-        $query = $this -> db -> get();
+        $query = $this ->db-> get();
         //echo $this->db->last_query(); die;
 
         if($query -> num_rows() == 1)

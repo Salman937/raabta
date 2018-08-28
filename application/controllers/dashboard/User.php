@@ -14,6 +14,10 @@ class User extends CI_Controller
         {
             redirect('admin/login');
         }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
+        }
 	}
 
 	/**

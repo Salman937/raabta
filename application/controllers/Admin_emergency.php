@@ -10,6 +10,11 @@ class Admin_emergency extends CI_Controller {
         parent::__construct();
         error_reporting(E_ALL);
 		$this->load->model(array('Emergency_model','common_model'));
+
+        if ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
+        } 
     }
     
     /**

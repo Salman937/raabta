@@ -15,7 +15,7 @@ class Login extends CI_Controller {
         // $password   = $this->input->post('password');
     
        $result = $this->Complaintsmodel->login($cnic);
-        //print_r($result); die;
+        // print_r($result); die;
         if(!empty($result))
         {
             $Response = array('message' => 'Login Successfully!', 'status' => 'true', 'data'=> $result);

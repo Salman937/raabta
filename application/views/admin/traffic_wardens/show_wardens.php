@@ -118,17 +118,17 @@
 
 
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+<div id="myModal" class="modal fade bs-example-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header card-header-title">
         <h4 class="modal-title card-element-title">User Profile Card</h4>
       </div>
       <div class="modal-body">
         <div class="card">
-          <img src="https://simpleisbetterthancomplex.com/img/picture.jpg" id="my_image" alt="user_pic" style="width:35%">
+          <img src="https://simpleisbetterthancomplex.com/img/picture.jpg" id="my_image" alt="user_pic" style="width:20%;float: right;">
 
-            <div class="pull-right user-details">
+            <div class="pull-left user-details">
             
               <h2 id="name"></h2>
               <p id="duty_point"></p>

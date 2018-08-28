@@ -19,52 +19,45 @@ class Complaints extends CI_Controller {
         $image = $_FILES['image']['name'];
         $tempImage = $_FILES['image']['tmp_name'];
         
-        if(!empty($image))
-        {
-            // $img_size = $_FILES['image']['size'];
-            $upload = move_uploaded_file($tempImage,'uploads/images/'.$image);
-            
-            $phone_no = $this->common_model->getAllData('signup','phone_no',1,array('signup_id' => $this->input->post('signup_id')));
+       
+        // $img_size = $_FILES['image']['size'];
+        $upload = move_uploaded_file($tempImage,'uploads/images/'.$image);
+        
+        $phone_no = $this->common_model->getAllData('signup','phone_no',1,array('signup_id' => $this->input->post('signup_id')));
 
-            // prepare array of user data
-            $dataImage = array
-                (
-                    'complaint_type_id'  => $this->input->post('complaint_type_id'),
-                    'signup_id'          => $this->input->post('signup_id'),
-                    'complaints_status_id'=> 2,
-                    'latitude'           => $this->input->post('latitude'),
-                    'longitude'          => $this->input->post('longitude'),
-                    'description'        => $this->input->post('description'),
-                    'phone'              => $phone_no->phone_no,
-                    'image'              => $image,
-                    'district'           => slugify($this->input->post('district')),
-                    'dated'              => date('Y-m-d')
-                );
+        // prepare array of user data
+        $dataImage = array
+            (
+                'complaint_type_id'  => $this->input->post('complaint_type_id'),
+                'signup_id'          => $this->input->post('signup_id'),
+                'complaints_status_id'=> 2,
+                'latitude'           => $this->input->post('latitude'),
+                'longitude'          => $this->input->post('longitude'),
+                'description'        => $this->input->post('description'),
+                'phone'              => $phone_no->phone_no,
+                'image'              => empty($image) ? "Null" : $image,
+                'district'           => slugify($this->input->post('district')),
+                'dated'              => date('Y-m-d')
+            );
 
 
-              // pr($dataImage);die;
+          // pr($dataImage);die;
 
-              $insert = $this->Complaintsmodel->InsertDB($dataImage);
+          $insert = $this->Complaintsmodel->InsertDB($dataImage);
 
-              $lastId = $this->db->insert_id();
-              
-              if($insert)
-               {
-                     $Response = array('message' => 'Complaint is done!', 'status' => true, 'data'=>$lastId); 
-                    echo json_encode($Response);
-               }
-               else
-               {
-                     $Response = array('message' => 'Sorry, Try again!', 'status' => false);
-                    echo json_encode($Response);
-               }
-        }
-        else
-        {
-            //$image = '';
-            $Response = array('message' => 'Choose an image to upload', 'status' => false);
-            echo json_encode($Response);
-        } 
+          $lastId = $this->db->insert_id();
+          
+          if($insert)
+           {
+                 $Response = array('message' => 'Complaint is done!', 'status' => true, 'data'=>$lastId); 
+                echo json_encode($Response);
+           }
+           else
+           {
+                 $Response = array('message' => 'Sorry, Try again!', 'status' => false);
+                echo json_encode($Response);
+           }
+        
     }
     
     

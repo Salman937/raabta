@@ -173,8 +173,13 @@ class Admin extends CI_Controller {
     public function add_traffic_sign()
     {
         // Prevent from Direct Access
-        if (!isset($_SESSION['admin_id'])) {
+        if (!isset($_SESSION['admin_id'])) 
+        {
             redirect('admin/login');
+        }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
         }
         $data['title']    =   'Traffic Police | Traffic Education';
         $data['heading']  =   'Traffic Education';
@@ -189,6 +194,7 @@ class Admin extends CI_Controller {
     /* Insert data in traffic_education tbl */
     public function add_traffic_sign_process()
     {
+
         //echo 'add_traffic_sign_process'; die;
         
         // For Image
@@ -229,6 +235,10 @@ class Admin extends CI_Controller {
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
         }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
+        }
         $data['title']      =   'Traffic Police | Traffic Education';
         $data['heading']    =   'Traffic Education';
         $data['page_name']  =   'admin/traffic-education/traffic-education-list';
@@ -242,6 +252,10 @@ class Admin extends CI_Controller {
 		// Prevent from Direct Access
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
+        }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
         }
         $data['id']       = $id;
         $data['title']    = 'Traffic Police | Traffic Education';
@@ -312,6 +326,7 @@ class Admin extends CI_Controller {
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
         }
+
         $data['title']      =   'Traffic Police | Complaints';
         $data['heading']    =   'Complaints';
         $data['page_name']  =   'admin/complaints/complaints-list';
@@ -848,6 +863,10 @@ class Admin extends CI_Controller {
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
         }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
+        }
         $data['title']      =   'Traffic Police | Complaints';
         $data['heading']    =   'Complaints Heat Map';
         $data['page_name']  =   'admin/complaints/map';
@@ -888,6 +907,10 @@ class Admin extends CI_Controller {
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
         }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
+        }
         $data['title']      =   'Traffic Police | License Verification';
         $data['heading']    =   'License Verification';
         $data['page_name']  =   'admin/license_verification/license_verification-list';
@@ -901,6 +924,10 @@ class Admin extends CI_Controller {
         // Prevent from Direct Access
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
+        }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
         }
         $data['title']      =   'Traffic Police | License Verification';
         $data['heading']    =   'License Verification';
@@ -987,6 +1014,10 @@ class Admin extends CI_Controller {
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
         }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
+        }
         $data['id']         =   $id;
         $data['title']      =   'Traffic Police | License Verification';
         $data['heading']    =   'License Verification';
@@ -1071,6 +1102,10 @@ class Admin extends CI_Controller {
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
         }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
+        }
         $data['title']      =   'Traffic Police | License Verification';
         $data['heading']    =   'License Verification';
         $data['page_name']  =   'admin/license_verification/license-districts-list';
@@ -1085,6 +1120,10 @@ class Admin extends CI_Controller {
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
         }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
+        }
         $data['title']      =   'Traffic Police | License Verification';
         $data['heading']    =   'License Verification';
         $data['page_name']  =   'admin/license_verification/add-license-district';
@@ -1098,7 +1137,7 @@ class Admin extends CI_Controller {
 
         if($this->Admin_model->check_dis($dis))
         {
-            $this->session->set_flashdata('msg','This District already exists. Try Another!');
+            $this->session->set_flashdata('msg','This District already exists.');
 		    redirect('Admin/add_lic_district');
         }
         else
@@ -1120,6 +1159,10 @@ class Admin extends CI_Controller {
         // Prevent from Direct Access
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
+        }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
         }
         $data['id']         =   $id;
         $data['title']      =   'Traffic Police | License Verification';
@@ -1158,6 +1201,10 @@ class Admin extends CI_Controller {
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
         }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
+        }
         $data['title']      =   'Traffic Police | License Verification';
         $data['heading']    =   'License Verification';
         $data['page_name']  =   'admin/license_verification/license-types-list';
@@ -1171,6 +1218,10 @@ class Admin extends CI_Controller {
         // Prevent from Direct Access
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
+        }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
         }
         $data['title']      =   'Traffic Police | License Verification';
         $data['heading']    =   'License Verification';
@@ -1203,6 +1254,10 @@ class Admin extends CI_Controller {
         // Prevent from Direct Access
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
+        }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
         }
         $data['id']         =   $id;
         $data['title']      =   'Traffic Police | License Verification';
@@ -1246,6 +1301,10 @@ class Admin extends CI_Controller {
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
         }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
+        }
         $data['title']      =   'Traffic Police | Live Traffic Updates';
         $data['heading']    =   'Live Traffic Updates';
         $data['page_name']  =   'admin/live-updates/add-route-update';
@@ -1275,6 +1334,10 @@ class Admin extends CI_Controller {
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
         }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
+        }
         $data['title']      =   'Traffic Police | Live Traffic Updates';
         $data['heading']    =   'Live Traffic Updates';
         $data['page_name']  =   'admin/live-updates/routes-list';
@@ -1288,6 +1351,10 @@ class Admin extends CI_Controller {
         // Prevent from Direct Access
         if (!isset($_SESSION['admin_id'])) {
             redirect('admin/login');
+        }
+        elseif ($this->session->userdata('admin_district') != 'peshawar') 
+        {
+            redirect('Admin/dashboard','refresh');
         }
         $data['id']         =   $id;
         $data['title']      =   'Traffic Police | Live Traffic Updates';
