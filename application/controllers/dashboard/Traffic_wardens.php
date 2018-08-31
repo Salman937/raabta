@@ -26,9 +26,11 @@ class Traffic_wardens extends CI_Controller
 	 */
 	public function index()
 	{
-		$data['title']      =  'Traffic Police | Dashboard';
-        $data['heading']    =  'Add Traffic Warden';
-        $data['page_name']  =  'admin/traffic_wardens/add_traffic_warden';
+		$data['title']        =  'Traffic Police | Dashboard';
+        $data['heading']      =  'Traffic Wardens';
+        $data['page_name']    =  'admin/traffic_wardens/add_traffic_warden';
+        $data['duty_points']  = $this->common_model->getAllData('traffic_warden_duty_point');
+
 
 		view('template',$data);	
 	}
@@ -110,7 +112,7 @@ class Traffic_wardens extends CI_Controller
 	public function show()
 	{
 		$data['title']      =  'Traffic Police | Dashboard';
-        $data['heading']    =  'All Traffic Wardens';
+        $data['heading']    =  'Traffic Wardens';
         $data['page_name']  =  'admin/traffic_wardens/show_wardens';
 
         $data['wardens'] = $this->common_model->getAllData('traffic_wardens');
@@ -146,7 +148,7 @@ class Traffic_wardens extends CI_Controller
 	public function edit($id)
 	{
 		$data['title']      =  'Traffic Police | Dashboard';
-        $data['heading']    =  'Edit Traffic Wardens';
+        $data['heading']    =  'Traffic Wardens';
         $data['page_name']  =  'admin/traffic_wardens/edit';
 
         $data['warden'] = $this->common_model->getAllData('traffic_wardens','*','1',array('id' => $id));
@@ -231,7 +233,7 @@ class Traffic_wardens extends CI_Controller
 	public function change_place($id)
 	{
 		$data['title']      =  'Traffic Police | Dashboard';
-        $data['heading']    =  'Change Traffic Warden Place';
+        $data['heading']    =  'Traffic Wardens';
         $data['page_name']  =  'admin/traffic_wardens/change_place';
         $data['id']			=  $id;
 
@@ -293,7 +295,7 @@ class Traffic_wardens extends CI_Controller
 	public function wardens_history($id)
 	{
 		$data['title']      =  'Traffic Police | Dashboard';
-        $data['heading']    =  'Traffic Wardenss History';
+        $data['heading']    =  'Traffic Wardens';
         $data['page_name']  =  'admin/traffic_wardens/traffic_warden_history';
 
         $data['wardens'] = $this->common_model->DJoin('
@@ -313,7 +315,7 @@ class Traffic_wardens extends CI_Controller
 	public function traffic_wardens_map()
 	{
 		$data['title']      =  'Traffic Police | Dashboard';
-        $data['heading']    =  'Traffic Wardens Map';
+        $data['heading']    =  'Traffic Wardens';
         $data['page_name']  =  'admin/traffic_wardens/wardens_map';
 
         $data['wardens'] = $this->common_model->getAllData('traffic_wardens');
@@ -322,6 +324,370 @@ class Traffic_wardens extends CI_Controller
 
         
 		view('template',$data);
+	}
+
+	public function duty_point()
+	{
+		$data['title']       =  'Traffic Police | Dashboard';
+        $data['heading']     =  'Traffic Wardens';
+        $data['page_name']   =  'admin/traffic_wardens/add_traffic_warden_duty_point';
+
+        
+		view('template',$data);
+	}
+
+	/**
+	 * [Add Traffic Warden duty point]
+	 */
+	public function add_duty_point()
+	{
+		$this->form_validation->set_rules('duty_point', 'Duty Point', 'trim|required');
+		$this->form_validation->set_rules('lat', 'Latitude', 'trim|required');
+		$this->form_validation->set_rules('long', 'Longitude', 'trim|required');
+		// $this->form_validation->set_rules('address', 'Address', 'trim|required');
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$this->duty_point();
+		} 
+		else 
+		{
+			$data = array(
+							'duty_point'   => post('duty_point'),
+							'latitude'     => post('lat'),
+							'longitude'    => post('long'),
+							'created_at'   => date('Y-m-d H:i:s'),
+							'updated_at'   => date('Y-m-d H:i:s'),
+						 );
+
+
+			$result = $this->common_model->InsertData('traffic_warden_duty_point',$data);
+
+			if ($result) 
+			{
+				$this->session->set_flashdata('msg','Traffic Warden Duty Point Added Successfully!');
+				redirect('dashboard/Traffic_wardens/duty_point');
+			} 
+			
+		}
+	}
+
+	/**
+	 * [Duty List]
+	 */
+	public function duty_point_list()
+	{
+		$data['title']       =  'Traffic Police | Dashboard';
+        $data['heading']     =  'Traffic Wardens';
+        $data['page_name']   =  'admin/traffic_wardens/duty_point_list';
+        $data['duty_points'] =  $this->common_model->getAllData('traffic_warden_duty_point');
+        
+		view('template',$data);
+	}
+
+	/**
+	 * [Duty Point Delete ]
+	 * @param  [int] $id
+	 * @return [void]
+	 */
+	public function duty_point_delete($id)
+	{
+		$this->db->where(array('id' => $id));
+
+    	$this->db->delete('traffic_warden_duty_point');
+
+		$this->session->set_flashdata('msg','Duty Point Deleted Successfully!');
+		redirect('dashboard/Traffic_wardens/duty_point_list');
+	}
+
+	/**
+	 * [Edit Duty Point]
+	 * @param  [int] $id
+	 * @return [void]     
+	 */
+	public function duty_point_edit($id)
+	{
+		$data['title']      =  'Traffic Police | Dashboard';
+        $data['heading']    =  'Traffic Wardens';
+        $data['page_name']  =  'admin/traffic_wardens/edit_duty_point';
+
+        $data['edit'] = $this->common_model->getAllData('traffic_warden_duty_point','*','1',array('id' => $id));
+
+		view('template',$data);	
+	}
+
+	public function duty_point_update()
+	{
+		$data = array(
+							'duty_point'   => post('duty_point'),
+							'latitude'     => post('lat'),
+							'longitude'    => post('long'),
+							'created_at'   => date('Y-m-d H:i:s'),
+							'updated_at'   => date('Y-m-d H:i:s'),
+						 );
+
+
+		$result = $this->common_model->UpdateDB('traffic_warden_duty_point',array('id',post('id')),$data);
+
+		if ($result) 
+		{
+			$this->session->set_flashdata('msg','Traffic Warden Duty Point Updated Successfully!');
+			redirect('dashboard/Traffic_wardens/duty_point_list');
+		} 
+	}
+
+	/**
+	 * [Get Warden Duty Point]
+	 * @param  [int] $id 
+	 * @return [void]    
+	 */
+	public function get_duty_point($id)
+	{
+		$this->db->select('*');
+		$this->db->from('traffic_warden_duty_point');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+		
+		echo json_encode($query->row());
+	}
+
+	/**
+	 * [Circle Form]
+	 */
+	public function add_circle()
+	{
+		$data['title']      =  'Traffic Police | Dashboard';
+        $data['heading']    =  'Traffic Wardens';
+        $data['page_name']  =  'admin/traffic_wardens/add_circle';
+
+		view('template',$data);	
+	}
+
+	/**
+	 * [Add new Circle]
+	 */
+	public function add_new_circle()
+	{
+		$this->form_validation->set_rules('add_circle', 'Circle', 'trim|required');
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$this->duty_point();
+		} 
+		else 
+		{
+			$data = array(
+							'circle_and_sector'   => post('add_circle'),
+							'slug' 			      => slugify(post('add_circle')),
+							'created_at'   		  => date('Y-m-d H:i:s'),
+							'updated_at'   		  => date('Y-m-d H:i:s'),
+						 );
+
+
+			$result = $this->common_model->InsertData('traffic_warden_circles',$data);
+
+			if ($result) 
+			{
+				$this->session->set_flashdata('msg','Circle Added Successfully!');
+				redirect('dashboard/Traffic_wardens/add_circle');
+			} 
+			
+		}
+	}
+
+	/**
+	 * [List All Circles]
+	 */
+	public function list_circle()
+	{
+		$data['title']      =  'Traffic Police | Dashboard';
+        $data['heading']    =  'Traffic Wardens';
+        $data['page_name']  =  'admin/traffic_wardens/list_circle';
+
+        $data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
+
+		view('template',$data);
+	}
+
+	/**
+	 * [Delete Circle]
+	 * @param  [int] $id
+	 */
+	public function delete_circle($id)
+	{
+		$this->db->where(array('id' => $id));
+
+    	$this->db->delete('traffic_warden_circles');
+
+		$this->session->set_flashdata('msg','Circle Deleted Successfully!');
+		redirect('dashboard/Traffic_wardens/list_circle');
+	}
+
+	/**
+	 * [Get circle data for edit]
+	 * @param  [int] $id
+	 */
+	public function edit_circle($id)
+	{
+		$data['title']      =  'Traffic Police | Dashboard';
+        $data['heading']    =  'Traffic Wardens';
+        $data['page_name']  =  'admin/traffic_wardens/edit_circle';
+
+        $data['edit'] = $this->common_model->getAllData('traffic_warden_circles','*',1,array('id'=>$id));
+
+		view('template',$data);
+	}
+
+	/**
+	 * [update_circle]
+	 * @return [void] 
+	 */
+	public function update_circle()
+	{
+		$this->form_validation->set_rules('add_circle', 'Circle', 'trim|required');
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$this->duty_point();
+		} 
+		else 
+		{
+			$data = array(
+							'circle_and_sector'   => post('add_circle'),
+							'slug' 			      => slugify(post('add_circle')),
+							'updated_at'   		  => date('Y-m-d H:i:s'),
+						 );
+
+
+			$result = $this->common_model->UpdateDB('traffic_warden_circles',array('id' => post('id')),$data);
+
+			if ($result) 
+			{
+				$this->session->set_flashdata('msg','Circle Added Successfully!');
+				redirect('dashboard/Traffic_wardens/list_circle');
+			} 
+			
+		}
+	}
+
+
+	/**
+	 * [Circle Form]
+	 */
+	public function add_sectors()
+	{
+		$data['title']      =  'Traffic Police | Dashboard';
+        $data['heading']    =  'Traffic Wardens';
+        $data['page_name']  =  'admin/traffic_wardens/add_sector';
+
+		view('template',$data);	
+	}
+
+	/**
+	 * [Add new Circle]
+	 */
+	public function add_new_sector()
+	{
+		$this->form_validation->set_rules('add_circle', 'Circle', 'trim|required');
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$this->duty_point();
+		} 
+		else 
+		{
+			$data = array(
+							'circle_and_sector'   => post('add_circle'),
+							'slug' 			      => slugify(post('add_circle')),
+							'created_at'   		  => date('Y-m-d H:i:s'),
+							'updated_at'   		  => date('Y-m-d H:i:s'),
+						 );
+
+
+			$result = $this->common_model->InsertData('traffic_warden_circles',$data);
+
+			if ($result) 
+			{
+				$this->session->set_flashdata('msg','Circle Added Successfully!');
+				redirect('dashboard/Traffic_wardens/add_circle');
+			} 
+			
+		}
+	}
+
+	/**
+	 * [List All Circles]
+	 */
+	public function list_sectors()
+	{
+		$data['title']      =  'Traffic Police | Dashboard';
+        $data['heading']    =  'Traffic Wardens';
+        $data['page_name']  =  'admin/traffic_wardens/list_circle';
+
+        $data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
+
+		view('template',$data);
+	}
+
+	/**
+	 * [Delete Circle]
+	 * @param  [int] $id
+	 */
+	public function delete_sector($id)
+	{
+		$this->db->where(array('id' => $id));
+
+    	$this->db->delete('traffic_warden_circles');
+
+		$this->session->set_flashdata('msg','Circle Deleted Successfully!');
+		redirect('dashboard/Traffic_wardens/list_circle');
+	}
+
+	/**
+	 * [Get circle data for edit]
+	 * @param  [int] $id
+	 */
+	public function edit_sector($id)
+	{
+		$data['title']      =  'Traffic Police | Dashboard';
+        $data['heading']    =  'Traffic Wardens';
+        $data['page_name']  =  'admin/traffic_wardens/edit_circle';
+
+        $data['edit'] = $this->common_model->getAllData('traffic_warden_circles','*',1,array('id'=>$id));
+
+		view('template',$data);
+	}
+
+	/**
+	 * [update_circle]
+	 * @return [void] 
+	 */
+	public function update_sector()
+	{
+		$this->form_validation->set_rules('add_circle', 'Circle', 'trim|required');
+
+		if ($this->form_validation->run() == FALSE) 
+		{
+			$this->duty_point();
+		} 
+		else 
+		{
+			$data = array(
+							'circle_and_sector'   => post('add_circle'),
+							'slug' 			      => slugify(post('add_circle')),
+							'updated_at'   		  => date('Y-m-d H:i:s'),
+						 );
+
+
+			$result = $this->common_model->UpdateDB('traffic_warden_circles',array('id' => post('id')),$data);
+
+			if ($result) 
+			{
+				$this->session->set_flashdata('msg','Circle Added Successfully!');
+				redirect('dashboard/Traffic_wardens/list_circle');
+			} 
+			
+		}
 	}
 }
 

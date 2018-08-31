@@ -181,7 +181,7 @@
         </li>
 
 
-        <li class="treeview <?= $heading == "Add Traffic Warden"?"active":"";?>">
+        <li class="treeview <?= $heading == "Traffic Wardens"?"active":"";?>">
           <a href="#">
             <i class="fa fa-male"></i> <span>Traffic Wardens</span>
             <span class="pull-right-container">
@@ -189,7 +189,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="<?= $this->uri->segment(2) == "Traffic_wardens"?"active":"";?>">
+            <li class="<?= $this->uri->segment(2) == "add_traffic_warden"?"active":"";?>">
               <a href="<?= base_url()."dashboard/Traffic_wardens"; ?>"><i class="fa fa-plus-square"></i> Add New Warden</a>
             </li>
             <li class="<?= $this->uri->segment(3) == "show"?"active":"";?>">
@@ -198,6 +198,31 @@
             <li class="<?= $this->uri->segment(3) == "traffic_wardens_map"?"active":"";?>">
               <a href="<?= base_url()."dashboard/Traffic_wardens/traffic_wardens_map"; ?>">
                 <i class="fa fa-map-marker" aria-hidden="true"></i> Traffic Wardens Map</a>
+            </li>
+            <li class="<?= $this->uri->segment(3) == "duty_point"?"active":"";?>">
+              <a href="<?= base_url()."dashboard/Traffic_wardens/duty_point"; ?>">
+                <i class="fa fa-hand-o-right" aria-hidden="true"></i> Add Traffic Warden Duty Point</a>
+            </li>
+
+            <li class="<?= $this->uri->segment(3) == "duty_point_list"?"active":"";?>">
+              <a href="<?= base_url()."dashboard/Traffic_wardens/duty_point_list"; ?>">
+                <i class="fa fa-list" aria-hidden="true"></i> Duty Point List</a>
+            </li>
+            <li class="<?= $this->uri->segment(3) == "add_circle"?"active":"";?>">
+              <a href="<?= base_url()."dashboard/Traffic_wardens/add_circle"; ?>">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Cricle</a>
+            </li>
+            <li class="<?= $this->uri->segment(3) == "list_circle"?"active":"";?>">
+              <a href="<?= base_url()."dashboard/Traffic_wardens/list_circle"; ?>">
+                <i class="fa fa-list" aria-hidden="true"></i> Circle List</a>
+            </li>
+            <li class="<?= $this->uri->segment(3) == "add_sectors"?"active":"";?>">
+              <a href="<?= base_url()."dashboard/Traffic_wardens/add_sectors"; ?>">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Sectors</a>
+            </li>
+            <li class="<?= $this->uri->segment(3) == "list_sectors"?"active":"";?>">
+              <a href="<?= base_url()."dashboard/Traffic_wardens/list_sectors"; ?>">
+                <i class="fa fa-list" aria-hidden="true"></i> Sectors List</a>
             </li>
           </ul>
         </li>
