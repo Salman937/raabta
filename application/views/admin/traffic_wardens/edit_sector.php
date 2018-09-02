@@ -8,7 +8,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Add Sector</li>
+        <li class="active">Edit Sector</li>
       </ol>
     </section>
 
@@ -33,12 +33,12 @@
             <!-- Horizontal Form -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Add New Sector</h3>
+                  <h3 class="box-title">Update Sector</h3>
                 </div>
                 <!-- /.box-header -->
                 
                 <!-- form start -->
-                <form class="form-horizontal" action="<?php echo base_url()?>dashboard/Traffic_wardens/add_new_sector" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" action="<?php echo base_url()?>dashboard/Traffic_wardens/update_sector" method="post" enctype="multipart/form-data">
                   <div class="box-body">
                     <div class="form-group">
                       <label class="col-sm-3 control-label">Select Circle</label>
@@ -46,7 +46,10 @@
                           <select name="circle" class="form-control" required>
                             <option value="">Select Circle</option>
 
+                              <option value="<?php echo $edit_sector->circle_id ?>" selected="selected"><?php echo $edit_sector->head_circle ?></option>
                             <?php foreach ($circles as $circle): ?>
+
+
                               <option value="<?php echo $circle->id ?>"><?php echo $circle->circle_and_sector ?></option>
                             <?php endforeach ?>
 
@@ -57,8 +60,11 @@
                     <div class="form-group">
                       <label class="col-sm-3 control-label">Add Sector</label>
                       <div class="col-sm-6">
-                          <input type="text" class="form-control" name="add_sector" id="add_sector" placeholder="Add New Sector" required>
+                          <input type="text" class="form-control" name="add_sector" value="<?php echo $edit_sector->sector ?>" id="add_sector" required>
                           <?php echo '<span class="error">'. form_error('add_sector').'</span>'; ?>
+
+                          <input type="hidden" name="circle_id" value="<?php echo $edit_sector->circle_id ?>">
+                          <input type="hidden" name="sector_id" value="<?php echo $edit_sector->sector_id ?>">
                       </div>
                     </div>
                   </div>

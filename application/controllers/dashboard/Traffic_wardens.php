@@ -30,6 +30,7 @@ class Traffic_wardens extends CI_Controller
         $data['heading']      =  'Traffic Wardens';
         $data['page_name']    =  'admin/traffic_wardens/add_traffic_warden';
         $data['duty_points']  = $this->common_model->getAllData('traffic_warden_duty_point');
+        $data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
 
 
 		view('template',$data);	
@@ -42,13 +43,13 @@ class Traffic_wardens extends CI_Controller
 	{
 		$this->form_validation->set_rules('warden_name', 'Warden Name', 'trim|required');
 		$this->form_validation->set_rules('belt_no', 'Belt NO', 'trim|required');
-		$this->form_validation->set_rules('rank', 'Rank', 'trim|required');
 		$this->form_validation->set_rules('designation', 'Designation', 'trim|required');
-		$this->form_validation->set_rules('duty_point', 'Duty Point', 'trim|required');
 		$this->form_validation->set_rules('phone_no', 'Phone No', 'trim|required');
 		$this->form_validation->set_rules('shift', 'Shift', 'trim|required');
-		$this->form_validation->set_rules('duration', 'Duration', 'trim|required');
-		// $this->form_validation->set_rules('address', 'Address', 'trim|required');
+		$this->form_validation->set_rules('str_date', 'Start', 'trim|required');
+		$this->form_validation->set_rules('circle', 'Circle', 'trim|required');
+		$this->form_validation->set_rules('sector', 'Sector', 'trim|required');
+		$this->form_validation->set_rules('war_duty_point', 'Duty Point', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) 
 		{
@@ -79,15 +80,15 @@ class Traffic_wardens extends CI_Controller
 			$data = array(
 							'name'         => post('warden_name'),
 							'belt_no' 	   => post('belt_no'),
-							'duty_point'   => post('duty_point'),
-							'rank'   	   => post('rank'),
+							'duty_point'   => post('war_duty_point'),
 							'Designation'  => post('designation'),
 							'phone_number' => post('phone_no'),
 							'shift'   	   => post('shift'),
-							'duration'     => post('duration'),
+							'start_date'   => date("Y-m-d", strtotime(post('str_date'))),
 							'latitude'     => post('lat'),
 							'longitude'    => post('log'),
-							// 'address'      => post('address'),
+							'circle_id'    => post('circle'),
+							'sector_id'    => post('sector'),
 							'image'        => $image,
 							'created_at'   => date('Y-m-d H:i:s'),
 							'updated_at'   => date('Y-m-d H:i:s'),
@@ -115,7 +116,7 @@ class Traffic_wardens extends CI_Controller
         $data['heading']    =  'Traffic Wardens';
         $data['page_name']  =  'admin/traffic_wardens/show_wardens';
 
-        $data['wardens'] = $this->common_model->getAllData('traffic_wardens');
+        $data['wardens'] = $this->common_model->DJoin('*,traffic_wardens.id AS warden_id','traffic_wardens','traffic_warden_duty_point','traffic_wardens.duty_point = traffic_warden_duty_point.id');
 
 		view('template',$data);	
 	}
@@ -151,7 +152,19 @@ class Traffic_wardens extends CI_Controller
         $data['heading']    =  'Traffic Wardens';
         $data['page_name']  =  'admin/traffic_wardens/edit';
 
-        $data['warden'] = $this->common_model->getAllData('traffic_wardens','*','1',array('id' => $id));
+        $where = array(
+        				'traffic_warden_circles' => 'traffic_wardens.circle_id = traffic_warden_circles.id', 
+        				'traffic_warden_circles AS a' => 'traffic_wardens.sector_id = a.id', 
+        			  );
+
+        $data['warden'] = $this->common_model->DJoin('*,traffic_wardens.id AS warden_id,traffic_warden_circles.circle_and_sector AS circle, traffic_warden_duty_point.duty_point AS war_duty_point ','traffic_warden_duty_point','traffic_wardens','traffic_wardens.duty_point = traffic_warden_duty_point.id',$where,1,array('traffic_wardens.id' => $id));
+
+        $data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
+
+        $data['duty_points'] =  $this->common_model->getAllData('traffic_warden_duty_point');
+
+
+        // pr($data['warden']);die;
 
 		view('template',$data);	
 	}
@@ -160,13 +173,13 @@ class Traffic_wardens extends CI_Controller
 	{
 		$this->form_validation->set_rules('warden_name', 'Warden Name', 'trim|required');
 		$this->form_validation->set_rules('belt_no', 'Belt NO', 'trim|required');
-		$this->form_validation->set_rules('rank', 'Rank', 'trim|required');
 		$this->form_validation->set_rules('designation', 'Designation', 'trim|required');
-		$this->form_validation->set_rules('duty_point', 'Duty Point', 'trim|required');
 		$this->form_validation->set_rules('phone_no', 'Phone No', 'trim|required');
 		$this->form_validation->set_rules('shift', 'Shift', 'trim|required');
-		$this->form_validation->set_rules('duration', 'Duration', 'trim|required');
-		// $this->form_validation->set_rules('address', 'Address', 'trim|required');
+		$this->form_validation->set_rules('str_date', 'Start', 'trim|required');
+		$this->form_validation->set_rules('circle', 'Circle', 'trim|required');
+		$this->form_validation->set_rules('sector', 'Sector', 'trim|required');
+		$this->form_validation->set_rules('war_duty_point', 'Duty Point', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) 
 		{
@@ -203,18 +216,20 @@ class Traffic_wardens extends CI_Controller
 			$data = array(
 							'name'         => post('warden_name'),
 							'belt_no' 	   => post('belt_no'),
-							'duty_point'   => post('duty_point'),
-							'rank'   	   => post('rank'),
+							'duty_point'   => post('war_duty_point'),
 							'Designation'  => post('designation'),
 							'phone_number' => post('phone_no'),
 							'shift'   	   => post('shift'),
-							'duration'     => post('duration'),
+							'start_date'   => date("Y-m-d", strtotime(post('str_date'))),
 							'latitude'     => post('lat'),
 							'longitude'    => post('log'),
-							// 'address'      => post('address'),
+							'circle_id'    => post('circle'),
+							'sector_id'    => post('sector'),
 							'image'        => $image,
-							'updated_at'   => date('Y-m-d H:i:s')
+							'created_at'   => date('Y-m-d H:i:s'),
+							'updated_at'   => date('Y-m-d H:i:s'),
 						 );
+
 
 			$result = $this->common_model->UpdateDB('traffic_wardens',array('id' => post('id')),$data);
 
@@ -572,7 +587,7 @@ class Traffic_wardens extends CI_Controller
 
 
 	/**
-	 * [Circle Form]
+	 * [Sector Form]
 	 */
 	public function add_sectors()
 	{
@@ -580,25 +595,31 @@ class Traffic_wardens extends CI_Controller
         $data['heading']    =  'Traffic Wardens';
         $data['page_name']  =  'admin/traffic_wardens/add_sector';
 
+        $data['circles']    = $this->common_model->getAllData('traffic_warden_circles','*','',array('level' => 0));
+
+
 		view('template',$data);	
 	}
 
 	/**
-	 * [Add new Circle]
+	 * [Add new Sector]
 	 */
 	public function add_new_sector()
 	{
-		$this->form_validation->set_rules('add_circle', 'Circle', 'trim|required');
+		$this->form_validation->set_rules('add_sector', 'Sector', 'trim|required');
+		$this->form_validation->set_rules('circle', 'Circle', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) 
 		{
-			$this->duty_point();
+			$this->add_sectors();
 		} 
 		else 
 		{
 			$data = array(
-							'circle_and_sector'   => post('add_circle'),
-							'slug' 			      => slugify(post('add_circle')),
+							'circle_and_sector'   => post('add_sector'),
+							'slug' 			      => slugify(post('add_sector')),
+							'level'			      => 1,
+							'parent_id'		      => post('circle'),
 							'created_at'   		  => date('Y-m-d H:i:s'),
 							'updated_at'   		  => date('Y-m-d H:i:s'),
 						 );
@@ -608,23 +629,31 @@ class Traffic_wardens extends CI_Controller
 
 			if ($result) 
 			{
-				$this->session->set_flashdata('msg','Circle Added Successfully!');
-				redirect('dashboard/Traffic_wardens/add_circle');
+				$this->session->set_flashdata('msg','Sector Added Successfully!');
+				redirect('dashboard/Traffic_wardens/add_sectors');
 			} 
 			
 		}
 	}
 
 	/**
-	 * [List All Circles]
+	 * [List All Sectors]
 	 */
 	public function list_sectors()
 	{
 		$data['title']      =  'Traffic Police | Dashboard';
         $data['heading']    =  'Traffic Wardens';
-        $data['page_name']  =  'admin/traffic_wardens/list_circle';
+        $data['page_name']  =  'admin/traffic_wardens/sector_list';
 
-        $data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
+        $query =  $this->db->query('SELECT a.circle_and_sector AS head_circle, 
+        	                        a.id AS circle_id,
+        	                        b.id AS sector_id,
+        					        b.circle_and_sector AS sector FROM 
+        										  traffic_warden_circles AS a, 
+			     								  traffic_warden_circles AS b 
+												  WHERE a.id = b.parent_id ');
+
+        $data['sectors'] = $query->result();
 
 		view('template',$data);
 	}
@@ -639,8 +668,8 @@ class Traffic_wardens extends CI_Controller
 
     	$this->db->delete('traffic_warden_circles');
 
-		$this->session->set_flashdata('msg','Circle Deleted Successfully!');
-		redirect('dashboard/Traffic_wardens/list_circle');
+		$this->session->set_flashdata('msg','Sector Deleted Successfully!');
+		redirect('dashboard/Traffic_wardens/list_sectors');
 	}
 
 	/**
@@ -649,11 +678,24 @@ class Traffic_wardens extends CI_Controller
 	 */
 	public function edit_sector($id)
 	{
+		// echo $id;die;
 		$data['title']      =  'Traffic Police | Dashboard';
         $data['heading']    =  'Traffic Wardens';
-        $data['page_name']  =  'admin/traffic_wardens/edit_circle';
+        $data['page_name']  =  'admin/traffic_wardens/edit_sector';
 
-        $data['edit'] = $this->common_model->getAllData('traffic_warden_circles','*',1,array('id'=>$id));
+        $query =  $this->db->query('SELECT a.circle_and_sector AS head_circle, 
+        	                        a.id AS circle_id,
+        	                        b.id AS sector_id,
+        					        b.circle_and_sector AS sector FROM 
+								    traffic_warden_circles AS a, 
+ 								    traffic_warden_circles AS b 
+								    WHERE a.id = b.parent_id
+								    AND b.id = '.$id.' '
+	  							    );
+
+        $data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
+
+        $data['edit_sector'] = $query->row();
 
 		view('template',$data);
 	}
@@ -664,30 +706,45 @@ class Traffic_wardens extends CI_Controller
 	 */
 	public function update_sector()
 	{
-		$this->form_validation->set_rules('add_circle', 'Circle', 'trim|required');
+		$this->form_validation->set_rules('add_sector', 'Sector', 'trim|required');
+		$this->form_validation->set_rules('circle', 'Circle', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) 
 		{
-			$this->duty_point();
+			$this->add_sectors();
 		} 
 		else 
 		{
 			$data = array(
-							'circle_and_sector'   => post('add_circle'),
-							'slug' 			      => slugify(post('add_circle')),
+							'circle_and_sector'   => post('add_sector'),
+							'slug' 			      => slugify(post('add_sector')),
+							'level'			      => 1,
+							'parent_id'		      => post('circle'),
 							'updated_at'   		  => date('Y-m-d H:i:s'),
 						 );
 
 
-			$result = $this->common_model->UpdateDB('traffic_warden_circles',array('id' => post('id')),$data);
+			$result = $this->common_model->UpdateDB('traffic_warden_circles',array('id' => post('sector_id')),$data);
 
 			if ($result) 
 			{
-				$this->session->set_flashdata('msg','Circle Added Successfully!');
-				redirect('dashboard/Traffic_wardens/list_circle');
+				$this->session->set_flashdata('msg','Sector Updated Successfully!');
+				redirect('dashboard/Traffic_wardens/list_sectors');
 			} 
 			
 		}
+	}
+
+	/**
+	 * [Get Cricle Related Sector]
+	 * @param  [int] $id
+	 * @return [void] 
+	 */
+	public function get_sector($id)
+	{
+		$data['sectors'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('parent_id'=>$id));
+
+		$this->load->view('admin/traffic_wardens/get_sector', $data);
 	}
 }
 

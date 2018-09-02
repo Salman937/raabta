@@ -64,14 +64,6 @@
                       </div>
                     </div>
 
-                    <!-- <div class="form-group">
-                      <label for="duty_point" class="col-sm-3 control-label">Duty Point</label>
-                      <div class="col-sm-6">
-                          <input type="text" class="form-control address" name="duty_point" id="duty_point" maxlength="30" placeholder="Enter Duty Point" required>
-                          <?php echo '<span class="error">'. form_error('duty_point').'</span>'; ?>
-                      </div>
-                    </div> -->
-
                     <div class="form-group">
                       <label for="phone_no" class="col-sm-3 control-label">Phone No</label>
                       <div class="col-sm-6">
@@ -83,8 +75,13 @@
                     <div class="form-group">
                       <label for="shift" class="col-sm-3 control-label">Shift</label>
                       <div class="col-sm-6">
-                          <input type="text" class="form-control" name="shift" id="shift" maxlength="30" placeholder="Enter Shift" required>
-                          <?php echo '<span class="error">'. form_error('shift').'</span>'; ?>
+                        <select name="shift" class="form-control" required>
+                          <option value="">Select Shift</option>
+                          <option>Morning</option>
+                          <option>Eevning</option>
+                          <option>Night</option>
+                        </select>
+                        <?php echo '<span class="error">'. form_error('shift').'</span>'; ?>
                       </div>
                     </div>
 
@@ -104,10 +101,29 @@
                     </div>
 
                     <div class="form-group">
+                      <label for="image" class="col-sm-3 control-label">Circle</label>
+                      <div class="col-sm-6">
+                          <select name="circle" class="form-control" onchange="getSector(this)">
+                            <option value="">Select Circle</option>
+
+                            <?php foreach ($circles as $circle): ?>
+                              
+                              <option value="<?php echo $circle->id ?>"><?php echo $circle->circle_and_sector ?></option>
+
+                            <?php endforeach ?>
+
+                          </select>
+                      </div>
+                    </div>
+                    <div class="add_sector">
+                      
+                    </div>
+
+                    <div class="form-group">
                       <label for="Search" class="col-sm-3 control-label">Duty Point</label>
                       <div class="col-sm-6">
                         <!-- <input type="text" class="input form-control address" id="address" name="duty_point" /> -->
-                        <select name="war_duty_point" class="form-control search_duty_point" onchange="getval(this);" required="" id="">
+                        <select name="war_duty_point" class="form-control search_duty_point" onchange="getval(this);" required="">
                           <option value="">Select Duty Point</option>
 
                           <?php foreach ($duty_points as $duty_point): ?>
@@ -115,7 +131,6 @@
                             <option value="<?php echo $duty_point->id ?>"> <?php echo $duty_point->duty_point ?> </option>
 
                           <?php endforeach ?>
-                          option
                         </select>
                         <br>
                         <div id="map-view" class="is-vcentered" style="width: 100%; height:400px;"></div>
@@ -214,6 +229,23 @@ function getval(sel)
 
         myMap();
         // $("#results").append(html);
+      }
+    });
+}
+
+function getSector(sel)
+{
+    var id = sel.value;
+
+    console.log(id);
+    
+    $.ajax({
+
+      url: '<?php echo base_url()?>dashboard/Traffic_wardens/get_sector/'+id,
+      
+      success: function(data)
+      {
+        $('.add_sector').html(data);
       }
     });
 }

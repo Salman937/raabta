@@ -55,30 +55,14 @@
                           <?php echo '<span class="error">'. form_error('belt_no').'</span>'; ?>
                       </div>
                     </div>              
-                    
-                    <div class="form-group">
-                      <label for="rank" class="col-sm-3 control-label">Rank</label>
-                      <div class="col-sm-6">
-                          <input type="text" class="form-control" name="rank" id="rank" value="<?php echo $warden->rank ?>" maxlength="30" placeholder="Enter Rank" required>
-                          <?php echo '<span class="error">'. form_error('rank').'</span>'; ?>
-                      </div>
-                    </div>
 
                     <div class="form-group">
-                      <label for="designation" class="col-sm-3 control-label">Designation</label>
+                      <label for="designation" class="col-sm-3 control-label">Designation / Rank</label>
                       <div class="col-sm-6">
                           <input type="text" class="form-control" name="designation" value="<?php echo $warden->Designation ?>" id="designation" maxlength="30" placeholder="Enter Designation" required>
                           <?php echo '<span class="error">'. form_error('designation').'</span>'; ?>
                       </div>
                     </div>
-
-                    <!-- <div class="form-group">
-                      <label for="duty_point" class="col-sm-3 control-label">Duty Point</label>
-                      <div class="col-sm-6">
-                          <input type="text" class="form-control" name="duty_point" value="<?php echo $warden->duty_point ?>" id="duty_point" maxlength="30" placeholder="Enter Duty Point" required>
-                          <?php echo '<span class="error">'. form_error('duty_point').'</span>'; ?>
-                      </div>
-                    </div> -->
 
                     <div class="form-group">
                       <label for="phone_no" class="col-sm-3 control-label">Phone No</label>
@@ -91,16 +75,22 @@
                     <div class="form-group">
                       <label for="shift" class="col-sm-3 control-label">Shift</label>
                       <div class="col-sm-6">
-                          <input type="text" class="form-control" name="shift" id="shift" value="<?php echo $warden->shift ?>" maxlength="30" placeholder="Enter Shift" required>
-                          <?php echo '<span class="error">'. form_error('shift').'</span>'; ?>
+                        <select name="shift" class="form-control" required>
+                          <option value="">Select Shift</option>
+                          <option value="<?php echo $warden->shift ?>" selected=""><?php echo $warden->shift ?></option>
+                          <option>Morning</option>
+                          <option>Eevning</option>
+                          <option>Night</option>
+                        </select>
+                        <?php echo '<span class="error">'. form_error('shift').'</span>'; ?>
                       </div>
                     </div>
 
                     <div class="form-group">
-                      <label for="duration" class="col-sm-3 control-label">Duration</label>
+                      <label for="str_date" class="col-sm-3 control-label">Start Date</label>
                       <div class="col-sm-6">
-                          <input type="text" class="form-control" name="duration" id="duration" value="<?php echo $warden->duration ?>" maxlength="30" placeholder="Enter Duration" required>
-                          <?php echo '<span class="error">'. form_error('duration').'</span>'; ?>
+                          <input type="date" class="form-control" name="str_date" id="str_date" value="<?php echo $warden->start_date  ?>" required>
+                          <?php echo '<span class="error">'. form_error('str_date').'</span>'; ?>
                       </div>
                     </div>
 
@@ -109,14 +99,68 @@
                       <div class="col-sm-6">
                           <input type="file" name="image">
                           <input type="hidden" name="old" value="<?php echo $warden->image ?>">
-                          <input type="hidden" name="id" value="<?php echo $warden->id ?>">
+                          <input type="hidden" name="id" value="<?php echo $warden->warden_id ?>">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="image" class="col-sm-3 control-label">Circle</label>
+                      <div class="col-sm-6">
+                          <select name="circle" class="form-control" onchange="getSector(this)">
+                            <option value="">Select Circle</option>
+
+                            <option value="<?php echo $warden->circle_id ?>" selected=""><?php echo $warden->circle ?></option>
+
+                            <?php foreach ($circles as $circle): ?>
+                              
+                              <option value="<?php echo $circle->id ?>"><?php echo $circle->circle_and_sector ?></option>
+
+                            <?php endforeach ?>
+
+                          </select>
+                      </div>
+                    </div>
+                    <div class="add_sector">
+                      <div class="form-group">
+                        <label for="image" class="col-sm-3 control-label">Sectors</label>
+                        <div class="col-sm-6">
+                            <select name="sector" class="form-control">
+                              <option value="">Select Sector</option>
+
+                              <option value="<?php echo $warden->id ?>" selected=""><?php echo $warden->circle_and_sector; ?></option>
+
+                              <?php 
+
+                                $sectors = $this->common_model->getAllData('traffic_warden_circles','*','',array('parent_id' => $warden->parent_id))
+
+                               ?>
+
+                              <?php foreach ($sectors as $sector): ?>
+                                
+                                <option value="<?php echo $sector->id ?>"> <?php echo $sector->circle_and_sector ?></option>
+
+                              <?php endforeach ?>
+
+                            </select>
+                        </div>
                       </div>
                     </div>
 
                     <div class="form-group">
                       <label for="Search" class="col-sm-3 control-label">Duty Point</label>
                       <div class="col-sm-6">
-                        <input type="text" class="input form-control" id="address" name="duty_point" />
+                       
+                        <select name="war_duty_point" class="form-control search_duty_point" onchange="getval(this);" required="">
+                          <option value="">Select Duty Point</option>
+
+                          <option value="<?php echo $warden->warden_id ?>" selected=""><?php echo $warden->war_duty_point; ?></option>
+
+                          <?php foreach ($duty_points as $duty_point): ?>
+                            
+                            <option value="<?php echo $duty_point->id ?>"> <?php echo $duty_point->duty_point ?> </option>
+
+                          <?php endforeach ?>
+                        </select>
                         <br>
                         <div id="map-view" class="is-vcentered" style="width: 100%; height:400px;"></div>
                       </div>
@@ -124,6 +168,9 @@
 
                       <input type="hidden" name="lat" id="lat">
                       <input type="hidden" name="log" id="lon">
+
+                      <input type="hidden" name="update_lat" id="update_lat">
+                      <input type="hidden" name="update_long" id="update_long">
 
                   </div>
                   <!-- /.box-body -->
@@ -152,9 +199,23 @@
 
 <script>
 
- $('#map-view').locationpicker({
+function myMap() 
+{
 
-   location: {latitude: <?php echo $warden->latitude ?>, longitude: <?php echo $warden->longitude ?>},
+  if ($('#update_lat').val().length === 0 && $('#update_long').val().length === 0)
+  {
+    var new_lat = 33.996249;
+    var new_long = 71.459671;
+  }
+  else
+  {
+    var new_lat  = $('#update_lat').val();
+    var new_long = $('#update_long').val();
+  }
+
+  $('#map-view').locationpicker({
+
+   location: {latitude: new_lat, longitude:new_long},
    enableAutocomplete: true,
    radius:0,
    onchanged: function (currentLocation, radius, isMarkerDropped) {
@@ -171,6 +232,49 @@
        locationNameInput: $('#address')
    },
 
- });
+  });
+}
+
+
+myMap();
+
+function getval(sel)
+{
+    var id = sel.value;
+
+    // console.log(id);
+    
+    $.ajax({
+
+      url: '<?php echo base_url()?>dashboard/Traffic_wardens/get_duty_point/'+id,
+      success: function(data)
+      {
+        var parse_data = JSON.parse(data);
+
+        $('#update_lat').val(parse_data.latitude);
+        $('#update_long').val(parse_data.longitude);
+
+        myMap();
+        // $("#results").append(html);
+      }
+    });
+}
+
+function getSector(sel)
+{
+    var id = sel.value;
+
+    console.log(id);
+    
+    $.ajax({
+
+      url: '<?php echo base_url()?>dashboard/Traffic_wardens/get_sector/'+id,
+      
+      success: function(data)
+      {
+        $('.add_sector').html(data);
+      }
+    });
+}
 
 </script>

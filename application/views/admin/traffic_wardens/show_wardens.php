@@ -63,33 +63,33 @@
                     <tr>
                       <td> <?php echo $warden->name ?> </td>
                       <td> <?php echo $warden->belt_no ?> </td>
-                      <td><?php echo substr($warden->duty_point, 0, 15)."..." ?> </td>
+                      <td> <?php echo $warden->duty_point ?> </td>
                       <td> <?php echo $warden->rank ?> </td>
                       <td> <?php echo $warden->Designation ?> </td>
                       <td> <?php echo $warden->shift ?> </td>
                       <td> <?php echo $warden->duration ?> </td>
                       <td>
-                          <a href="<?php bs('dashboard/Traffic_wardens/change_place/'.$warden->id.'') ?>"> 
+                          <a href="<?php bs('dashboard/Traffic_wardens/change_place/'.$warden->warden_id.'') ?>"> 
                             <i class="fa fa-map-marker" aria-hidden="true"></i> 
                           </a>  
                       </td>
                       <td> </td>
                       <td class="pull-left">
-                          <button type="button" edit="<?= $warden->id ?>" data-toggle="modal" data-target="#myModal" class="btn btn-toolbar btn-xs update">
+                          <button type="button" edit="<?= $warden->warden_id ?>" data-toggle="modal" data-target="#myModal" class="btn btn-toolbar btn-xs update">
                             <i class="fa fa-eye"></i>
                           </button>
                         
-                          <a href="<?php echo base_url('dashboard/Traffic_wardens/delete/'.$warden->id.'') ?>" title="Delete">
+                          <a href="<?php echo base_url('dashboard/Traffic_wardens/delete/'.$warden->warden_id.'') ?>" title="Delete">
                             <button type="button" class="btn btn-danger btn-xs">
                               <i class="fa fa-trash"></i>
                             </button> 
                           </a>
-                          <a href="<?php echo base_url('dashboard/Traffic_wardens/edit/'.$warden->id.'') ?>" title='Edit'>
+                          <a href="<?php echo base_url('dashboard/Traffic_wardens/edit/'.$warden->warden_id.'') ?>" title='Edit'>
                             <button type="button" class="btn btn-info btn-xs">
                               <i class="fa fa-pencil"></i>
                             </button>
                           </a>  
-                          <a href="<?php echo base_url('dashboard/Traffic_wardens/wardens_history/'.$warden->id.'') ?>" title="History">
+                          <a href="<?php echo base_url('dashboard/Traffic_wardens/wardens_history/'.$warden->warden_id.'') ?>" title="History">
                             <button type="button" class="btn btn-success btn-xs">
                               <i class="fa fa-history" aria-hidden="true"></i>
                             </button>
@@ -118,15 +118,15 @@
 
 
 <!-- Modal -->
-<div id="myModal" class="modal fade bs-example-modal-lg" role="dialog" aria-labelledby="myLargeModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
+<div id="myModal" class="modal fade" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header card-header-title">
         <h4 class="modal-title card-element-title">User Profile Card</h4>
       </div>
       <div class="modal-body">
         <div class="card">
-          <img src="https://simpleisbetterthancomplex.com/img/picture.jpg" id="my_image" alt="user_pic" style="width:20%;float: right;">
+          <img src="https://simpleisbetterthancomplex.com/img/picture.jpg" id="my_image" alt="user_pic" style="width:40%;float: right;">
 
             <div class="pull-left user-details">
             

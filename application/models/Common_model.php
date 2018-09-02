@@ -78,7 +78,7 @@ class Common_model extends CI_Model
 			return false;
 		}
 	}
-	function DJoin($field,$tbl,$jointbl1,$Joinone,$jointbl3='',$Where='',$order='',$groupy = '',$limit = '',$like = '')
+	function DJoin($field,$tbl,$jointbl1,$Joinone,$jointbl3='',$row='',$Where='',$order='',$groupy = '',$limit = '',$like = '')
     {
         $this->db->select($field);
         $this->db->from($tbl);
@@ -106,8 +106,14 @@ class Common_model extends CI_Model
             $this->db->like('title', $like);
         endif;
 
-        $query=$this->db->get();
-        return $query->result();
+        //if select row
+		if(!empty($row)):
+			$GetData = $this->db->get($table);
+			return $GetData->row();
+		else:
+			$GetData = $this->db->get($table);
+			return $GetData->result();
+		endif;
     }
     function DeleteDB($table,$where)
     {

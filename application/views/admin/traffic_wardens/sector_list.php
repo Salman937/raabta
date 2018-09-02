@@ -33,6 +33,57 @@
               </div>
               <?php endif;?>
 
+              <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                  <tr>
+                    <th>Circles</th>
+                    <th>Sectors</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <?php if (empty($sectors)): ?>
+
+                    <tr>
+                      <td>
+                        Sectors Not Available
+                      </td>  
+                    </tr>
+
+                  <?php else: ?>
+                  
+                    <?php foreach ($sectors as $sector): ?>
+
+                        
+                        <tr>
+                          <td> 
+                              <?php echo $sector->head_circle ?> 
+                          </td>
+                          
+                          <td> 
+                              <?php echo $sector->sector ?> 
+                          </td>
+                         
+                          <td class="pull-left">
+                            <a href="<?php echo base_url('dashboard/Traffic_wardens/delete_sector/'.$sector->sector_id.'') ?>" title="Delete">
+                              <button type="button" class="btn btn-danger btn-xs">
+                                <i class="fa fa-trash"></i>
+                              </button> 
+                            </a>
+                            <a href="<?php echo base_url('dashboard/Traffic_wardens/edit_sector/'.$sector->sector_id.'') ?>" title='Edit'>
+                              <button type="button" class="btn btn-info btn-xs">
+                                <i class="fa fa-pencil"></i>
+                              </button>
+                            </a>  
+                          </td>
+                        </tr>  
+
+                      
+                    <?php endforeach ?>
+
+                  <?php endif ?>
+                </tbody>
+              </table>
               
             </div>
             <!-- /.box-body -->
