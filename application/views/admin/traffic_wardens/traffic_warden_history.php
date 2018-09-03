@@ -1,4 +1,3 @@
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/bootstrap/css/style.css" type="text/css">
 
 
   <!-- Content Wrapper. Contains page content -->
@@ -39,9 +38,10 @@
                     <th>Name</th>
                     <th>Belt No</th>
                     <th>Duty Point</th>
-                    <th>Rank</th>
                     <th>Designation</th>
                     <th>Shift</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
                     <th>Duration</th>
                 </tr>
                 </thead>
@@ -61,11 +61,25 @@
                     <tr>
                       <td> <?php echo $warden->name ?> </td>
                       <td> <?php echo $warden->belt_no ?> </td>
-                      <td><?php echo $warden->history_duty_point  ?> </td>
-                      <td> <?php echo $warden->rank ?> </td>
+                      <td> <?php echo $warden->duty_point  ?> </td>
                       <td> <?php echo $warden->Designation ?> </td>
-                      <td> <?php echo $warden->history_shift ?> </td>
-                      <td> <?php echo $warden->history_duration ?> </td>
+                      <td> <?php echo $warden->shift ?> </td>
+                      <td> <?php echo date('m-d-Y',strtotime($warden->start_date)) ?> </td>
+                      <td> <?php echo date('m-d-Y',strtotime($warden->end_date)) ?> </td>
+                      <td>
+                        
+                      <?php 
+
+                          $date1 = new DateTime($warden->start_date);
+                          $date2 = new DateTime($warden->end_date);
+
+                          $interval = $date1->diff($date2);
+
+                          echo $interval->m." months, ".$interval->d." days "; 
+
+                      ?>
+
+                      </td>
                     </tr>  
                       
                     <?php endforeach ?>
@@ -113,6 +127,7 @@
       </div>
     </div>
   </div>
+</div>  
 <br>
 <br>
 <br>

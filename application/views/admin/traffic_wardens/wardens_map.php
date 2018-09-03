@@ -36,6 +36,8 @@
                 <br>
                 <!-- form start -->
                  <div id="map" style="width: 100%; height: 500px;"></div>
+
+                 <input type="hidden" name="mytext" class="mytext">
             </div>
             <!-- /.box -->
         </div>
@@ -51,41 +53,178 @@
   </div>
   <!-- /.content-wrapper -->
 
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCe0I76FCBsgJP2dh193EWuX2IPST4gn0k&sensor=false"></script>
+          
 <script type="text/javascript">
-    var locations = 
-    [
-      <?php foreach ($wardens as $value) 
-       {
-      ?>  
 
-        ['<?php echo $value->name ?>', <?php echo $value->latitude ?>, <?php echo $value->longitude ?>],
+var locations = 
+[
+  <?php foreach ($wardens as $value) 
+  {
+?>  
 
-      <?php
-        } 
-      ?>
-    ];
+  ['<?php echo $value->name ?>', <?php echo $value->latitude ?>, <?php echo $value->longitude ?>],
 
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 12,
-      center: new google.maps.LatLng(33.995476, 71.486102),
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
+<?php
+  } 
+?>
+];
 
-    var infowindow = new google.maps.InfoWindow();
+  var latitude= [];
+  var longitude= [];
+  var name=[];
+  var circle_id=[];
+  var belt_no=[];
+  var designation=[];
+  var phone_number=[];
+  var shift=[];
+  var start_date=[];
+  var img=[];
+  var x=0;    
+  var map = null; 
+  var markerArray = []; 
+  var infowindow; 
 
-    var marker, i;
+  <?php foreach ($wardens as $row) : ?>
+  //print_r($latlong); die;
 
-    for (i = 0; i < locations.length; i++) {  
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-        map: map
+      latitude.push(<?php echo $row->latitude; ?>);
+      longitude.push(<?php echo $row->longitude; ?>);
+      // name.push('<?php echo $row->name; ?>');
+      belt_no.push(<?php echo $row->belt_no; ?>);
+      designation.push('<?php echo $row->Designation; ?>');
+      phone_number.push(<?php echo $row->phone_number; ?>);
+      shift.push('<?php echo $row->shift ?>');
+      start_date.push(<?php echo $row->start_date;?>) ;
+      circle_id.push(<?php echo $row->circle_id;?>) ;
+      img.push("<?php echo $row->image; ?>");
+
+  <?php 
+  // print_r($row['video']);
+  endforeach; ?>
+      x = <?php echo count($wardens); ?>;
+
+      function initialize() {
+          var myOptions = {
+
+              zoom: 12,
+              center: new google.maps.LatLng(33.995476, 71.486102),
+              mapTypeControl: true,
+              mapTypeControlOptions: {
+                  style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+              },
+              navigationControl: true,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+          }
+          map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+          infowindow = new google.maps.InfoWindow({
+              size: new google.maps.Size(150, 50)
+          });
+
+          google.maps.event.addListener(map, 'click', function() {
+              infowindow.close();
+          });
+
+          for (var i = 0; i < x; i++) {
+              createMarker(new google.maps.LatLng(latitude[i],longitude[i]),belt_no[i],designation[i],phone_number[i],img[i],shift[i],start_date[i],circle_id[i]);
+          }
+      }
+
+      var onMarkerClick = function() {
+        var marker = this;
+        var latLng = marker.getPosition();
+        var designation = marker.content;
+          
+          // convert latlng to address
+          var geocoder = new google.maps.Geocoder();
+          var addr;
+          var latLng = new google.maps.LatLng(latLng.lat(), latLng.lng());
+         
+              geocoder.geocode({      
+                  latLng: latLng
+                  }, 
+                   function(responses) 
+                      {
+                         if (responses && responses.length > 0) 
+                         {        
+                              addr = responses[0].formatted_address;
+                              infowindow.setContent('<p><b>Location: </b>'+addr+'</p><p>'+designation+'</p>');
+                         } 
+                         else 
+                         {       
+                              //alert('Not getting Any address for given latitude and longitude.');
+                              infowindow.setContent('<p><b>Location: </b>No Address Found</p><p><b>Complaint Description: </b>'+designation+'</p>');
+                         }
+                      }
+              );
+        infowindow.open(map, marker);
+      };
+  
+   
+  function createMarker(latlng,belt_no,designation,phone_number,img,shift,start_date,circle_id){
+     //console.log(JSON.stringify(latlng));
+      
+      var icon = "";
+
+      switch (circle_id) 
+      {
+          case 2:
+              icon = "yellow";
+              break;                      
+          case 5:
+              icon = "purple";   
+              break;
+          case 6:
+              icon = "red";
+              break;
+          case 7:
+              icon = "pink";
+              break;
+          default:
+              icon = "red";    
+      }
+
+      icon = "http://maps.google.com/mapfiles/ms/icons/"+icon+"-dot.png";
+
+      console.log(icon);
+      
+     var marker = new google.maps.Marker({
+          position: latlng,
+          icon: icon,
+          animation: google.maps.Animation.DROP,
+          content: '<p><b>Designation: </b>'+designation+'</p><p><b>Belt No: </b>'+belt_no+'</p><p><b>Phone Number: </b>'+phone_number+'</p>',
+          
+          dated: start_date,
+          map: map,
+          title: 'Click for more details',
+          visible: true
       });
+      
+      google.maps.event.addListener(marker, 'click', onMarkerClick);
+      markerArray.push(marker);
+  }
 
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          infowindow.setContent(locations[i][0]);
-          infowindow.open(map, marker);
-        }
-      })(marker, i));
-    }
-  </script>
+  /**
+   * Function to filter markers by date
+   */
+  filterMarkers = function (dated) {
+      //alert(comp_dated);
+      //console.log(dated);
+      for (i = 0; i < markerArray.length; i++) {
+          // If is same dated or dated not picked
+          if (comp_dated[i] == dated || comp_dated.length === 0) {
+              markerArray[i].setVisible(true);
+          }
+              // complaint status don't match 
+          else {
+              markerArray[i].setVisible(false);
+          }
+      }
+  }
+
+  window.onload = initialize;
+
+
+</script>
+

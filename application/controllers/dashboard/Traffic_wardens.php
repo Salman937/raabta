@@ -29,8 +29,8 @@ class Traffic_wardens extends CI_Controller
 		$data['title']        =  'Traffic Police | Dashboard';
         $data['heading']      =  'Traffic Wardens';
         $data['page_name']    =  'admin/traffic_wardens/add_traffic_warden';
-        $data['duty_points']  = $this->common_model->getAllData('traffic_warden_duty_point');
-        $data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
+        $data['duty_points']  =  $this->common_model->getAllData('traffic_warden_duty_point');
+        $data['circles'] 	  =  $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
 
 
 		view('template',$data);	
@@ -85,8 +85,8 @@ class Traffic_wardens extends CI_Controller
 							'phone_number' => post('phone_no'),
 							'shift'   	   => post('shift'),
 							'start_date'   => date("Y-m-d", strtotime(post('str_date'))),
-							'latitude'     => post('lat'),
-							'longitude'    => post('log'),
+							'latitude'     => post('update_lat'),
+							'longitude'    => post('update_long'),
 							'circle_id'    => post('circle'),
 							'sector_id'    => post('sector'),
 							'image'        => $image,
@@ -116,7 +116,14 @@ class Traffic_wardens extends CI_Controller
         $data['heading']    =  'Traffic Wardens';
         $data['page_name']  =  'admin/traffic_wardens/show_wardens';
 
-        $data['wardens'] = $this->common_model->DJoin('*,traffic_wardens.id AS warden_id','traffic_wardens','traffic_warden_duty_point','traffic_wardens.duty_point = traffic_warden_duty_point.id');
+        $where = array(
+        				'traffic_warden_circles' => 'traffic_wardens.circle_id = traffic_warden_circles.id', 
+        				'traffic_warden_circles AS a' => 'traffic_wardens.sector_id = a.id', 
+        			  );
+
+        $data['wardens'] = $this->common_model->DJoin('*,traffic_warden_circles.circle_and_sector AS circle,traffic_wardens.id AS warden_id','traffic_wardens','traffic_warden_duty_point','traffic_wardens.duty_point = traffic_warden_duty_point.id',$where);
+
+        // pr($data['wardens']);die;
 
 		view('template',$data);	
 	}
@@ -160,6 +167,10 @@ class Traffic_wardens extends CI_Controller
         $data['warden'] = $this->common_model->DJoin('*,traffic_wardens.id AS warden_id,traffic_warden_circles.circle_and_sector AS circle, traffic_warden_duty_point.duty_point AS war_duty_point ','traffic_warden_duty_point','traffic_wardens','traffic_wardens.duty_point = traffic_warden_duty_point.id',$where,1,array('traffic_wardens.id' => $id));
 
         $data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
+        $data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
+
+        $data['duty_points'] =  $this->common_model->getAllData('traffic_warden_duty_point');
+
 
         $data['duty_points'] =  $this->common_model->getAllData('traffic_warden_duty_point');
 
@@ -251,20 +262,24 @@ class Traffic_wardens extends CI_Controller
         $data['heading']    =  'Traffic Wardens';
         $data['page_name']  =  'admin/traffic_wardens/change_place';
         $data['id']			=  $id;
-
+        $data['duty_points'] =  $this->common_model->getAllData('traffic_warden_duty_point');
+        $data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
 
 		view('template',$data);	
 	}
 
 	public function update_warden_place()
 	{
-		$this->form_validation->set_rules('duty_point', 'Duty Point', 'trim|required');
 		$this->form_validation->set_rules('shift', 'Shift', 'trim|required');
-		$this->form_validation->set_rules('duration', 'Duration', 'trim|required');
+		$this->form_validation->set_rules('end_date', 'End Date', 'trim|required');
+		$this->form_validation->set_rules('new_postion_date', 'New Position Date', 'trim|required');
+		$this->form_validation->set_rules('circle', 'Circle', 'trim|required');
+		$this->form_validation->set_rules('sector', 'Sector', 'trim|required');
+		$this->form_validation->set_rules('war_duty_point', 'Duty Point', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) 
 		{
-			$this->index();
+			$this->change_place();
 		} 
 		else 
 		{
@@ -272,24 +287,29 @@ class Traffic_wardens extends CI_Controller
 
 			$data = array(
 							'traffic_warden_id' => post('id'),
+							'circle_id' 	    => post('circle'),
+							'sector_id' 		=> post('sector'),
 							'duty_point'   		=> $warden->duty_point,
 							'shift'   	   		=> $warden->shift,
-							'duration'     		=> $warden->duration,
+							'start_date'   		=> $warden->start_date,
+							'end_date'   		=> date("Y-m-d", strtotime(post('end_date'))),
 							'latitude'     		=> $warden->latitude,
 							'longitude'    		=> $warden->longitude,
-							'updated_at'   => date('Y-m-d H:i:s'),
-							'created_at'   => date('Y-m-d H:i:s')
+							'updated_at'   		=> date('Y-m-d H:i:s'),
+							'created_at'        => date('Y-m-d H:i:s')
 						 );
 
 			$this->common_model->InsertData('traffic_wardens_history',$data);
 
 
 			$data = array(
-							'duty_point'   => post('duty_point'),
+							'circle_id'    => post('circle'),
+							'sector_id'    => post('sector'),
+							'duty_point'   => post('war_duty_point'),
 							'shift'   	   => post('shift'),
-							'duration'     => post('duration'),
-							'latitude'     => post('lat'),
-							'longitude'    => post('log'),
+							'start_date'   => date("Y-m-d", strtotime(post('new_postion_date'))),
+							'latitude'     => post('update_lat'),
+							'longitude'    => post('update_long'),
 							'updated_at'   => date('Y-m-d H:i:s')
 						 );
 
@@ -313,12 +333,17 @@ class Traffic_wardens extends CI_Controller
         $data['heading']    =  'Traffic Wardens';
         $data['page_name']  =  'admin/traffic_wardens/traffic_warden_history';
 
-        $data['wardens'] = $this->common_model->DJoin('
-        			traffic_wardens_history.duty_point AS history_duty_point,
-        			traffic_wardens_history.shift AS history_shift,
-        			traffic_wardens_history.duration AS history_duration,traffic_wardens.*'
+        $where = array(
+        				'traffic_warden_circles' => 'traffic_wardens.circle_id = traffic_warden_circles.id', 
+        				'traffic_warden_circles AS a' => 'traffic_wardens.sector_id = a.id', 
+        				'traffic_warden_duty_point AS b' => 'b.id = traffic_wardens_history.duty_point', 
+        			  );
 
-        			,'traffic_wardens_history','traffic_wardens','traffic_wardens.id = traffic_wardens_history.traffic_warden_id','',array('traffic_wardens_history.traffic_warden_id' => $id));
+        $data['wardens'] = $this->common_model->DJoin('traffic_wardens.name AS name,traffic_wardens.belt_no AS belt_no,traffic_wardens.Designation AS Designation,traffic_wardens_history.shift AS shift,traffic_wardens_history.start_date AS start_date,traffic_wardens_history.end_date AS end_date,b.duty_point AS duty_point'
+
+        			,'traffic_wardens_history','traffic_wardens','traffic_wardens.id = traffic_wardens_history.traffic_warden_id',$where,'',array('traffic_wardens_history.traffic_warden_id' => $id));
+
+        // pr($data['wardens']);die;
 
 		view('template',$data);
 	}
@@ -336,7 +361,6 @@ class Traffic_wardens extends CI_Controller
         $data['wardens'] = $this->common_model->getAllData('traffic_wardens');
 
         // pr($data['wardens']);die;
-
         
 		view('template',$data);
 	}

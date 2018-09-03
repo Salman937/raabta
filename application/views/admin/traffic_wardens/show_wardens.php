@@ -1,4 +1,3 @@
-  <link rel="stylesheet" href="<?php echo base_url();?>assets/bootstrap/css/style.css" type="text/css">
 
 
   <!-- Content Wrapper. Contains page content -->
@@ -37,12 +36,13 @@
                 <thead>
                   <tr>
                     <th>Name</th>
+                    <th>Circle</th>
+                    <th>Sector</th>
                     <th>Belt No</th>
                     <th>Duty Point</th>
-                    <th>Rank</th>
                     <th>Designation</th>
                     <th>Shift</th>
-                    <th>Duration</th>
+                    <th>Start Date</th>
                     <th>Change Place</th>
                     <th>Actions</th>
                 </tr>
@@ -62,18 +62,18 @@
 
                     <tr>
                       <td> <?php echo $warden->name ?> </td>
+                      <td> <?php echo $warden->circle ?> </td>
+                      <td> <?php echo $warden->circle_and_sector ?> </td>
                       <td> <?php echo $warden->belt_no ?> </td>
                       <td> <?php echo $warden->duty_point ?> </td>
-                      <td> <?php echo $warden->rank ?> </td>
                       <td> <?php echo $warden->Designation ?> </td>
                       <td> <?php echo $warden->shift ?> </td>
-                      <td> <?php echo $warden->duration ?> </td>
+                      <td> <?php echo date('m-d-Y',strtotime($warden->start_date)) ?> </td>
                       <td>
                           <a href="<?php bs('dashboard/Traffic_wardens/change_place/'.$warden->warden_id.'') ?>"> 
                             <i class="fa fa-map-marker" aria-hidden="true"></i> 
                           </a>  
                       </td>
-                      <td> </td>
                       <td class="pull-left">
                           <button type="button" edit="<?= $warden->warden_id ?>" data-toggle="modal" data-target="#myModal" class="btn btn-toolbar btn-xs update">
                             <i class="fa fa-eye"></i>

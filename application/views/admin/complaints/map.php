@@ -88,7 +88,7 @@
                             var myOptions = {
 
                                 zoom: 12,
-                                center: new google.maps.LatLng(latitude[0], longitude[0]),
+                                center: new google.maps.LatLng(30.3753, 69.3451),
                                 mapTypeControl: true,
                                 mapTypeControlOptions: {
                                     style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
@@ -146,7 +146,9 @@
                        //console.log(JSON.stringify(latlng));
                         
                         var icon = "";
-                        switch (complaint_status) {
+
+                        switch (complaint_status) 
+                        {
                             case "In Progress":
                                 icon = "yellow";
                                 break;                      
@@ -157,7 +159,7 @@
                                 icon = "red";
                                 break;
                         }
-                        icon = "http://maps.google.com/mapfiles/ms/icons/"+icon+".png";
+                        icon = "http://maps.google.com/mapfiles/ms/icons/"+icon+"-dot.png";
                         
                        var marker = new google.maps.Marker({
                             position: latlng,
