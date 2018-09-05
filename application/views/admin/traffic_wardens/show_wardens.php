@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" type="text/css" href="<?php bs() ?>assets/bootstrap/css/style.css">
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -142,18 +142,7 @@
       </div>
     </div>
   </div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+</div>  
 
 <!-- DataTables -->
 <script src="<?php echo base_url();?>assets/plugins/datatables/jquery.dataTables.min.js"></script>

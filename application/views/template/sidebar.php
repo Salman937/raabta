@@ -208,17 +208,9 @@
               <a href="<?= base_url()."dashboard/Traffic_wardens/duty_point_list"; ?>">
                 <i class="fa fa-list" aria-hidden="true"></i> Duty Point List</a>
             </li>
-            <li class="<?= $this->uri->segment(3) == "add_circle"?"active":"";?>">
-              <a href="<?= base_url()."dashboard/Traffic_wardens/add_circle"; ?>">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Cricle</a>
-            </li>
             <li class="<?= $this->uri->segment(3) == "list_circle"?"active":"";?>">
               <a href="<?= base_url()."dashboard/Traffic_wardens/list_circle"; ?>">
                 <i class="fa fa-list" aria-hidden="true"></i> Circle List</a>
-            </li>
-            <li class="<?= $this->uri->segment(3) == "add_sectors"?"active":"";?>">
-              <a href="<?= base_url()."dashboard/Traffic_wardens/add_sectors"; ?>">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Sectors</a>
             </li>
             <li class="<?= $this->uri->segment(3) == "list_sectors"?"active":"";?>">
               <a href="<?= base_url()."dashboard/Traffic_wardens/list_sectors"; ?>">

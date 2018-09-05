@@ -36,124 +36,391 @@
                   <h3 class="box-title">Add New Traffic Warden</h3>
                 </div>
                 <!-- /.box-header -->
-                
-                <!-- form start -->
+                <br>
                 <form class="form-horizontal" action="<?php echo base_url()?>dashboard/Traffic_wardens/add" method="post" enctype="multipart/form-data">
-                  <div class="box-body">
-                    <div class="form-group">
-                      <label for="warden_name" class="col-sm-3 control-label">Warden Name</label>
-                      <div class="col-sm-6">
-                          <input type="text" class="form-control" name="warden_name" id="warden_name" maxlength="30" placeholder="Enter Warden Name" required>
-                          <?php echo '<span class="error">'. form_error('warden_name').'</span>'; ?>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="belt_no" class="col-sm-3 control-label">Belt No</label>
-                      <div class="col-sm-6">
-                          <input type="text" class="form-control" name="belt_no" id="belt_no" maxlength="30" placeholder="Enter Belt No" required>
-                          <?php echo '<span class="error">'. form_error('belt_no').'</span>'; ?>
-                      </div>
-                    </div>              
-
-                    <div class="form-group">
-                      <label for="designation" class="col-sm-3 control-label">Designation / Rank</label>
-                      <div class="col-sm-6">
-                          <input type="text" class="form-control" name="designation" id="designation" maxlength="30" placeholder="Enter Designation" required>
-                          <?php echo '<span class="error">'. form_error('designation').'</span>'; ?>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="phone_no" class="col-sm-3 control-label">Phone No</label>
-                      <div class="col-sm-6">
-                          <input type="text" class="form-control" name="phone_no" id="phone_no" maxlength="30" placeholder="Enter Phone No" required>
-                          <?php echo '<span class="error">'. form_error('phone_no').'</span>'; ?>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="shift" class="col-sm-3 control-label">Shift</label>
-                      <div class="col-sm-6">
-                        <select name="shift" class="form-control" required>
-                          <option value="">Select Shift</option>
-                          <option>Morning</option>
-                          <option>Eevning</option>
-                          <option>Night</option>
-                        </select>
-                        <?php echo '<span class="error">'. form_error('shift').'</span>'; ?>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="str_date" class="col-sm-3 control-label">Start Date</label>
-                      <div class="col-sm-6">
-                          <input type="date" class="form-control" name="str_date" id="str_date" maxlength="30" required>
-                          <?php echo '<span class="error">'. form_error('str_date').'</span>'; ?>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="image" class="col-sm-3 control-label">Image</label>
-                      <div class="col-sm-6">
-                          <input type="file" name="image" required>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="image" class="col-sm-3 control-label">Circle</label>
-                      <div class="col-sm-6">
-                          <select name="circle" class="form-control" onchange="getSector(this)">
-                            <option value="">Select Circle</option>
-
-                            <?php foreach ($circles as $circle): ?>
-                              
-                              <option value="<?php echo $circle->id ?>"><?php echo $circle->circle_and_sector ?></option>
-
-                            <?php endforeach ?>
-
-                          </select>
-                      </div>
-                    </div>
-                    <div class="add_sector">
-                      
-                    </div>
-
-                    <div class="form-group">
-                      <label for="Search" class="col-sm-3 control-label">Duty Point</label>
-                      <div class="col-sm-6">
-                        <!-- <input type="text" class="input form-control address" id="address" name="duty_point" /> -->
-                        <select name="war_duty_point" class="form-control search_duty_point" onchange="getval(this);" required="">
-                          <option value="">Select Duty Point</option>
-
-                          <?php foreach ($duty_points as $duty_point): ?>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="panel panel-default">
+                        <div class="panel-heading"><h4><b>Personal Information</b></h4></div>
+                        <div class="panel-body">
+                          
+                          <div class="row">
                             
-                            <option value="<?php echo $duty_point->id ?>"> <?php echo $duty_point->duty_point ?> </option>
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="personal_no" class="col-sm-3 control-label">Personal No</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="personal_no" id="personal_no" maxlength="30" placeholder="Enter Personal No" required>
+                                  <?php echo '<span class="error">'. form_error('personal_no').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>  
+                              
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="belt_no" class="col-sm-3 control-label">Belt No</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="belt_no" id="belt_no" maxlength="30" placeholder="Enter Belt No" required>
+                                  <?php echo '<span class="error">'. form_error('belt_no').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>              
+                          </div>
 
-                          <?php endforeach ?>
-                        </select>
-                        <br>
-                        <div id="map-view" class="is-vcentered" style="width: 100%; height:400px;"></div>
+                          <div class="row">
+                            
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="name" class="col-sm-3 control-label">Name</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="name" id="name" maxlength="30" placeholder="Enter Name" required>
+                                  <?php echo '<span class="error">'. form_error('name').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>  
+                              
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="father_name" class="col-sm-3 control-label">Father/Husband's Name</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="father_name" id="father_name" maxlength="30" placeholder="Enter Father/Husband's Name" required>
+                                  <?php echo '<span class="error">'. form_error('father_name').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>              
+                          </div>
+
+                          <div class="row">
+                            
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="nic_no" class="col-sm-3 control-label">NIC No</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="nic_no" id="nic_no" maxlength="30" placeholder="Enter NIC NO" required>
+                                  <?php echo '<span class="error">'. form_error('nic_no').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>  
+                              
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="passport_no" class="col-sm-3 control-label">Passport No</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="passport_no" id="passport_no" maxlength="30" placeholder="Enter Passport No" required>
+                                  <?php echo '<span class="error">'. form_error('passport_no').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>              
+                          </div>
+
+
+                          <div class="row">
+                            
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="license_no" class="col-sm-3 control-label">Diriving License No</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="license_no" id="license_no" maxlength="30" placeholder="Enter Diriving License No" required>
+                                  <?php echo '<span class="error">'. form_error('license_no').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>  
+                              
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="dob" class="col-sm-3 control-label">Date of Brith</label>
+                                <div class="col-sm-9">
+                                  <input type="date" class="form-control" name="dob" id="dob" maxlength="30" placeholder="Enter Belt No" required>
+                                  <?php echo '<span class="error">'. form_error('dob').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>              
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="sex" class="col-sm-3 control-label">Gender/Sex</label>
+                                <div class="col-sm-9">
+                                  <select name="sex" class="form-control" required>
+                                    <option>Select Gender/Sex</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Married</option>
+                                    <option>Unmarried</option>
+                                    <option>Divorced</option>
+                                    <option>Widow</option>
+                                  </select>
+                                  <?php echo '<span class="error">'. form_error('sex').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>  
+                              
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="religion" class="col-sm-3 control-label">Religion</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="religion" id="religion" maxlength="30" placeholder="Enter Religion" required>
+                                  <?php echo '<span class="error">'. form_error('religion').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>              
+                          </div>
+
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="blood_group" class="col-sm-3 control-label">Blood Group</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="blood_group" id="blood_group" maxlength="30" placeholder="Enter Blood Group" required>
+                                  <?php echo '<span class="error">'. form_error('blood_group').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>  
+                              
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="mobile" class="col-sm-3 control-label">Mobile</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="mobile" id="mobile" maxlength="30" placeholder="Enter Mobile" required>
+                                  <?php echo '<span class="error">'. form_error('mobile').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>              
+                          </div>
+
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="domicile" class="col-sm-3 control-label">District of Domicile</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="domicile" id="domicile" maxlength="30" placeholder="Enter Domicile" required>
+                                  <?php echo '<span class="error">'. form_error('domicile').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>  
+                              
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="present_address" class="col-sm-3 control-label">Present Address</label>
+                                <div class="col-sm-9">
+                                  <textarea name="present_address" class="form-control" placeholder="Enter Present Address"></textarea>
+                                  <?php echo '<span class="error">'. form_error('present_address').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>              
+                          </div>
+
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="permanent_address" class="col-sm-3 control-label">Permanent Address</label>
+                                <div class="col-sm-9">
+                                  <textarea name="permanent_address" class="form-control" placeholder="Enter Present Address"></textarea>
+                                  <?php echo '<span class="error">'. form_error('permanent_address').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>    
+
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="image" class="col-sm-3 control-label">Image</label>
+                                <div class="col-sm-9">
+                                  <br>
+                                    <input type="file" name="image" required>
+                                </div>
+                              </div>
+                            </div>          
+                          </div>
+                        </div>
                       </div>
                     </div>
-
-                      <input type="hidden" name="lat" id="lat">
-                      <input type="hidden" name="log" id="lon">
-
-                      <input type="hidden" name="update_lat" id="update_lat">
-                      <input type="hidden" name="update_long" id="update_long">
-
                   </div>
-                  <!-- /.box-body -->
-                  <div class="box-footer">
-                    <div class="col-sm-offset-3 col-sm-3">
+
+                  <!-- Education -->
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="panel panel-default">
+                        <div class="panel-heading"><h4><b>Education</b></h4></div>
+                        <div class="panel-body">
+                          
+                          <div class="row">
+                            
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="qualification" class="col-sm-3 control-label">Qualification</label>
+                                <div class="col-sm-9">
+                                  <input type="text" class="form-control" name="qualification" id="qualification" maxlength="30" placeholder="Enter Qualification" required>
+                                  <?php echo '<span class="error">'. form_error('qualification').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>  
+                              
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="belt_no" class="col-sm-8 control-label">Computer Literate(MS Office/Email & Web)</label>
+                                <div class="col-sm-3">
+                                  <div class="radio">
+                                    <label>
+                                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                      Yes
+                                    </label>
+                                  </div>
+                                  <div class="radio">
+                                    <label>
+                                      <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                      No
+                                    </label>
+                                  </div>
+                                  <?php echo '<span class="error">'. form_error('belt_no').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>              
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Entry in Police Department -->
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="panel panel-default">
+                        <div class="panel-heading"><h4><b>Entry in Police Department</b></h4></div>
+                        <div class="panel-body">
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="qualification" class="col-sm-3 control-label">Service Group</label>
+                                <div class="col-sm-9">
+                                  <select name="service_group" class="form-control">
+                                    <option>Police</option>
+                                    <option>Warden</option>
+                                  </select>
+                                  <?php echo '<span class="error">'. form_error('service_group').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>  
+                              
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="designation" class="col-sm-3 control-label">Rank/Designation</label>
+                                <div class="col-sm-9">
+                                  <input type="text" name="designation" class="form-control" placeholder="Enter Designation/Rank">  
+                                  <?php echo '<span class="error">'. form_error('designation').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>              
+                          </div>
+
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="current_designation" class="col-sm-3 control-label">Current Designation</label>
+                                <div class="col-sm-9">
+                                  <input type="text" name="current_designation" class="form-control" placeholder="Enter Current Designation">  
+                                  <?php echo '<span class="error">'. form_error('current_designation').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>  
+                              
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="d_o_j" class="col-sm-3 control-label">Date of Joining</label>
+                                <div class="col-sm-9">
+                                  <input type="text" name="d_o_j" class="form-control" placeholder="Enter Designation/Rank">  
+                                  <?php echo '<span class="error">'. form_error('d_o_j').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>              
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Duty Information -->
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="panel panel-default">
+                        <div class="panel-heading"><h4><b>Duty Information</b></h4></div>
+                        <div class="panel-body">
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="image" class="col-sm-3 control-label">Circle</label>
+                                <div class="col-sm-9">
+                                    <select name="circle" class="form-control" onchange="getSector(this)">
+                                      <option value="">Select Circle</option>
+
+                                      <?php foreach ($circles as $circle): ?>
+                                        
+                                        <option value="<?php echo $circle->id ?>"><?php echo $circle->circle_and_sector ?></option>
+
+                                      <?php endforeach ?>
+
+                                    </select>
+                                </div>
+                              </div>
+
+                              <div class="add_sector">
+                      
+                              </div>
+                            </div>  
+                              
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="shift" class="col-sm-3 control-label">Shift</label>
+                                <div class="col-sm-9">
+                                  <select name="shift" class="form-control" required>
+                                    <option value="">Select Shift</option>
+                                    <option>Morning</option>
+                                    <option>Eevning</option>
+                                    <option>Night</option>
+                                  </select>
+                                  <?php echo '<span class="error">'. form_error('shift').'</span>'; ?>
+                                </div>
+                              </div>
+                            </div>              
+                          </div>
+
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="str_date" class="col-sm-3 control-label">Start Date</label>
+                                <div class="col-sm-9">
+                                    <input type="date" class="form-control" name="str_date" id="str_date" maxlength="30" required>
+                                    <?php echo '<span class="error">'. form_error('str_date').'</span>'; ?>
+                                </div>
+                              </div>
+                            </div>  
+                              
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="str_date" class="col-sm-3 control-label">End Date</label>
+                                <div class="col-sm-9">
+                                    <input type="date" class="form-control" name="str_date" id="str_date" maxlength="30" required>
+                                    <?php echo '<span class="error">'. form_error('str_date').'</span>'; ?>
+                                </div>
+                              </div>
+                            </div>              
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-offset-5 col-sm-3">
                        <a href="<?php echo base_url().'admin/get_license_list'; ?>" class="btn btn-default">Cancel</a>
                         <button type="reset" class="btn btn-default">Reset</button>
                         <button type="submit" class="btn btn-info">Submit</button>
                     </div>
-                  </div>
-                  <!-- /.box-footer -->
+                  </div>  
+                  <br>
                 </form>
+                
             </div>
             <!-- /.box -->
         </div>

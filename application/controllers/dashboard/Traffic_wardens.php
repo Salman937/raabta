@@ -491,18 +491,6 @@ class Traffic_wardens extends CI_Controller
 	}
 
 	/**
-	 * [Circle Form]
-	 */
-	public function add_circle()
-	{
-		$data['title']      =  'Traffic Police | Dashboard';
-        $data['heading']    =  'Traffic Wardens';
-        $data['page_name']  =  'admin/traffic_wardens/add_circle';
-
-		view('template',$data);	
-	}
-
-	/**
 	 * [Add new Circle]
 	 */
 	public function add_new_circle()
@@ -528,7 +516,7 @@ class Traffic_wardens extends CI_Controller
 			if ($result) 
 			{
 				$this->session->set_flashdata('msg','Circle Added Successfully!');
-				redirect('dashboard/Traffic_wardens/add_circle');
+				redirect('dashboard/Traffic_wardens/list_circle');
 			} 
 			
 		}
@@ -609,22 +597,6 @@ class Traffic_wardens extends CI_Controller
 		}
 	}
 
-
-	/**
-	 * [Sector Form]
-	 */
-	public function add_sectors()
-	{
-		$data['title']      =  'Traffic Police | Dashboard';
-        $data['heading']    =  'Traffic Wardens';
-        $data['page_name']  =  'admin/traffic_wardens/add_sector';
-
-        $data['circles']    = $this->common_model->getAllData('traffic_warden_circles','*','',array('level' => 0));
-
-
-		view('template',$data);	
-	}
-
 	/**
 	 * [Add new Sector]
 	 */
@@ -654,7 +626,7 @@ class Traffic_wardens extends CI_Controller
 			if ($result) 
 			{
 				$this->session->set_flashdata('msg','Sector Added Successfully!');
-				redirect('dashboard/Traffic_wardens/add_sectors');
+				redirect('dashboard/Traffic_wardens/list_sectors');
 			} 
 			
 		}
@@ -678,6 +650,8 @@ class Traffic_wardens extends CI_Controller
 												  WHERE a.id = b.parent_id ');
 
         $data['sectors'] = $query->result();
+
+         $data['circles']    = $this->common_model->getAllData('traffic_warden_circles','*','',array('level' => 0));
 
 		view('template',$data);
 	}

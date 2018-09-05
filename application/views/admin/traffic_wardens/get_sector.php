@@ -1,6 +1,6 @@
 <div class="form-group">
-  <label for="image" class="col-sm-3 control-label">Sectors</label>
-  <div class="col-sm-6">
+  <label for="sector" class="col-sm-3 control-label">Sectors</label>
+  <div class="col-sm-9">
       <select name="sector" class="form-control">
 
         <?php foreach ($sectors as $sector): ?>

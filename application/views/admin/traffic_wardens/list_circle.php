@@ -20,7 +20,8 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Cicle List</h3>
+              <h3 class="box-title">Circle List</h3>
+              <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus-circle"></i> Add New Circle</button>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -88,6 +89,35 @@
 
   </div>
   <!-- /.content-wrapper -->
+
+  <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add New Circle</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" action="<?php echo base_url()?>dashboard/Traffic_wardens/add_new_circle" method="post" enctype="multipart/form-data">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Add Cricle</label>
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" name="add_circle" id="add_circle" placeholder="Add New Circle" required>
+                  <?php echo '<span class="error">'. form_error('add_circle').'</span>'; ?>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <!-- DataTables -->
 <script src="<?php echo base_url();?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
