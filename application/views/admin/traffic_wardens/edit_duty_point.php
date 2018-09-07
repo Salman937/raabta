@@ -40,10 +40,48 @@
                 <!-- form start -->
                 <form class="form-horizontal" action="<?php echo base_url()?>dashboard/Traffic_wardens/duty_point_update" method="post" enctype="multipart/form-data">
                   <div class="box-body">
+
+                    <div class="form-group">
+                      <label class="col-sm-3 control-label">Select Circle</label>
+                      <div class="col-sm-6">
+                      <select name="circle" class="form-control" onchange="getSector(this)">
+                          <option value="<?php echo $get_circle->circle_id ?>" selected = ""><?= $get_circle->circle_and_sector ?></option>
+
+                          <?php foreach ($circles as $circle): ?>
+                            
+                            <option value="<?php echo $circle->id ?>"><?php echo $circle->circle_and_sector ?></option>
+
+                          <?php endforeach ?>
+
+                        </select>
+
+                        <?php echo '<span class="error">'. form_error('circle').'</span>'; ?>
+                      </div>
+                    </div>
+
+                    <div class="add_sector">
+                      <div class="form-group">
+                        <label for="sector" class="col-sm-3 control-label">Sector</label>
+                        <div class="col-sm-6">
+                            <select name="sector" class="form-control">
+
+                              <option value="<?= $get_sector->sector_id ?>" selected=""> <?= $get_sector->circle_and_sector ?> </option>
+
+                              <?php foreach ($sectors as $sector): ?>
+                                
+                                <option value="<?php echo $sector->id ?>"> <?php echo $sector->circle_and_sector ?></option>
+
+                              <?php endforeach ?>
+
+                            </select>
+                        </div>
+                      </div>
+                    </div>
+
                     <div class="form-group">
                       <label class="col-sm-3 control-label">Duty Point</label>
                       <div class="col-sm-6">
-                          <input type="text" class="form-control" name="duty_point" value="<?php echo $edit->duty_point ?>" maxlength="30" placeholder="Traffic Warden Duty Point" required>
+                          <input type="text" class="form-control" name="duty_point" value="<?php echo $get_circle->duty_point ?>" maxlength="30" placeholder="Traffic Warden Duty Point" required>
                           <?php echo '<span class="error">'. form_error('duty_point').'</span>'; ?>
                       </div>
                     </div>
@@ -51,7 +89,7 @@
                     <div class="form-group">
                       <label class="col-sm-3 control-label">Latitude</label>
                       <div class="col-sm-6">
-                          <input type="text" class="form-control" name="lat" id="lat" value="<?php echo $edit->latitude ?>" maxlength="30" placeholder="Enter Latitude" required>
+                          <input type="text" class="form-control" name="lat" id="lat" value="<?php echo $get_circle->latitude ?>" maxlength="30" placeholder="Enter Latitude" required>
                           <?php echo '<span class="error">'. form_error('lat').'</span>'; ?>
                       </div>
                     </div>              
@@ -59,12 +97,12 @@
                     <div class="form-group">
                       <label class="col-sm-3 control-label">Longitude</label>
                       <div class="col-sm-6">
-                          <input type="text" class="form-control" name="long" id="long" value="<?php echo $edit->longitude ?>" maxlength="30" placeholder="Enter Logitude" required>
+                          <input type="text" class="form-control" name="long" id="long" value="<?php echo $get_circle->longitude ?>" maxlength="30" placeholder="Enter Logitude" required>
                           <?php echo '<span class="error">'. form_error('long').'</span>'; ?>
                       </div>
                     </div>
 
-                    <input type="hidden" name="id" value="<?php echo $edit->id ?>">
+                    <input type="hidden" name="id" value="<?php echo $get_circle->duty_point_id ?>">
 
                   <!-- /.box-body -->
                   <div class="box-footer">
@@ -89,3 +127,22 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+<script>
+
+function getSector(sel)
+{
+    var id = sel.value;
+
+    $.ajax({
+
+      url: '<?php echo base_url()?>dashboard/Traffic_wardens/duty_point_sector/'+id,
+      
+      success: function(data)
+      {
+        $('.add_sector').html(data);
+      }
+    });
+}
+
+</script>
