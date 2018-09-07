@@ -468,6 +468,7 @@ class Traffic_wardens extends CI_Controller
 
 	public function duty_point_update()
 	{
+		
 		$data = array(
 						'duty_point'   => post('duty_point'),
 						'latitude'     => post('lat'),
