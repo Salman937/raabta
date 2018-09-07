@@ -1,5 +1,5 @@
 <div class="form-group">
-  <label for="sector" class="col-sm-3 control-label">Sectors</label>
+  <label for="sector" class="col-sm-3 control-label">Sector</label>
   <div class="col-sm-9">
       <select name="sector" class="form-control">
 

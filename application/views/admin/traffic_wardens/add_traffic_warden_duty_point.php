@@ -39,7 +39,30 @@
                 
                 <!-- form start -->
                 <form class="form-horizontal" action="<?php echo base_url()?>dashboard/Traffic_wardens/add_duty_point" method="post" enctype="multipart/form-data">
-                  <div class="box-body">
+                  <div class="box-body">  
+
+                    <div class="form-group">
+                      <label class="col-sm-3 control-label">Select Circle</label>
+                      <div class="col-sm-6">
+                      <select name="circle" class="form-control" onchange="getSector(this)">
+                          <option value="">Select Circle</option>
+
+                          <?php foreach ($circles as $circle): ?>
+                            
+                            <option value="<?php echo $circle->id ?>"><?php echo $circle->circle_and_sector ?></option>
+
+                          <?php endforeach ?>
+
+                        </select>
+
+                        <?php echo '<span class="error">'. form_error('circle').'</span>'; ?>
+                      </div>
+                    </div>
+
+                    <div class="add_sector">
+                      
+                    </div>
+
                     <div class="form-group">
                       <label class="col-sm-3 control-label">Duty Point</label>
                       <div class="col-sm-6">
@@ -87,3 +110,21 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+<script>
+
+function getSector(sel)
+{
+    var id = sel.value;
+
+    $.ajax({
+
+      url: '<?php echo base_url()?>dashboard/Traffic_wardens/duty_point_sector/'+id,
+      
+      success: function(data)
+      {
+        $('.add_sector').html(data);
+      }
+    });
+}
+
+</script>
