@@ -17,7 +17,7 @@ class Traffic_wardens extends CI_Controller
         elseif ($this->session->userdata('admin_district') != 'peshawar') 
         {
             redirect('Admin/dashboard','refresh');
-        }
+		}
 	}
 
 	/**
@@ -102,7 +102,6 @@ class Traffic_wardens extends CI_Controller
 				$this->session->set_flashdata('msg','Traffic Warden Added Successfully!');
 				redirect('dashboard/Traffic_wardens');
 			} 
-			
 		}
 	}
 
@@ -370,6 +369,7 @@ class Traffic_wardens extends CI_Controller
 		$data['title']       =  'Traffic Police | Dashboard';
         $data['heading']     =  'Traffic Wardens';
         $data['page_name']   =  'admin/traffic_wardens/add_traffic_warden_duty_point';
+        $data['circles'] 	  =  $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
 
         
 		view('template',$data);
@@ -383,7 +383,8 @@ class Traffic_wardens extends CI_Controller
 		$this->form_validation->set_rules('duty_point', 'Duty Point', 'trim|required');
 		$this->form_validation->set_rules('lat', 'Latitude', 'trim|required');
 		$this->form_validation->set_rules('long', 'Longitude', 'trim|required');
-		// $this->form_validation->set_rules('address', 'Address', 'trim|required');
+		$this->form_validation->set_rules('circle', 'Circle', 'trim|required');
+		$this->form_validation->set_rules('sector', 'Sector', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) 
 		{
@@ -395,6 +396,8 @@ class Traffic_wardens extends CI_Controller
 							'duty_point'   => post('duty_point'),
 							'latitude'     => post('lat'),
 							'longitude'    => post('long'),
+							'circle_id'    => post('circle'),
+							'sector_id'    => post('sector'),
 							'created_at'   => date('Y-m-d H:i:s'),
 							'updated_at'   => date('Y-m-d H:i:s'),
 						 );
@@ -743,6 +746,31 @@ class Traffic_wardens extends CI_Controller
 		$data['sectors'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('parent_id'=>$id));
 
 		$this->load->view('admin/traffic_wardens/get_sector', $data);
+	}
+
+	/**
+	 * get sector for duty point
+	 */
+	public function duty_point_sector($id)
+	{
+		$sectors = $this->common_model->getAllData('traffic_warden_circles','*','',array('parent_id'=>$id));
+
+		echo '<div class="form-group">
+				<label for="sector" class="col-sm-3 control-label">Sector</label>
+				<div class="col-sm-6">
+					<select name="sector" class="form-control">';
+
+						foreach ($sectors as $sector):
+						
+						echo '<option value="'.$sector->id.'"> '.$sector->circle_and_sector.' </option>';
+
+						endforeach;
+
+		echo'		</select>
+				</div>
+			  </div>';
+
+		// $this->load->view('admin/traffic_wardens/get_sector', $data);
 	}
 }
 
