@@ -40,15 +40,32 @@ class Traffic_wardens extends CI_Controller
 	 */
 	public function add()
 	{
-		$this->form_validation->set_rules('warden_name', 'Warden Name', 'trim|required');
+		$this->form_validation->set_rules('personal_no', 'Personal No', 'trim|required');
 		$this->form_validation->set_rules('belt_no', 'Belt NO', 'trim|required');
-		$this->form_validation->set_rules('designation', 'Designation', 'trim|required');
-		$this->form_validation->set_rules('phone_no', 'Phone No', 'trim|required');
-		$this->form_validation->set_rules('shift', 'Shift', 'trim|required');
-		$this->form_validation->set_rules('str_date', 'Start', 'trim|required');
+		$this->form_validation->set_rules('name', 'Name', 'trim|required');
+		$this->form_validation->set_rules('father_name', 'Father Name', 'trim|required');
+		$this->form_validation->set_rules('nic_no', 'NIC NO', 'trim|required');
+		$this->form_validation->set_rules('passport_no', 'Passport No', 'trim|required');
+		$this->form_validation->set_rules('license_no', 'License No', 'trim|required');
+		$this->form_validation->set_rules('dob', 'Date of Brith', 'trim|required');
+		$this->form_validation->set_rules('sex', 'Gender/Sex', 'trim|required');
+		$this->form_validation->set_rules('religion', 'Religion', 'trim|required');
+		$this->form_validation->set_rules('blood_group', 'Blood Group', 'trim|required');
+		$this->form_validation->set_rules('mobile', 'Mobile', 'trim|required');
+		$this->form_validation->set_rules('domicile', 'Domicile', 'trim|required');
+		$this->form_validation->set_rules('present_address', 'Present Address', 'trim|required');
+		$this->form_validation->set_rules('permanent_address', 'Permanent Address', 'trim|required');
+		$this->form_validation->set_rules('qualification', 'Qualification', 'trim|required');
+		$this->form_validation->set_rules('computer_literate', 'Computer Literate(MS Office/Email & Web)', 'trim|required');
+		$this->form_validation->set_rules('service_group', 'Service Group', 'trim|required');
+		$this->form_validation->set_rules('designation', 'Rank/Designation', 'trim|required');
+		$this->form_validation->set_rules('current_designation', 'Current Designation', 'trim|required');
+		$this->form_validation->set_rules('d_o_j', 'Date of Joining', 'trim|required');
 		$this->form_validation->set_rules('circle', 'Circle', 'trim|required');
-		$this->form_validation->set_rules('sector', 'Sector', 'trim|required');
-		$this->form_validation->set_rules('war_duty_point', 'Duty Point', 'trim|required');
+		$this->form_validation->set_rules('duty_point', 'Duty Point', 'trim|required');
+		$this->form_validation->set_rules('shift', 'Shift', 'trim|required');
+		$this->form_validation->set_rules('str_date', 'Start Date', 'trim|required');
+		$this->form_validation->set_rules('end_date', 'End Date	', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) 
 		{
@@ -77,20 +94,34 @@ class Traffic_wardens extends CI_Controller
             }
 
 			$data = array(
-							'name'         => post('warden_name'),
-							'belt_no' 	   => post('belt_no'),
-							'duty_point'   => post('war_duty_point'),
-							'Designation'  => post('designation'),
-							'phone_number' => post('phone_no'),
-							'shift'   	   => post('shift'),
-							'start_date'   => date("Y-m-d", strtotime(post('str_date'))),
-							'latitude'     => post('update_lat'),
-							'longitude'    => post('update_long'),
-							'circle_id'    => post('circle'),
-							'sector_id'    => post('sector'),
-							'image'        => $image,
-							'created_at'   => date('Y-m-d H:i:s'),
-							'updated_at'   => date('Y-m-d H:i:s'),
+							'personal_no'          => post('personal_no'),
+							'belt_no' 	   		   => post('belt_no'),
+							'name'   			   => post('name'),
+							'father_husband_name'  => post('father_name'),
+							'nic_no' 			   => post('nic_no'),
+							'passport_no'   	   => post('passport_no'),
+							'diriving_license_no'  => post('license_no'),
+							'date_of_brith	'      => date("Y-m-d", strtotime(post('dob'))),
+							'sex'     			   => post('sex'),
+							'religion'    		   => post('religion'),
+							'blood_group'    	   => post('blood_group'),
+							'mobile'    		   => post('mobile'),
+							'district_of_domicile' => post('domicile'),
+							'present_address'      => post('present_address'),
+							'permanent_address'    => post('permanent_address'),
+							'qualification'        => post('qualification'),
+							'computer_literate'    => post('computer_literate'),
+							'service_group'        => post('service_group'),
+							'designation'          => post('designation'),
+							'current_designation'  => post('current_designation'),
+							'date_of_joining'      => date("Y-m-d", strtotime(post('d_o_j'))),
+							'duty_point_id'        => post('duty_point'),
+							'shift'    			   => post('shift'),
+							'start_date'           => date("Y-m-d", strtotime(post('str_date'))),
+							'end_date'             => date("Y-m-d", strtotime(post('end_date'))),
+							'Image'                => $image,
+							'created_at'           => date('Y-m-d H:i:s'),
+							'updated_at'           => date('Y-m-d H:i:s'),
 						 );
 
 
@@ -115,11 +146,11 @@ class Traffic_wardens extends CI_Controller
         $data['page_name']  =  'admin/traffic_wardens/show_wardens';
 
         $where = array(
-        				'traffic_warden_circles' => 'traffic_wardens.circle_id = traffic_warden_circles.id', 
-        				'traffic_warden_circles AS a' => 'traffic_wardens.sector_id = a.id', 
+						'traffic_warden_circles AS a' => 'a.id = traffic_warden_duty_point.circle_id',
+						'traffic_warden_circles AS b' => 'b.id = traffic_warden_duty_point.sector_id'
         			  );
 
-        $data['wardens'] = $this->common_model->DJoin('*,traffic_warden_circles.circle_and_sector AS circle,traffic_wardens.id AS warden_id','traffic_wardens','traffic_warden_duty_point','traffic_wardens.duty_point = traffic_warden_duty_point.id',$where);
+		$data['wardens'] = $this->common_model->DJoin('*,traffic_wardens.id AS warden_id,a.circle_and_sector AS circle,b.circle_and_sector AS sector','traffic_wardens','traffic_warden_duty_point','traffic_wardens.duty_point_id = traffic_warden_duty_point.id',$where);
 
         // pr($data['wardens']);die;
 
@@ -767,7 +798,7 @@ class Traffic_wardens extends CI_Controller
 		echo '<div class="form-group">
 				<label for="sector" class="col-sm-3 control-label">Sector</label>
 				<div class="col-sm-6">
-					<select name="sector" class="form-control">';
+					<select name="sector" class="form-control" required>';
 
 						foreach ($sectors as $sector):
 						
@@ -778,9 +809,36 @@ class Traffic_wardens extends CI_Controller
 		echo'		</select>
 				</div>
 			  </div>';
-
-		// $this->load->view('admin/traffic_wardens/get_sector', $data);
 	}
+
+	public function get_duty_points($id)
+	{
+		$duty_points = $this->common_model->getAllData('traffic_warden_duty_point','*','',array('sector_id' => $id));
+
+		echo '<div class="form-group">
+				<label for="sector" class="col-sm-3 control-label">Duty Points</label>
+				<div class="col-sm-9">
+					<select name="duty_point" class="form-control" required>';
+
+					if (empty($duty_points)) 
+						{
+							echo '<option>Duty Points not Availabe. please add some duty points</option>';
+						} 
+						else 
+						{
+							foreach ($duty_points as $duty_point):
+
+							echo '<option value="'.$duty_point->id.'"> '.$duty_point->duty_point.' </option>';
+								
+							endforeach;
+						}
+						
+
+		echo'		</select>
+				</div>
+			  </div>';
+	}
+
 }
 
 /* End of file Traffic_wardens.php */

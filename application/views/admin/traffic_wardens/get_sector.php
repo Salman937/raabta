@@ -1,7 +1,7 @@
 <div class="form-group">
   <label for="sector" class="col-sm-3 control-label">Sector</label>
   <div class="col-sm-9">
-      <select name="sector" class="form-control">
+      <select name="sector" class="form-control" onchange="get_duty_point(this)" required>
 
         <?php foreach ($sectors as $sector): ?>
           

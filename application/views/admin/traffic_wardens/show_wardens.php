@@ -63,10 +63,10 @@
                     <tr>
                       <td> <?php echo $warden->name ?> </td>
                       <td> <?php echo $warden->circle ?> </td>
-                      <td> <?php echo $warden->circle_and_sector ?> </td>
+                      <td> <?php echo $warden->sector ?> </td>
                       <td> <?php echo $warden->belt_no ?> </td>
                       <td> <?php echo $warden->duty_point ?> </td>
-                      <td> <?php echo $warden->Designation ?> </td>
+                      <td> <?php echo $warden->designation ?> </td>
                       <td> <?php echo $warden->shift ?> </td>
                       <td> <?php echo date('m-d-Y',strtotime($warden->start_date)) ?> </td>
                       <td>

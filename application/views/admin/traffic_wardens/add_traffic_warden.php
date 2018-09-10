@@ -262,17 +262,17 @@
                                 <div class="col-sm-3">
                                   <div class="radio">
                                     <label>
-                                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                      <input type="radio" name="computer_literate" id="optionsRadios1" value="yes" checked>
                                       Yes
                                     </label>
                                   </div>
                                   <div class="radio">
                                     <label>
-                                      <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                      <input type="radio" name="computer_literate" id="optionsRadios2" value="no">
                                       No
                                     </label>
                                   </div>
-                                  <?php echo '<span class="error">'. form_error('belt_no').'</span>'; ?>
+                                  <?php echo '<span class="error">'. form_error('computer_literate').'</span>'; ?>
                                 </div>  
                               </div>
                             </div>              
@@ -292,7 +292,7 @@
                           <div class="row">
                             <div class="col-sm-6">
                               <div class="form-group">
-                                <label for="qualification" class="col-sm-3 control-label">Service Group</label>
+                                <label for="service_group" class="col-sm-3 control-label">Service Group</label>
                                 <div class="col-sm-9">
                                   <select name="service_group" class="form-control">
                                     <option>Police</option>
@@ -329,7 +329,7 @@
                               <div class="form-group">
                                 <label for="d_o_j" class="col-sm-3 control-label">Date of Joining</label>
                                 <div class="col-sm-9">
-                                  <input type="text" name="d_o_j" class="form-control" placeholder="Enter Designation/Rank">  
+                                  <input type="date" name="d_o_j" class="form-control" placeholder="Enter Designation/Rank">  
                                   <?php echo '<span class="error">'. form_error('d_o_j').'</span>'; ?>
                                 </div>  
                               </div>
@@ -368,6 +368,9 @@
                               <div class="add_sector">
                       
                               </div>
+
+                              <div class="duty_points">
+                              </div>
                             </div>  
                               
                             <div class="col-sm-6">
@@ -399,10 +402,10 @@
                               
                             <div class="col-sm-6">
                               <div class="form-group">
-                                <label for="str_date" class="col-sm-3 control-label">End Date</label>
+                                <label for="end_date" class="col-sm-3 control-label">End Date</label>
                                 <div class="col-sm-9">
-                                    <input type="date" class="form-control" name="str_date" id="str_date" maxlength="30" required>
-                                    <?php echo '<span class="error">'. form_error('str_date').'</span>'; ?>
+                                    <input type="date" class="form-control" name="end_date" id="end_date" maxlength="30" required>
+                                    <?php echo '<span class="error">'. form_error('end_date').'</span>'; ?>
                                 </div>
                               </div>
                             </div>              
@@ -439,44 +442,44 @@
 
 <script>
 
-function myMap() 
-{
+// function myMap() 
+// {
 
-  if ($('#update_lat').val().length === 0 && $('#update_long').val().length === 0)
-  {
-    var new_lat = 33.996249;
-    var new_long = 71.459671;
-  }
-  else
-  {
-    var new_lat  = $('#update_lat').val();
-    var new_long = $('#update_long').val();
-  }
+//   if ($('#update_lat').val().length === 0 && $('#update_long').val().length === 0)
+//   {
+//     var new_lat = 33.996249;
+//     var new_long = 71.459671;
+//   }
+//   else
+//   {
+//     var new_lat  = $('#update_lat').val();
+//     var new_long = $('#update_long').val();
+//   }
 
-  $('#map-view').locationpicker({
+//   $('#map-view').locationpicker({
 
-   location: {latitude: new_lat, longitude:new_long},
-   enableAutocomplete: true,
-   radius:0,
-   onchanged: function (currentLocation, radius, isMarkerDropped) {
-       var addressComponents = $(this).locationpicker('map').location.addressComponents;
-       // updateControls(addressComponents);
-   },
-   oninitialized: function(component) {
-       var addressComponents = $(component).locationpicker('map').location.addressComponents;
-       // updateControls(addressComponents);
-   },
-   inputBinding: {
-       latitudeInput: $('#lat'),
-       longitudeInput: $('#lon'),
-       locationNameInput: $('#address')
-   },
+//    location: {latitude: new_lat, longitude:new_long},
+//    enableAutocomplete: true,
+//    radius:0,
+//    onchanged: function (currentLocation, radius, isMarkerDropped) {
+//        var addressComponents = $(this).locationpicker('map').location.addressComponents;
+//        // updateControls(addressComponents);
+//    },
+//    oninitialized: function(component) {
+//        var addressComponents = $(component).locationpicker('map').location.addressComponents;
+//        // updateControls(addressComponents);
+//    },
+//    inputBinding: {
+//        latitudeInput: $('#lat'),
+//        longitudeInput: $('#lon'),
+//        locationNameInput: $('#address')
+//    },
 
-  });
-}
+//   });
+// }
 
 
-myMap();
+// myMap();
 
 function getval(sel)
 {
@@ -494,7 +497,7 @@ function getval(sel)
         $('#update_lat').val(parse_data.latitude);
         $('#update_long').val(parse_data.longitude);
 
-        myMap();
+        // myMap();
         // $("#results").append(html);
       }
     });
@@ -504,8 +507,6 @@ function getSector(sel)
 {
     var id = sel.value;
 
-    console.log(id);
-    
     $.ajax({
 
       url: '<?php echo base_url()?>dashboard/Traffic_wardens/get_sector/'+id,
@@ -513,6 +514,23 @@ function getSector(sel)
       success: function(data)
       {
         $('.add_sector').html(data);
+      }
+    });
+}
+
+function get_duty_point(duty_id)
+{
+    var id = duty_id.value;
+
+    console.log(id);
+
+    $.ajax({
+
+      url: '<?php echo base_url()?>dashboard/Traffic_wardens/get_duty_points/'+id,
+      
+      success: function(data)
+      {
+        $('.duty_points').html(data);
       }
     });
 }
