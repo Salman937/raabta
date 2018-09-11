@@ -62,16 +62,16 @@
                       <td> <?php echo $warden->name ?> </td>
                       <td> <?php echo $warden->belt_no ?> </td>
                       <td> <?php echo $warden->duty_point  ?> </td>
-                      <td> <?php echo $warden->Designation ?> </td>
+                      <td> <?php echo $warden->designation ?> </td>
                       <td> <?php echo $warden->shift ?> </td>
-                      <td> <?php echo date('m-d-Y',strtotime($warden->start_date)) ?> </td>
-                      <td> <?php echo date('m-d-Y',strtotime($warden->end_date)) ?> </td>
+                      <td> <?php echo date('m-d-Y',strtotime($warden->his_str_date)) ?> </td>
+                      <td> <?php echo date('m-d-Y',strtotime($warden->his_end_date)) ?> </td>
                       <td>
                         
                       <?php 
 
-                          $date1 = new DateTime($warden->start_date);
-                          $date2 = new DateTime($warden->end_date);
+                          $date1 = new DateTime($warden->his_str_date);
+                          $date2 = new DateTime($warden->his_end_date);
 
                           $interval = $date1->diff($date2);
 

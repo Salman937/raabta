@@ -189,20 +189,17 @@ class Traffic_wardens extends CI_Controller
         $data['page_name']  =  'admin/traffic_wardens/edit';
 
         $where = array(
-        				'traffic_warden_circles' => 'traffic_wardens.circle_id = traffic_warden_circles.id', 
-        				'traffic_warden_circles AS a' => 'traffic_wardens.sector_id = a.id', 
+        				'traffic_warden_circles AS C' => 'B.circle_id = C.id', 
+        				'traffic_warden_circles AS D' => 'B.sector_id = D.id', 
         			  );
 
-        $data['warden'] = $this->common_model->DJoin('*,traffic_wardens.id AS warden_id,traffic_warden_circles.circle_and_sector AS circle, traffic_warden_duty_point.duty_point AS war_duty_point ','traffic_warden_duty_point','traffic_wardens','traffic_wardens.duty_point = traffic_warden_duty_point.id',$where,1,array('traffic_wardens.id' => $id));
+        $data['warden'] = $this->common_model->DJoin('*,A.id AS warden_id,C.circle_and_sector AS circle,D.circle_and_sector AS sector,','traffic_wardens AS A','traffic_warden_duty_point AS B','A.duty_point_id = B.id',$where,1,array('A.id' => $id));
 
-        $data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
-        $data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
+		$data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
+		
+		$data['sectors'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('parent_id' => $data['warden']->circle_id));
 
-        $data['duty_points'] =  $this->common_model->getAllData('traffic_warden_duty_point');
-
-
-        $data['duty_points'] =  $this->common_model->getAllData('traffic_warden_duty_point');
-
+		$data['duty_points'] = $this->common_model->getAllData('traffic_warden_duty_point','*','',array('sector_id' => $data['warden']->sector_id));
 
         // pr($data['warden']);die;
 
@@ -301,10 +298,10 @@ class Traffic_wardens extends CI_Controller
 	{
 		$this->form_validation->set_rules('shift', 'Shift', 'trim|required');
 		$this->form_validation->set_rules('end_date', 'End Date', 'trim|required');
-		$this->form_validation->set_rules('new_postion_date', 'New Position Date', 'trim|required');
+		$this->form_validation->set_rules('start_date', 'Start Date', 'trim|required');
 		$this->form_validation->set_rules('circle', 'Circle', 'trim|required');
 		$this->form_validation->set_rules('sector', 'Sector', 'trim|required');
-		$this->form_validation->set_rules('war_duty_point', 'Duty Point', 'trim|required');
+		$this->form_validation->set_rules('duty_point', 'Duty Point', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) 
 		{
@@ -316,14 +313,10 @@ class Traffic_wardens extends CI_Controller
 
 			$data = array(
 							'traffic_warden_id' => post('id'),
-							'circle_id' 	    => post('circle'),
-							'sector_id' 		=> post('sector'),
-							'duty_point'   		=> $warden->duty_point,
+							'duty_point_id'     => $warden->duty_point_id,
 							'shift'   	   		=> $warden->shift,
-							'start_date'   		=> $warden->start_date,
-							'end_date'   		=> date("Y-m-d", strtotime(post('end_date'))),
-							'latitude'     		=> $warden->latitude,
-							'longitude'    		=> $warden->longitude,
+							'start_date'   		=> date("Y-m-d", strtotime($warden->start_date)),
+							'end_date'   		=> date("Y-m-d", strtotime($warden->end_date)),
 							'updated_at'   		=> date('Y-m-d H:i:s'),
 							'created_at'        => date('Y-m-d H:i:s')
 						 );
@@ -332,13 +325,10 @@ class Traffic_wardens extends CI_Controller
 
 
 			$data = array(
-							'circle_id'    => post('circle'),
-							'sector_id'    => post('sector'),
-							'duty_point'   => post('war_duty_point'),
+							'duty_point_id' => post('duty_point'),
 							'shift'   	   => post('shift'),
-							'start_date'   => date("Y-m-d", strtotime(post('new_postion_date'))),
-							'latitude'     => post('update_lat'),
-							'longitude'    => post('update_long'),
+							'start_date'   => post('start_date'),
+							'end_date'     => post('end_date'),
 							'updated_at'   => date('Y-m-d H:i:s')
 						 );
 
@@ -363,14 +353,11 @@ class Traffic_wardens extends CI_Controller
         $data['page_name']  =  'admin/traffic_wardens/traffic_warden_history';
 
         $where = array(
-        				'traffic_warden_circles' => 'traffic_wardens.circle_id = traffic_warden_circles.id', 
-        				'traffic_warden_circles AS a' => 'traffic_wardens.sector_id = a.id', 
-        				'traffic_warden_duty_point AS b' => 'b.id = traffic_wardens_history.duty_point', 
-        			  );
+			'traffic_warden_duty_point AS C' => 'C.id = B.duty_point_id',
+			// 'traffic_warden_circles AS b' => 'b.id = traffic_warden_duty_point.sector_id'
+		  );
 
-        $data['wardens'] = $this->common_model->DJoin('traffic_wardens.name AS name,traffic_wardens.belt_no AS belt_no,traffic_wardens.Designation AS Designation,traffic_wardens_history.shift AS shift,traffic_wardens_history.start_date AS start_date,traffic_wardens_history.end_date AS end_date,b.duty_point AS duty_point'
-
-        			,'traffic_wardens_history','traffic_wardens','traffic_wardens.id = traffic_wardens_history.traffic_warden_id',$where,'',array('traffic_wardens_history.traffic_warden_id' => $id));
+		$data['wardens'] = $this->common_model->DJoin('*,B.start_date AS his_str_date,B.end_date AS his_end_date','traffic_wardens AS A','traffic_wardens_history AS B','A.id = B.traffic_warden_id',$where,'',array('B.traffic_warden_id' => $id));
 
         // pr($data['wardens']);die;
 
@@ -798,7 +785,7 @@ class Traffic_wardens extends CI_Controller
 		echo '<div class="form-group">
 				<label for="sector" class="col-sm-3 control-label">Sector</label>
 				<div class="col-sm-6">
-					<select name="sector" class="form-control" required>';
+					<select name="sector" class="form-control" onchange="get_duty_point(this)" required>';
 
 						foreach ($sectors as $sector):
 						
@@ -838,7 +825,6 @@ class Traffic_wardens extends CI_Controller
 				</div>
 			  </div>';
 	}
-
 }
 
 /* End of file Traffic_wardens.php */

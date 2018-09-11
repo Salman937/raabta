@@ -43,7 +43,7 @@
                     <th>Designation</th>
                     <th>Shift</th>
                     <th>Start Date</th>
-                    <th>Change Place</th>
+                    <!-- <th>Change Place</th> -->
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -69,15 +69,20 @@
                       <td> <?php echo $warden->designation ?> </td>
                       <td> <?php echo $warden->shift ?> </td>
                       <td> <?php echo date('m-d-Y',strtotime($warden->start_date)) ?> </td>
-                      <td>
-                          <a href="<?php bs('dashboard/Traffic_wardens/change_place/'.$warden->warden_id.'') ?>"> 
-                            <i class="fa fa-map-marker" aria-hidden="true"></i> 
-                          </a>  
-                      </td>
-                      <td class="pull-left">
+                      <!-- <td>
+                           
+                      </td> -->
+                      <td class="pull-right">
+                      
                           <button type="button" edit="<?= $warden->warden_id ?>" data-toggle="modal" data-target="#myModal" class="btn btn-toolbar btn-xs update">
                             <i class="fa fa-eye"></i>
                           </button>
+
+                          <a href="<?php bs('dashboard/Traffic_wardens/change_place/'.$warden->warden_id.'') ?>" title="Chnge Place"> 
+                            <button type="button" class="btn btn-primary btn-xs">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i> 
+                            </button> 
+                          </a>
                         
                           <a href="<?php echo base_url('dashboard/Traffic_wardens/delete/'.$warden->warden_id.'') ?>" title="Delete">
                             <button type="button" class="btn btn-danger btn-xs">
@@ -163,15 +168,15 @@ $("body").on('click','.update',function(event)
          success :function (success) 
          {
              var obj = $.parseJSON(success);
-             // console.log(obj);
-             $("#my_image").attr("src",obj.image);
+             console.log(obj);
+             $("#my_image").attr("src",obj.Image);
              $("#name").html(obj.name);
-             $("#duty_point").html('<b>Duty Point: </b>'+obj.duty_point);
-             $("#designation").html('<b>Designation: </b>'+obj.Designation);
-             $("#phone_no").html('<b>Phone Number: </b>'+obj.phone_number);
+             $("#duty_point").html('<b>Father/Husband Name: </b>'+obj.father_husband_name);
+             $("#designation").html('<b>Designation: </b>'+obj.designation);
+             $("#phone_no").html('<b>Phone Number: </b>'+obj.mobile);
              $("#shift").html('<b>Shift: </b>'+obj.shift);
              $("#belt_no").html('<b>Belt No: </b>'+obj.belt_no);
-             $("#rank").html('<b>Rank: </b>'+obj.rank);
+             $("#rank").html('<b>NIC NO: </b>'+obj.nic_no);
          }
 
      })
