@@ -45,7 +45,6 @@
                         <div class="panel-body">
                           
                           <div class="row">
-                            
                             <div class="col-sm-6">
                               <div class="form-group">
                                 <label for="personal_no" class="col-sm-3 control-label">Personal No</label>
@@ -145,10 +144,6 @@
                                     <option>Select Gender/Sex</option>
                                     <option>Male</option>
                                     <option>Female</option>
-                                    <option>Married</option>
-                                    <option>Unmarried</option>
-                                    <option>Divorced</option>
-                                    <option>Widow</option>
                                   </select>
                                   <?php echo '<span class="error">'. form_error('sex').'</span>'; ?>
                                 </div>  
@@ -230,6 +225,24 @@
                                 </div>
                               </div>
                             </div>          
+                          </div>
+
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="marital_status" class="col-sm-3 control-label">Marital Status</label>
+                                <div class="col-sm-9">
+                                <select name="marital_status" class="form-control" required>
+                                    <option>Select Marital Status</option>
+                                    <option>Married</option>
+                                    <option>Unmarried</option>
+                                    <option>Divorced</option>
+                                    <option>Widow</option>
+                                  </select>
+                                  <?php echo '<span class="error">'. form_error('marital_status').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>        
                           </div>
                         </div>
                       </div>

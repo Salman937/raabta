@@ -43,7 +43,7 @@
                     <th>Designation</th>
                     <th>Shift</th>
                     <th>Start Date</th>
-                    <!-- <th>Change Place</th> -->
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -69,9 +69,9 @@
                       <td> <?php echo $warden->designation ?> </td>
                       <td> <?php echo $warden->shift ?> </td>
                       <td> <?php echo date('m-d-Y',strtotime($warden->start_date)) ?> </td>
-                      <!-- <td>
-                           
-                      </td> -->
+                      <td>
+                           <button class='btn btn-success btn-xs'>current</button>
+                      </td>
                       <td class="pull-right">
                       
                           <button type="button" edit="<?= $warden->warden_id ?>" data-toggle="modal" data-target="#myModal" class="btn btn-toolbar btn-xs update">

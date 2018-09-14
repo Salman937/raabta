@@ -37,7 +37,7 @@
                 </div>
                 <!-- /.box-header -->
                 <br>
-                <form class="form-horizontal" action="<?php echo base_url()?>dashboard/Traffic_wardens/add" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" action="<?php echo base_url()?>dashboard/Traffic_wardens/update" method="post" enctype="multipart/form-data">
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="panel panel-default">
@@ -130,7 +130,7 @@
                               <div class="form-group">
                                 <label for="dob" class="col-sm-3 control-label">Date of Brith</label>
                                 <div class="col-sm-9">
-                                  <input type="date" class="form-control" name="dob" id="dob" maxlength="30" placeholder="Enter Belt No" value="<?= $warden->date_of_brith ?>" required>
+                                  <input type="date" class="form-control" name="dob" id="dob" maxlength="30" value="<?= $warden->date_of_brith ?>" required>
                                   <?php echo '<span class="error">'. form_error('dob').'</span>'; ?>
                                 </div>  
                               </div>
@@ -226,11 +226,30 @@
                                 <label for="image" class="col-sm-3 control-label">Image</label>
                                 <div class="col-sm-9">
                                   <br>
-                                    <input type="file" name="image" required>
-                                    <input type="hidden" name="old_img" value="<?= $warden->Image ?>" required>
+                                    <input type="file" name="image">
+                                    <input type="hidden" name="old_img" value="<?= $warden->Image ?>">
+                                    <input type="hidden" name="id" value="<?= $id ?>">
                                 </div>
                               </div>
                             </div>          
+                          </div>
+
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                <label for="marital_status" class="col-sm-3 control-label">Marital Status</label>
+                                <div class="col-sm-9">
+                                <select name="marital_status" class="form-control" required>
+                                    <option selected><?= $warden->marital_status ?></option>
+                                    <option>Married</option>
+                                    <option>Unmarried</option>
+                                    <option>Divorced</option>
+                                    <option>Widow</option>
+                                  </select>
+                                  <?php echo '<span class="error">'. form_error('marital_status').'</span>'; ?>
+                                </div>  
+                              </div>
+                            </div>        
                           </div>
                         </div>
                       </div>
@@ -371,34 +390,39 @@
                                 <div class="form-group">
                                   <label for="sector" class="col-sm-3 control-label">Sector</label>
                                   <div class="col-sm-9">
-                                    <select name="sector" class="form-control" onchange="get_duty_point(this)" required>';
+                                    <select name="sector" class="form-control" onchange="get_duty_point(this)" required>
                                     <option value="<?= $warden->sector_id ?>" selected><?= $warden->sector ?></option>
                                     <?php foreach ($sectors as $sector): ?>
                                       
-                                      <option value="<?= $sector->id ?>"> <?= $sector->circle_and_sector ?> </option>';
+                                      <option value="<?= $sector->id ?>"> <?= $sector->circle_and_sector ?> </option>
 
                                     <?php endforeach; ?>
 
                                     </select>
                                   </div>
-                                </div>';
+                                </div>
                               </div>
 
                               <div class="duty_points">
                                 <div class="form-group">
                                   <label for="sector" class="col-sm-3 control-label">Duty Points</label>
                                   <div class="col-sm-9">
-                                    <select name="duty_point" class="form-control" required>';
-                                      <option value="<?= $warden->duty_point ?>"><?= $warden->duty_point ?></option>  
+                                    <select name="duty_point" class="form-control" required>
+                                      <option value="<?= $warden->duty_point_id ?>" selected>
+                                        <?= $warden->duty_point ?>
+                                      </option>  
+
                                       <?php foreach ($duty_points as $duty_point): ?>
 
-                                        <option value="<?= $duty_point->id ?>"> <?php echo $duty_point->duty_point ?> </option>';
+                                        <option value="<?= $duty_point->id ?>"> 
+                                          <?php echo $duty_point->duty_point ?> 
+                                        </option>
                                         
                                       <?php endforeach; ?>
 
                                     </select>
                                   </div>
-                                </div>';
+                                </div>
                               </div>
                             </div>  
                               

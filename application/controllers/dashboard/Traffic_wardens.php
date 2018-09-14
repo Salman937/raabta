@@ -49,6 +49,7 @@ class Traffic_wardens extends CI_Controller
 		$this->form_validation->set_rules('license_no', 'License No', 'trim|required');
 		$this->form_validation->set_rules('dob', 'Date of Brith', 'trim|required');
 		$this->form_validation->set_rules('sex', 'Gender/Sex', 'trim|required');
+		$this->form_validation->set_rules('marital_status', 'Marital Status', 'trim|required');
 		$this->form_validation->set_rules('religion', 'Religion', 'trim|required');
 		$this->form_validation->set_rules('blood_group', 'Blood Group', 'trim|required');
 		$this->form_validation->set_rules('mobile', 'Mobile', 'trim|required');
@@ -103,6 +104,7 @@ class Traffic_wardens extends CI_Controller
 							'diriving_license_no'  => post('license_no'),
 							'date_of_brith	'      => date("Y-m-d", strtotime(post('dob'))),
 							'sex'     			   => post('sex'),
+							'marital_status'	   => post('marital_status'),
 							'religion'    		   => post('religion'),
 							'blood_group'    	   => post('blood_group'),
 							'mobile'    		   => post('mobile'),
@@ -187,6 +189,7 @@ class Traffic_wardens extends CI_Controller
 		$data['title']      =  'Traffic Police | Dashboard';
         $data['heading']    =  'Traffic Wardens';
         $data['page_name']  =  'admin/traffic_wardens/edit';
+        $data['id']  		=  $id;
 
         $where = array(
         				'traffic_warden_circles AS C' => 'B.circle_id = C.id', 
@@ -208,19 +211,36 @@ class Traffic_wardens extends CI_Controller
 
 	public function update()
 	{
-		$this->form_validation->set_rules('warden_name', 'Warden Name', 'trim|required');
+		$this->form_validation->set_rules('personal_no', 'Personal No', 'trim|required');
 		$this->form_validation->set_rules('belt_no', 'Belt NO', 'trim|required');
-		$this->form_validation->set_rules('designation', 'Designation', 'trim|required');
-		$this->form_validation->set_rules('phone_no', 'Phone No', 'trim|required');
-		$this->form_validation->set_rules('shift', 'Shift', 'trim|required');
-		$this->form_validation->set_rules('str_date', 'Start', 'trim|required');
+		$this->form_validation->set_rules('name', 'Name', 'trim|required');
+		$this->form_validation->set_rules('father_name', 'Father Name', 'trim|required');
+		$this->form_validation->set_rules('nic_no', 'NIC NO', 'trim|required');
+		$this->form_validation->set_rules('passport_no', 'Passport No', 'trim|required');
+		$this->form_validation->set_rules('license_no', 'License No', 'trim|required');
+		$this->form_validation->set_rules('dob', 'Date of Brith', 'trim|required');
+		$this->form_validation->set_rules('sex', 'Gender/Sex', 'trim|required');
+		$this->form_validation->set_rules('religion', 'Religion', 'trim|required');
+		$this->form_validation->set_rules('blood_group', 'Blood Group', 'trim|required');
+		$this->form_validation->set_rules('mobile', 'Mobile', 'trim|required');
+		$this->form_validation->set_rules('domicile', 'Domicile', 'trim|required');
+		$this->form_validation->set_rules('present_address', 'Present Address', 'trim|required');
+		$this->form_validation->set_rules('permanent_address', 'Permanent Address', 'trim|required');
+		$this->form_validation->set_rules('qualification', 'Qualification', 'trim|required');
+		$this->form_validation->set_rules('computer_literate', 'Computer Literate(MS Office/Email & Web)', 'trim|required');
+		$this->form_validation->set_rules('service_group', 'Service Group', 'trim|required');
+		$this->form_validation->set_rules('designation', 'Rank/Designation', 'trim|required');
+		$this->form_validation->set_rules('current_designation', 'Current Designation', 'trim|required');
+		$this->form_validation->set_rules('d_o_j', 'Date of Joining', 'trim|required');
 		$this->form_validation->set_rules('circle', 'Circle', 'trim|required');
-		$this->form_validation->set_rules('sector', 'Sector', 'trim|required');
-		$this->form_validation->set_rules('war_duty_point', 'Duty Point', 'trim|required');
+		$this->form_validation->set_rules('duty_point', 'Duty Point', 'trim|required');
+		$this->form_validation->set_rules('shift', 'Shift', 'trim|required');
+		$this->form_validation->set_rules('str_date', 'Start Date', 'trim|required');
+		$this->form_validation->set_rules('end_date', 'End Date	', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) 
 		{
-			$this->index();
+			$this->edit(post('id'));
 		} 
 		else 
 		{
@@ -247,25 +267,39 @@ class Traffic_wardens extends CI_Controller
 	            }
 			} 
 			else {
-				$image = post('old');
+				$image = post('old_img');
 			}
 
 			$data = array(
-							'name'         => post('warden_name'),
-							'belt_no' 	   => post('belt_no'),
-							'duty_point'   => post('war_duty_point'),
-							'Designation'  => post('designation'),
-							'phone_number' => post('phone_no'),
-							'shift'   	   => post('shift'),
-							'start_date'   => date("Y-m-d", strtotime(post('str_date'))),
-							'latitude'     => post('lat'),
-							'longitude'    => post('log'),
-							'circle_id'    => post('circle'),
-							'sector_id'    => post('sector'),
-							'image'        => $image,
-							'created_at'   => date('Y-m-d H:i:s'),
-							'updated_at'   => date('Y-m-d H:i:s'),
-						 );
+							'personal_no'          => post('personal_no'),
+							'belt_no' 	   		   => post('belt_no'),
+							'name'   			   => post('name'),
+							'father_husband_name'  => post('father_name'),
+							'nic_no' 			   => post('nic_no'),
+							'passport_no'   	   => post('passport_no'),
+							'diriving_license_no'  => post('license_no'),
+							'date_of_brith	'      => date("Y-m-d", strtotime(post('dob'))),
+							'sex'     			   => post('sex'),
+							'marital_status'	   => post('marital_status'),
+							'religion'    		   => post('religion'),
+							'blood_group'    	   => post('blood_group'),
+							'mobile'    		   => post('mobile'),
+							'district_of_domicile' => post('domicile'),
+							'present_address'      => post('present_address'),
+							'permanent_address'    => post('permanent_address'),
+							'qualification'        => post('qualification'),
+							'computer_literate'    => post('computer_literate'),
+							'service_group'        => post('service_group'),
+							'designation'          => post('designation'),
+							'current_designation'  => post('current_designation'),
+							'date_of_joining'      => date("Y-m-d", strtotime(post('d_o_j'))),
+							'duty_point_id'        => post('duty_point'),
+							'shift'    			   => post('shift'),
+							'start_date'           => date("Y-m-d", strtotime(post('str_date'))),
+							'end_date'             => date("Y-m-d", strtotime(post('end_date'))),
+							'Image'                => $image,
+							'updated_at'           => date('Y-m-d H:i:s'),
+			 			);
 
 
 			$result = $this->common_model->UpdateDB('traffic_wardens',array('id' => post('id')),$data);
@@ -374,7 +408,7 @@ class Traffic_wardens extends CI_Controller
         $data['heading']    =  'Traffic Wardens';
         $data['page_name']  =  'admin/traffic_wardens/wardens_map';
 
-        $data['wardens'] = $this->common_model->getAllData('traffic_wardens');
+        $data['wardens'] = $this->common_model->DJoin('*','traffic_warden_duty_point AS A','traffic_wardens AS B','A.id = B.duty_point_id');
 
         // pr($data['wardens']);die;
         

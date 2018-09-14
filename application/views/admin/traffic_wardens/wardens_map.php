@@ -32,8 +32,33 @@
 
             <!-- Horizontal Form -->
             <div class="box box-info">
-                  
                 <br>
+                <!-- Date Filter -->
+                <div class="row">
+                <div class="col-sm-5 col-sm-offset-3">
+                    <form class="" method="post" action="">
+                        <div class="form-group">
+                            <label for="startDate">Users </label>                  
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-users"></i>
+                                </div>
+                                <select name="search" class="form-control" id="search" onchange="filterMarkers(this.value);">
+                                    <option>Search Users</option>
+
+                                    <?php foreach($wardens as $warden): ?>
+                                        <option value="<?php echo $warden->personal_no ?>"><?php  echo $warden->name ?></option>
+                                    <?php endforeach; ?>    
+                                </select>
+                                <!-- <input type="text" class="form-control" name="dated" id="datepicker" onchange="filterMarkers(this.value);" placeholder="Start Date"> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-1">
+                    <button class="btn btn-info" onclick="initialize()" style="margin-top:1.8em"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</button>
+                </div>  
+                </div> 
                 <!-- form start -->
                  <div id="map" style="width: 100%; height: 500px;"></div>
 
@@ -53,7 +78,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCe0I76FCBsgJP2dh193EWuX2IPST4gn0k&sensor=false"></script>
+<!-- <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyCe0I76FCBsgJP2dh193EWuX2IPST4gn0k&sensor=false"></script> -->
           
 <script type="text/javascript">
 
@@ -72,7 +97,7 @@ var locations =
 
   var latitude= [];
   var longitude= [];
-  var name=[];
+  var user_name=[];
   var circle_id=[];
   var belt_no=[];
   var designation=[];
@@ -80,28 +105,28 @@ var locations =
   var shift=[];
   var start_date=[];
   var img=[];
+  var personl_number=[];
   var x=0;    
   var map = null; 
   var markerArray = []; 
   var infowindow; 
 
   <?php foreach ($wardens as $row) : ?>
-  //print_r($latlong); die;
 
       latitude.push(<?php echo $row->latitude; ?>);
       longitude.push(<?php echo $row->longitude; ?>);
-      // name.push('<?php echo $row->name; ?>');
+      user_name.push("<?php echo $row->name  ?>");
       belt_no.push(<?php echo $row->belt_no; ?>);
-      designation.push('<?php echo $row->Designation; ?>');
-      phone_number.push(<?php echo $row->phone_number; ?>);
+      designation.push('<?php echo $row->designation; ?>');
+      phone_number.push(<?php echo $row->mobile; ?>);
       shift.push('<?php echo $row->shift ?>');
       start_date.push(<?php echo $row->start_date;?>) ;
       circle_id.push(<?php echo $row->circle_id;?>) ;
-      img.push("<?php echo $row->image; ?>");
+      img.push("<?php echo $row->Image; ?>");
+      personl_number.push("<?php echo $row->personal_no; ?>");
 
-  <?php 
-  // print_r($row['video']);
-  endforeach; ?>
+  <?php endforeach; ?>
+
       x = <?php echo count($wardens); ?>;
 
       function initialize() {
@@ -127,7 +152,7 @@ var locations =
           });
 
           for (var i = 0; i < x; i++) {
-              createMarker(new google.maps.LatLng(latitude[i],longitude[i]),belt_no[i],designation[i],phone_number[i],img[i],shift[i],start_date[i],circle_id[i]);
+              createMarker(new google.maps.LatLng(latitude[i],longitude[i]),belt_no[i],designation[i],phone_number[i],img[i],shift[i],start_date[i],circle_id[i],user_name[i]);
           }
       }
 
@@ -162,7 +187,7 @@ var locations =
       };
   
    
-  function createMarker(latlng,belt_no,designation,phone_number,img,shift,start_date,circle_id){
+  function createMarker(latlng,belt_no,designation,phone_number,img,shift,start_date,circle_id,user_name){
      //console.log(JSON.stringify(latlng));
       
       var icon = "";
@@ -187,13 +212,11 @@ var locations =
 
       icon = "http://maps.google.com/mapfiles/ms/icons/"+icon+"-dot.png";
 
-      console.log(icon);
-      
      var marker = new google.maps.Marker({
           position: latlng,
           icon: icon,
           animation: google.maps.Animation.DROP,
-          content: '<p><b>Designation: </b>'+designation+'</p><p><b>Belt No: </b>'+belt_no+'</p><p><b>Phone Number: </b>'+phone_number+'</p>',
+          content: '<p><b>Name: </b>'+user_name+'</p><p><b>Designation: </b>'+designation+'</p><p><b>Belt No: </b>'+belt_no+'</p><p><b>Phone Number: </b>'+phone_number+'</p>',
           
           dated: start_date,
           map: map,
@@ -208,12 +231,12 @@ var locations =
   /**
    * Function to filter markers by date
    */
-  filterMarkers = function (dated) {
-      //alert(comp_dated);
-      //console.log(dated);
-      for (i = 0; i < markerArray.length; i++) {
+  filterMarkers = function(user) 
+  {
+      for (i = 0; i < markerArray.length; i++) 
+      {
           // If is same dated or dated not picked
-          if (comp_dated[i] == dated || comp_dated.length === 0) {
+          if (personl_number[i] == user || personl_number.length === 0) {
               markerArray[i].setVisible(true);
           }
               // complaint status don't match 
@@ -224,7 +247,6 @@ var locations =
   }
 
   window.onload = initialize;
-
 
 </script>
 
