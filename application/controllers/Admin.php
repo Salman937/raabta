@@ -8,6 +8,7 @@ class Admin extends CI_Controller {
         parent::__construct();
         error_reporting(E_ALL);
 		$this->load->model('Admin_model');
+		$this->load->model('common_model');
         // pr($this->session->userdata());die;
     }
     
@@ -810,6 +811,7 @@ class Admin extends CI_Controller {
 		$data['record']   = $this->Admin_model->get_record($id);
         $data['types']    = $this->Admin_model->get_complaint_types();
         $data['status']   = $this->Admin_model->get_complaint_status();
+        $data['responses']   = $this->common_model->getAllData('complaint_response','*','',array('complaint_id' => $id));
 		$data['action']   = base_url('admin/complaint_process');
 		 
 		$this->load->view('template',$data);
@@ -851,6 +853,14 @@ class Admin extends CI_Controller {
             //'image'                  => $image,
             //'video'                  => $video
             );
+
+        $array = array(
+                        'complaint_id'       => $id,
+                        'complaint_response' => post('response'),
+                       );      
+
+        $this->Admin_model->insert('complaint_response',$array);               
+
 		//print_r($data); die; 
 		$this->Admin_model->update_complaint($id,$data);
 		$this->session->set_flashdata('msg','Record has been Updated Successfully!!');
@@ -1383,4 +1393,15 @@ class Admin extends CI_Controller {
 		redirect('admin/routes_list');
     }
     
+    public function response_delete($id)
+    {
+        echo $id;
+        die;
+        $this->db->where(array('id' => $id));
+
+    	$this->db->delete('complaint_response');
+
+		$this->session->set_flashdata('msg','Response Deleted Successfully!');
+		redirect('admin/get_complaints');
+    }
 }

@@ -341,8 +341,10 @@
     ***/
     function insert($table,$data)
     {
-		$q= $this->db->insert($table,$data);
-        //echo $this->db->last_query($q);
+		$Insert = $this->db->insert($table,$data);
+        if ($Insert):
+			return true;
+		endif;
     }
     
 	function select_all_signs($table)

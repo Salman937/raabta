@@ -27,15 +27,25 @@
                <!-- Horizontal Form -->
                <div class="box box-info">
                   <div class="box-header with-border">
+                     
                      <h3 class="box-title">Change Traffic Warden Place</h3>
                   </div>
                   <!-- /.box-header -->
                   <!-- form start -->
+                <div class="row">
+                  <div class="col-md-5 col-md-offset-1"> 
                   <form class="form-horizontal" action="<?php echo base_url()?>dashboard/Traffic_wardens/update_warden_place" method="post" enctype="multipart/form-data">
                      <div class="box-body">
                         <div class="form-group">
-                           <label for="shift" class="col-sm-3 control-label">Shift</label>
-                           <div class="col-sm-6">
+                           <label for="shift" class="control-label">Appointed As</label>
+                           <div>
+                              <input type="date" class="form-control" name="start_date" id="start_date" maxlength="30" placeholder="Enter New Position Start Date" required>
+                              <?php echo '<span class="error">'. form_error('shift').'</span>'; ?>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <label for="shift" class="control-label">Shift</label>
+                           <div>
                               <select name="shift" class="form-control" required>
                                  <option value="">Select Shift</option>
                                  <option>Morning</option>
@@ -46,22 +56,22 @@
                            </div>
                         </div>
                         <div class="form-group">
-                           <label for="start_date" class="col-sm-3 control-label">Start Date</label>
-                           <div class="col-sm-6">
+                           <label for="start_date" class="control-label">Start Date</label>
+                           <div>
                               <input type="date" class="form-control" name="start_date" id="start_date" maxlength="30" placeholder="Enter New Position Start Date" required>
                               <?php echo '<span class="error">'. form_error('start_date').'</span>'; ?>
                            </div>
                         </div>
                         <div class="form-group">
-                           <label for="end_date" class="col-sm-3 control-label">End Date</label>
-                           <div class="col-sm-6">
+                           <label for="end_date" class="control-label">End Date</label>
+                           <div>
                               <input type="date" class="form-control" name="end_date" id="end_date" maxlength="30" placeholder="Enter end_date" required>
                               <?php echo '<span class="error">'. form_error('end_date').'</span>'; ?>
                            </div>
                         </div>
                         <div class="form-group">
-                           <label for="image" class="col-sm-3 control-label">Circle</label>
-                           <div class="col-sm-6">
+                           <label for="image" class="control-label">Circle</label>
+                           <div>
                               <select name="circle" class="form-control" onchange="getSector(this)">
                                  <option value="">Select Circle</option>
                                  <?php foreach ($circles as $circle): ?>
@@ -89,6 +99,12 @@
                      </div>
                      <!-- /.box-footer -->
                   </form>
+                  </div>
+                  <div class="col-md-6 text-center">
+                    <h1><?php echo $user->name ?></h3>
+                    <img src="<?php echo $user->Image ?>" style="width:60%">
+                  </div>
+                </div>  
                </div>
                <!-- /.box -->
             </div>

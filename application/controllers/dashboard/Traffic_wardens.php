@@ -322,9 +322,11 @@ class Traffic_wardens extends CI_Controller
         $data['heading']    =  'Traffic Wardens';
         $data['page_name']  =  'admin/traffic_wardens/change_place';
         $data['id']			=  $id;
-        $data['duty_points'] =  $this->common_model->getAllData('traffic_warden_duty_point');
-        $data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
-
+		
+		$data['duty_points'] =  $this->common_model->getAllData('traffic_warden_duty_point');
+		$data['circles'] = $this->common_model->getAllData('traffic_warden_circles','*','',array('level'=>0));
+		$data['user'] = $this->common_model->getAllData('traffic_wardens','name,Image',1,array('id'=>$id));
+		
 		view('template',$data);	
 	}
 

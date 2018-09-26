@@ -94,24 +94,64 @@
                         <input type="text" class="form-control" name="dated" value="<?php echo date('d-m-Y', strtotime($record['dated'])); ?>" id="lat" placeholder="Enter Date" disabled>
                       </div>
                     </div>
-                <!--                    
+
                     <div class="form-group">
-                      <label for="lat" class="col-sm-3 control-label">Latitude</label>
+                      <label for="response" class="col-sm-3 control-label">Response</label>
 
                       <div class="col-sm-6">
-                        <input type="text" class="form-control" name="lat" value="<?php //echo $record['latitude']; ?>" id="lat" placeholder="Enter Latitude" disabled>
+                        <textarea name="response" class="form-control" rows="5"></textarea>
                       </div>
                     </div>
-                    
-                    <div class="form-group">
-                      <label for="lng" class="col-sm-3 control-label">Longitude</label>
-
-                      <div class="col-sm-6">
-                        <input type="text" class="form-control" name="lng" value="<?php //echo $record['longitude']; ?>" id="lng" placeholder="Enter Longitude" disabled>
-                      </div>
-                    </div>
-                -->
                   </div>
+
+                  <div class="box-footer">
+                    <div class="col-sm-12">
+                      <table class="table">
+                        <thead>
+                          <tr class="active">
+                            <th>
+                              Responses
+                            </th>
+                            <th>
+                              Actions
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php if (empty($responses)): ?> 
+                          <tr>
+                            <td>
+                            <font color="red">Response No Yet</font>
+                            </td>
+                          </tr>
+                          <?php else: ?> 
+                          
+                          <?php foreach($responses as $response): ?>
+                          <tr>
+                            <td>
+                              <?php echo $response->complaint_response ?>
+                            </td>
+                            <td>
+                              <a href="<?php bs() ?>Admin/response_delete/<?php echo $response->id ?>">
+                                <button class="btn btn-danger btn-xs">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                              </a>
+                              <a href="<?php bs() ?>Admin/response_edit/<?php echo $response->id ?>">
+                                <button class="btn btn-success btn-xs">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                              </a>
+                            </td>
+                          </tr>
+                          <?php endforeach; ?>
+
+                          <?php endif; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
                   <!-- /.box-body -->
                   <div class="box-footer">
                     <div class="col-sm-offset-7 col-sm-3">

@@ -38,7 +38,7 @@
                 <div class="col-sm-5 col-sm-offset-3">
                     <form class="" method="post" action="">
                         <div class="form-group">
-                            <label for="startDate">Users </label>                  
+                            <label for="startDate">Search Wardens </label>                  
                             <div class="input-group date">
                                 <div class="input-group-addon">
                                     <i class="fa fa-users"></i>
