@@ -41,25 +41,26 @@ class Admin extends CI_Controller {
 
     			$username = $this->input->post('admin_username');
     			$password = md5($this->input->post('admin_password'));
-			
+                
     			$result = $this->Admin_model->validate_login($username , $password);
-
 
                 if($result)
                 {
                     $sess_data = array(
-
-                                'username'        => $result->admin_name,
-                                'admin_id'        => $result->admin_id,
-                                'admin_district'  => $result->admin_district,
+                        
+                        'username'        => $result->admin_name,
+                        'admin_id'        => $result->admin_id,
+                        'admin_district'  => $result->admin_district,
                     );
-
+                    
                     $this->session->set_userdata($sess_data);
-
+                    
                     redirect('admin/dashboard');
                 }
                 else
                 {
+                    echo"failed";
+                    die;
                     $this->session->set_flashdata("danger", " <div class='alert alert-danger text-center'>User name or Password not Matched !</div>");
 				    redirect('admin/login');
                 }
