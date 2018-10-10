@@ -4,7 +4,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <?= $heading;?>
+        <?= $heading; ?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -27,21 +27,24 @@
                 <!-- /.box-header -->
                 <!-- form start -->
                 <h4 class="text-center">Complaint ID: <?php echo $this->uri->segment(3); ?></h4>
-                <form class="form-horizontal" action="<?= $action;?>" method="post" enctype="multipart/form-data">
+                <form class="form-horizontal" action="<?= $action; ?>" method="post" enctype="multipart/form-data">
                   <div class="box-body">
                    
                     <div class="form-group">
                       <label class="col-sm-3 control-label">Complaint Status</label>
-                      <input type="hidden" name="complaint_id" value="<?=$id?>" />
+                      <input type="hidden" name="complaint_id" value="<?= $id ?>" />
                       
                       <div class="col-sm-6">
                           <select name="status" class="form-control">
                             <!--<option>Choose Complaint Status</option>-->
                             <?php 
-                              if(isset($status)) foreach($status as $row){
-                            ?>
-                            <option value="<?= $row->complaints_status_id;?>" <?php if($record['complaints_status_id'] == $row->complaints_status_id){ echo 'selected="selected"'; }?>><?= $row->status;?></option>
-                            <?php }?>
+                            if (isset($status)) foreach ($status as $row) {
+                              ?>
+                            <option value="<?= $row->complaints_status_id; ?>" <?php if ($record['complaints_status_id'] == $row->complaints_status_id) {
+                                                                                echo 'selected="selected"';
+                                                                              } ?>><?= $row->status; ?></option>
+                            <?php 
+                          } ?>
                           </select>
                       </div>
                     </div>
@@ -51,7 +54,7 @@
                       <label for="description" class="col-sm-3 control-label">Complaint Description</label>
                       
                       <div class="col-sm-6">
-                      <textarea class="form-control" rows="3" name="description" placeholder="Enter Complaint Description" disabled><?php echo $record['description'];?></textarea>
+                      <textarea class="form-control" rows="3" name="description" placeholder="Enter Complaint Description" disabled><?php echo $record['description']; ?></textarea>
                         </div>
                     </div>
                     
@@ -59,14 +62,18 @@
                       <label for="image" class="col-sm-3 control-label">Upload Image/Video</label>
                       
                       <div class="col-sm-6">
-                        <?php if($record['image']) {?>
-                          <img class="img-responsive" src="<?= base_url()."uploads/images/".$record['image'];?>" style="width:80px; height:50px;" />
-                          <?php } else if($record['video']) { ?>
+                        <?php if ($record['image']) { ?>
+                          <img class="img-responsive" src="<?= base_url() . "uploads/images/" . $record['image']; ?>" style="width:80px; height:50px;" />
+                          <?php 
+                        } else if ($record['video']) { ?>
                           <video width="160" height="120" controls autoplay>
-                             <source src="<?= base_url()."uploads/videos/".$record['video']; ?>" type="video/mp4">
+                             <source src="<?= base_url() . "uploads/videos/" . $record['video']; ?>" type="video/mp4">
                              Sorry, your browser doesn't support the video element.
                           </video>
-                       <?php }else { echo 'Sorry! No image/video to display'; }?>
+                       <?php 
+                    } else {
+                      echo 'Sorry! No image/video to display';
+                    } ?>
                         
                          <input type="file" name="image" value="" id="imgUpload" disabled>
                       </div>
@@ -79,10 +86,13 @@
                           <select name="type" class="form-control" disabled>
                             <option>Choose Complaint Type</option>
                             <?php 
-                              if(isset($types)) foreach($types as $row){
-                            ?>
-                            <option value="<?= $row->complaint_type_id;?>" <?php if($record['complaint_type_id'] == $row->complaint_type_id){ echo 'selected="selected"'; }?>><?= $row->complaint_type;?></option>
-                            <?php }?>
+                            if (isset($types)) foreach ($types as $row) {
+                              ?>
+                            <option value="<?= $row->complaint_type_id; ?>" <?php if ($record['complaint_type_id'] == $row->complaint_type_id) {
+                                                                            echo 'selected="selected"';
+                                                                          } ?>><?= $row->complaint_type; ?></option>
+                            <?php 
+                          } ?>
                           </select>
                       </div>
                     </div>
@@ -104,11 +114,26 @@
                     </div>
                   </div>
 
+                  
+                  <!-- /.box-body -->
+                  <div class="box-footer">
+                    <div class="col-sm-offset-7 col-sm-3">
+                        <a href="<?php echo base_url() . 'admin/get_complaints'; ?>" class="btn btn-default">Cancel</a>
+                        <button type="submit" class="btn btn-info">Update</button>
+                        <a href="javascript:window.print()" class="btn btn-danger">Print</a>
+                    </div>
+                  </div>
+                  <!-- /.box-footer -->
+                </form>
+
                   <div class="box-footer">
                     <div class="col-sm-12">
                       <table class="table">
                         <thead>
                           <tr class="active">
+                            <th>
+                              Status
+                            </th>
                             <th>
                               Responses
                             </th>
@@ -118,16 +143,19 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <?php if (empty($responses)): ?> 
+                          <?php if (empty($responses)) : ?> 
                           <tr>
                             <td>
-                            <font color="red">Response No Yet</font>
+                            <font color="red">Response No Available</font>
                             </td>
                           </tr>
-                          <?php else: ?> 
+                          <?php else : ?> 
                           
-                          <?php foreach($responses as $response): ?>
+                          <?php foreach ($responses as $response) : ?>
                           <tr>
+                            <td>
+                              <?php echo $response->status ?>
+                            </td>
                             <td>
                               <?php echo $response->complaint_response ?>
                             </td>
@@ -137,7 +165,7 @@
                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                 </button>
                               </a>
-                              <a href="<?php bs() ?>Admin/response_edit/<?php echo $response->id ?>">
+                              <a href="<?php bs() ?>Admin/edit_response/<?php echo $response->id ?>">
                                 <button class="btn btn-success btn-xs">
                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                 </button>
@@ -151,17 +179,6 @@
                       </table>
                     </div>
                   </div>
-
-                  <!-- /.box-body -->
-                  <div class="box-footer">
-                    <div class="col-sm-offset-7 col-sm-3">
-                        <a href="<?php echo base_url().'admin/get_complaints'; ?>" class="btn btn-default">Cancel</a>
-                        <button type="submit" class="btn btn-info">Update</button>
-                        <a href="javascript:window.print()" class="btn btn-danger">Print</a>
-                    </div>
-                  </div>
-                  <!-- /.box-footer -->
-                </form>
             </div>
             <!-- /.box -->
         </div>

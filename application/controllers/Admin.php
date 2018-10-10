@@ -812,8 +812,10 @@ class Admin extends CI_Controller {
 		$data['record']   = $this->Admin_model->get_record($id);
         $data['types']    = $this->Admin_model->get_complaint_types();
         $data['status']   = $this->Admin_model->get_complaint_status();
-        $data['responses']   = $this->common_model->getAllData('complaint_response','*','',array('complaint_id' => $id));
-		$data['action']   = base_url('admin/complaint_process');
+        $data['responses']   = $this->common_model->DJoin('*','complaint_response','complaints_status','complaint_response.response_status = complaints_status.complaints_status_id','','',array('complaint_id' => $id));
+        $data['action']   = base_url('admin/complaint_process');
+        
+        // pr($data['responses']);die;
 		 
 		$this->load->view('template',$data);
     }
@@ -858,6 +860,7 @@ class Admin extends CI_Controller {
         $array = array(
                         'complaint_id'       => $id,
                         'complaint_response' => post('response'),
+                        'response_status'    => $this->input->post('status'),
                        );      
 
         $this->Admin_model->insert('complaint_response',$array);               
@@ -1375,7 +1378,7 @@ class Admin extends CI_Controller {
         $data['route_status']=   $this->Admin_model->get_route_status('route_status');
 		$data['route_record']=   $this->Admin_model->get_route_by_id($id);
         $data['action']	    =	base_url('admin/edit_route_status');
-        //echo '<pre>';print_r($data['data']);
+
         $this->load->view('template', $data);
     }
     
@@ -1396,13 +1399,34 @@ class Admin extends CI_Controller {
     
     public function response_delete($id)
     {
-        echo $id;
-        die;
         $this->db->where(array('id' => $id));
 
     	$this->db->delete('complaint_response');
 
 		$this->session->set_flashdata('msg','Response Deleted Successfully!');
+		redirect('admin/get_complaints');
+    }
+
+    public function edit_response($id)
+    {
+        $data['title']      =   'Traffic Police | Edit Response';
+        $data['heading']    =   'Edit Response';
+        $data['edit_response'] = $this->common_model->getAllData('complaint_response','*',1,array('id' => $id));
+
+        $data['page_name']  =   'admin/complaints/edit_response';
+
+        $this->load->view('template', $data);
+    }
+
+    public function update_response()
+    {
+        $data = array(
+            'complaint_response'   => $this->input->post('response'),
+        );
+        
+        /* Database Insertion */
+        $this->common_model->UpdateDB('complaint_response',array('id' => $this->input->post('id')),$data);
+        $this->session->set_flashdata('msg','Response has been Updated Succesfully!');
 		redirect('admin/get_complaints');
     }
 }

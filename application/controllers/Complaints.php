@@ -24,6 +24,7 @@ class Complaints extends CI_Controller {
         $upload = move_uploaded_file($tempImage,'uploads/images/'.$image);
         
         $phone_no = $this->common_model->getAllData('signup','phone_no',1,array('signup_id' => $this->input->post('signup_id')));
+        // pr($phone_no);die;
 
         // prepare array of user data
         $dataImage = array
@@ -41,7 +42,6 @@ class Complaints extends CI_Controller {
             );
 
 
-          // pr($dataImage);die;
 
           $insert = $this->Complaintsmodel->InsertDB($dataImage);
 

@@ -78,10 +78,10 @@ class Common_model extends CI_Model
 			return false;
 		}
 	}
-	function DJoin($field,$tbl,$jointbl1,$Joinone,$jointbl3='',$row='',$Where='',$order='',$groupy = '',$limit = '',$like = '')
+	function DJoin($field,$first_tbl,$jointbl1,$Joinone,$jointbl3='',$row='',$Where='',$order='',$groupy = '',$limit = '',$like = '')
     {
         $this->db->select($field);
-        $this->db->from($tbl);
+        $this->db->from($first_tbl);
         $this->db->join($jointbl1,$Joinone);
         if (!empty($jointbl3)):
             foreach ($jointbl3 as $Table => $On):
@@ -106,14 +106,9 @@ class Common_model extends CI_Model
             $this->db->like('title', $like);
         endif;
 
-        //if select row
-		if(!empty($row)):
-			$GetData = $this->db->get($table);
-			return $GetData->row();
-		else:
-			$GetData = $this->db->get($table);
-			return $GetData->result();
-		endif;
+        
+		$GetData = $this->db->get();
+		return $GetData->result();
     }
     function DeleteDB($table,$where)
     {
