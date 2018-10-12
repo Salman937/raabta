@@ -238,5 +238,27 @@ class Complaints extends CI_Controller {
             echo 'No User Record To Get';
         }
     }
+
+    public function complaint_response()
+    {
+        $complaint_id = $this->input->get('complaint_id');
+
+        if(isset($complaint_id))
+        {
+            $result = $this->common_model->getAllData('complaint_response','*','',array('complaint_id' => $complaint_id));
+
+            if(!empty($result))
+            {
+                $Response = array('message' => 'Success!', 'status' => true, 'data' => $result);
+                echo json_encode($Response);
+            }
+            else{
+                $Response = array('message' => 'No record  found!', 'status' => false);
+                echo json_encode($Response);
+            }
+        }else{
+            echo 'Complaint ID not found';
+        }
+    }
 }
 ?>

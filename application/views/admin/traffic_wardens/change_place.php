@@ -82,7 +82,7 @@
                         </div>
                         <div class="add_sector">
                         </div>
-                        <div class="duty_points col-sm-8 col-sm-offset-1">
+                        <div class="duty_points">
                         </div>
                         <!-- <input type="hidden" name="lat" id="lat">
                            <input type="hidden" name="log" id="lon">
