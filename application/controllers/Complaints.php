@@ -92,6 +92,8 @@ class Complaints extends CI_Controller {
         }
 
         $phone_no = $this->common_model->getAllData('signup','phone_no',1,array('signup_id' => $this->input->post('signup_id')));
+
+        // pr($phone_no);die;
         
         // prepare video array for insert
         $dataVideo = array
@@ -110,6 +112,7 @@ class Complaints extends CI_Controller {
         if(isset($uploaded_video))
         {
             $insert = $this->Complaintsmodel->InsertDB($dataVideo);
+            
             if($insert)
             {
                 $Response = array('message' => 'Complaint is done!', 'status' => true, 'data'=>$insert); 

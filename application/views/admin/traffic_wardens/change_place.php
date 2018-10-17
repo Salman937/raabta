@@ -3,7 +3,7 @@
    <!-- Content Header (Page header) -->
    <section class="content-header">
       <h1>
-         <?= $heading;?>
+         <?= $heading; ?>
       </h1>
       <ol class="breadcrumb">
          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -17,13 +17,13 @@
          <div class="row">
             <div class="col-xs-12">
                <!-- session message -->
-               <?php if($this->session->flashdata('msg')): ?>
+               <?php if ($this->session->flashdata('msg')) : ?>
                <div class="callout callout-success" id="msg">
                   <p align="center" style="position:relative; font-size:16px;">
-                     <?=$this->session->flashdata('msg')?>
+                     <?= $this->session->flashdata('msg') ?>
                   </p>
                </div>
-               <?php endif;?>
+               <?php endif; ?>
                <!-- Horizontal Form -->
                <div class="box box-info">
                   <div class="box-header with-border">
@@ -34,13 +34,13 @@
                   <!-- form start -->
                 <div class="row">
                   <div class="col-md-5 col-md-offset-1"> 
-                  <form class="form-horizontal" action="<?php echo base_url()?>dashboard/Traffic_wardens/update_warden_place" method="post" enctype="multipart/form-data">
+                  <form class="form-horizontal" action="<?php echo base_url() ?>dashboard/Traffic_wardens/update_warden_place" method="post" enctype="multipart/form-data">
                      <div class="box-body">
                         <div class="form-group">
                            <label for="shift" class="control-label">Appointed As</label>
                            <div>
                               <input type="date" class="form-control" name="start_date" id="start_date" maxlength="30" placeholder="Enter New Position Start Date" required>
-                              <?php echo '<span class="error">'. form_error('shift').'</span>'; ?>
+                              <?php echo '<span class="error">' . form_error('shift') . '</span>'; ?>
                            </div>
                         </div>
                         <div class="form-group">
@@ -52,21 +52,21 @@
                                  <option>Eevning</option>
                                  <option>Night</option>
                               </select>
-                              <?php echo '<span class="error">'. form_error('shift').'</span>'; ?>
+                              <?php echo '<span class="error">' . form_error('shift') . '</span>'; ?>
                            </div>
                         </div>
                         <div class="form-group">
                            <label for="start_date" class="control-label">Start Date</label>
                            <div>
                               <input type="date" class="form-control" name="start_date" id="start_date" maxlength="30" placeholder="Enter New Position Start Date" required>
-                              <?php echo '<span class="error">'. form_error('start_date').'</span>'; ?>
+                              <?php echo '<span class="error">' . form_error('start_date') . '</span>'; ?>
                            </div>
                         </div>
                         <div class="form-group">
                            <label for="end_date" class="control-label">End Date</label>
                            <div>
                               <input type="date" class="form-control" name="end_date" id="end_date" maxlength="30" placeholder="Enter end_date" required>
-                              <?php echo '<span class="error">'. form_error('end_date').'</span>'; ?>
+                              <?php echo '<span class="error">' . form_error('end_date') . '</span>'; ?>
                            </div>
                         </div>
                         <div class="form-group">
@@ -74,7 +74,7 @@
                            <div>
                               <select name="circle" class="form-control" onchange="getSector(this)">
                                  <option value="">Select Circle</option>
-                                 <?php foreach ($circles as $circle): ?>
+                                 <?php foreach ($circles as $circle) : ?>
                                  <option value="<?php echo $circle->id ?>"><?php echo $circle->circle_and_sector ?></option>
                                  <?php endforeach ?>
                               </select>
@@ -104,7 +104,14 @@
                     <h1><?php echo $user->name ?></h3>
                     <img src="<?php echo $user->Image ?>" style="width:60%">
                   </div>
-                </div>  
+                </div> 
+                <br>
+                <br>
+                <div class="row">
+                  <div class="col-sm-12 show_user" style="margin:0px 2em">
+                    
+                  </div>
+                </div> 
                </div>
                <!-- /.box -->
             </div>
@@ -117,6 +124,7 @@
    <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
 <script>
    // function myMap() 
    // {
@@ -161,11 +169,9 @@
    {
        var id = sel.value;
    
-       // console.log(id);
-       
        $.ajax({
    
-         url: '<?php echo base_url()?>dashboard/Traffic_wardens/get_duty_point/'+id,
+         url: '<?php echo base_url() ?>dashboard/Traffic_wardens/get_duty_point/'+id,
          success: function(data)
          {
            var parse_data = JSON.parse(data);
@@ -179,15 +185,14 @@
        });
    }
    
+
    function getSector(sel)
    {
        var id = sel.value;
    
-       console.log(id);
-       
        $.ajax({
    
-         url: '<?php echo base_url()?>dashboard/Traffic_wardens/duty_point_sector/'+id,
+         url: '<?php echo base_url() ?>dashboard/Traffic_wardens/duty_point_sector/'+id,
          
          success: function(data)
          {
@@ -199,16 +204,43 @@
    function get_duty_point(duty_id)
    {
        var id = duty_id.value;
-   
-       console.log(id);
-   
+
+       get_users(id); 
+
        $.ajax({
    
-         url: '<?php echo base_url()?>dashboard/Traffic_wardens/get_duty_points/'+id,
+         url: '<?php echo base_url() ?>dashboard/Traffic_wardens/get_duty_points/'+id,
+         
+         success: function(data)
+          {
+           $('.duty_points').html(data);
+          }
+        });
+   }
+
+   function get_users(id)
+   {
+      $.ajax({
+      
+      url: '<?php echo base_url() ?>dashboard/Traffic_wardens/get_wardens/'+id,
+        success: function(data)
+        {
+          $('.show_user').html(data);
+        }
+      });
+   }
+
+   function duty_point_wardens(sel)
+   {
+       var id = sel.value;
+
+       $.ajax({
+   
+         url: '<?php echo base_url() ?>dashboard/Traffic_wardens/duty_point_wardens/'+id,
          
          success: function(data)
          {
-           $('.duty_points').html(data);
+           $('.show_user').html(data);
          }
        });
    }

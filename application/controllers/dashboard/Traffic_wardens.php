@@ -786,7 +786,7 @@ class Traffic_wardens extends CI_Controller
 
 		endforeach;
 
-		echo '		</select>
+		echo '</select>
 				</div>
 			  </div>';
 	}
@@ -798,7 +798,7 @@ class Traffic_wardens extends CI_Controller
 		echo '<div class="form-group">
 				<label for="sector" class="control-label">Duty Points</label>
 				<div>
-					<select name="duty_point" class="form-control" required>';
+					<select name="duty_point" class="form-control" onchange="duty_point_wardens(this)" required>';
 
 		if (empty($duty_points)) {
 			echo '<option>Duty Points not Availabe. please add some duty points</option>';
@@ -814,6 +814,104 @@ class Traffic_wardens extends CI_Controller
 		echo '		</select>
 				</div>
 			  </div>';
+	}
+
+	public function get_wardens($id)
+	{
+		$duty_points = $this->common_model->getAllData('traffic_warden_duty_point', '*', '', array('sector_id' => $id));
+
+		$get_users = $this->common_model->DJoin('*', 'traffic_warden_duty_point', 'traffic_wardens', 'traffic_wardens.duty_point_id = traffic_warden_duty_point.id', '', '', array('traffic_wardens.duty_point_id' => $duty_points[0]->id));
+
+
+		echo '<table class="table">
+				<thead>
+				<tr>
+					<th>Name</th>
+					<th>Image</th>
+					<th>Duty Point</th>
+					<th>Personal No</th>
+					<th>Belt No</th>
+				</tr>
+				</thead>
+				<tbody>';
+		
+		if (empty($get_users)) 
+			{
+				echo '<tr>
+						<td>Wardens Not Available at this Point</td>
+					</tr>';
+			} 
+		else {
+			foreach($get_users as $get_user)
+			{	
+				echo'	<tr>
+						<td>';	
+				echo		$get_user->name;
+				echo'	</td>
+						<td>';
+				echo	'<img src="'.$get_user->Image.'" width="100">';
+				echo	'</td>
+						<td>';
+				echo		$get_user->duty_point;
+				echo	'</td>
+						<td>';
+				echo		$get_user->personal_no;
+				echo	'</td>
+						<td>';
+				echo		$get_user->belt_no;
+				echo	'</td>
+					</tr>';
+			}
+				echo	'</tbody>
+				</table>';
+		}		
+	}
+	function duty_point_wardens($id)
+	{
+		$get_users = $this->common_model->DJoin('*', 'traffic_warden_duty_point', 'traffic_wardens', 'traffic_wardens.duty_point_id = traffic_warden_duty_point.id', '', '', array('traffic_wardens.duty_point_id' => $id));
+
+		echo '<table class="table">
+				<thead>
+				<tr class="active">
+					<th>Name</th>
+					<th>Image</th>
+					<th>Duty Point</th>
+					<th>Personal No</th>
+					<th>Belt No</th>
+				</tr>
+				</thead>
+				<tbody>';
+		
+		if (empty($get_users)) 
+			{
+				echo '<tr>
+						<td>Wardens Not Available at this Point</td>
+					</tr>';
+			} 
+		else {
+			foreach($get_users as $get_user)
+			{	
+				echo'	<tr>
+						<td>';	
+				echo		$get_user->name;
+				echo'	</td>
+						<td>';
+				echo	'<img src="'.$get_user->Image.'" width="100">';
+				echo	'</td>
+						<td>';
+				echo		$get_user->duty_point;
+				echo	'</td>
+						<td>';
+				echo		$get_user->personal_no;
+				echo	'</td>
+						<td>';
+				echo		$get_user->belt_no;
+				echo	'</td>
+					</tr>';
+			}
+				echo	'</tbody>
+				</table>';
+		}	
 	}
 }
 

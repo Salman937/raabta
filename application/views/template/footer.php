@@ -89,11 +89,11 @@ $(document).ready(function(){
          });
 
         // Ajax Starts Here................
-    $(document).ajaxStart(function() {
-        $('#loading-image').show();
-    }).ajaxStop(function() {
-        $('#loading-image').hide();
-    });
+    // $(document).ajaxStart(function() {
+    //     $('#loading-image').show();
+    // }).ajaxStop(function() {
+    //     $('#loading-image').hide();
+    // });
 // Adding Values...................
         </script>
 </body>
