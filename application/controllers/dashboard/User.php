@@ -147,6 +147,54 @@ class User extends CI_Controller
 			
 		}
 	}
+
+	function get_map_user_list($ph_no)
+	{
+		$get_users = $this->common_model->DJoin('*', 'traffic_warden_duty_point', 'traffic_wardens', 'traffic_wardens.duty_point_id = traffic_warden_duty_point.id','','',array('mobile'=>$ph_no));
+
+		echo '<table class="table">
+				<thead>
+				<tr class="active">
+					<th>Name</th>
+					<th>Image</th>
+					<th>Duty Point</th>
+					<th>Personal No</th>
+					<th>Belt No</th>
+				</tr>
+				</thead>
+				<tbody>';
+		
+		if (empty($get_users)) 
+			{
+				echo '<tr>
+						<td>Wardens Not Available at this Point</td>
+					</tr>';
+			} 
+		else {
+			foreach($get_users as $get_user)
+			{	
+				echo'	<tr>
+						<td>';	
+				echo		$get_user->name;
+				echo'	</td>
+						<td>';
+				echo	'<img src="'.$get_user->Image.'" width="100">';
+				echo	'</td>
+						<td>';
+				echo		$get_user->duty_point;
+				echo	'</td>
+						<td>';
+				echo		$get_user->personal_no;
+				echo	'</td>
+						<td>';
+				echo		$get_user->belt_no;
+				echo	'</td>
+					</tr>';
+			}
+				echo	'</tbody>
+				</table>';
+		}	
+	}
 }
 
 /* End of file User.php */

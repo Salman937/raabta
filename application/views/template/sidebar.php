@@ -221,6 +221,12 @@
 
       <?php endif ?>
 
+      <li class="treeview <?= $heading == "Revisions"?"active":"";?>">
+        <a href="<?php bs() ?>Admin/admin_reviews">
+        <i class="fa fa-registered" aria-hidden="true"></i> <span>Admin Reviwed</span>
+        </a>
+      </li>
+
     </ul>
   </section>
   <!-- /.sidebar -->

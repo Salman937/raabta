@@ -59,6 +59,12 @@
                     <button class="btn btn-info" onclick="initialize()" style="margin-top:1.8em"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</button>
                 </div>  
                 </div> 
+                <br>
+                <div class="row">
+                  <div class="col-sm-11 show_user" style="margin:0px 2em">
+                    
+                  </div>
+                </div>
                 <!-- form start -->
                  <div id="map" style="width: 100%; height: 500px;"></div>
 
@@ -160,7 +166,7 @@ var locations =
         var marker = this;
         var latLng = marker.getPosition();
         var designation = marker.content;
-          
+                
           // convert latlng to address
           var geocoder = new google.maps.Geocoder();
           var addr;
@@ -216,7 +222,7 @@ var locations =
           position: latlng,
           icon: icon,
           animation: google.maps.Animation.DROP,
-          content: '<p><b>Name: </b>'+user_name+'</p><p><b>Designation: </b>'+designation+'</p><p><b>Belt No: </b>'+belt_no+'</p><p><b>Phone Number: </b>'+phone_number+'</p>',
+          content: '<p><b>Name: </b>'+user_name+'</p><p><b>Designation: </b>'+designation+'</p><p><b>Belt No: </b>'+belt_no+'</p><p><b>Phone Number: </b>'+phone_number+'</p>'+'</p><p><button onclick="kmladd('+phone_number+')" class="btn btn-success btn-xs">Show More</button></p>',
           
           dated: start_date,
           map: map,
@@ -250,3 +256,20 @@ var locations =
 
 </script>
 
+<script>
+
+function kmladd(ph_no)
+{
+
+    $.ajax({
+
+        url: '<?php echo base_url() ?>dashboard/User/get_map_user_list/'+ph_no,
+        
+        success: function(data)
+        {
+            $('.show_user').html(data);
+        }
+    });
+}
+
+</script>

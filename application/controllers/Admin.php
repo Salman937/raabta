@@ -857,13 +857,27 @@ class Admin extends CI_Controller {
             //'video'                  => $video
             );
 
-        $array = array(
-                        'complaint_id'       => $id,
-                        'complaint_response' => post('response'),
-                        'response_status'    => $this->input->post('status'),
-                       );      
+        $where = array(
+                        'response_status' => $this->input->post('status'),
+                        'complaint_id'    => $id
+                        );    
 
-        $this->Admin_model->insert('complaint_response',$array);               
+        $check_response = $this->common_model->getAllData('complaint_response','*',1,$where);
+        
+        if (!empty($check_response)) 
+        {
+            echo"";
+        } 
+        else {
+                $array = array(
+                    'complaint_id'       => $id,
+                    'complaint_response' => post('response'),
+                    'response_status'    => $this->input->post('status'),
+                    'admin_id'           => $this->session->userdata('admin_id'),
+                );      
+
+                $this->Admin_model->insert('complaint_response',$array); 
+        }              
 
 		//print_r($data); die; 
 		$this->Admin_model->update_complaint($id,$data);
@@ -1429,4 +1443,27 @@ class Admin extends CI_Controller {
         $this->session->set_flashdata('msg','Response has been Updated Succesfully!');
 		redirect('admin/get_complaints');
     }
+
+    function admin_reviews()
+    {
+        $data['title']      =   'Traffic Police | Revisions';
+        $data['heading']    =   'Revisions';
+
+        $user = array('admin_login' => 'complaint_response.admin_id = admin_login.admin_id');
+
+        if ($this->session->userdata('admin_district') == 'peshawar' ): 
+            $where = "";
+        else: 
+            $where = array( 'complaints.district' => $this->session->userdata('admin_district'));
+        endif;
+
+        $data['revisions']  =   $this->common_model->DJoin('*','complaint_response','complaints','complaint_response.complaint_id = complaints.complaint_id',$user,'',$where);
+
+        // pr($data['revisions']);die;
+
+        $data['page_name']  =   'admin/users/revisions';
+
+        $this->load->view('template', $data);
+    }
+
 }
