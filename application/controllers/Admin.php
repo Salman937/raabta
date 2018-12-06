@@ -874,6 +874,7 @@ class Admin extends CI_Controller {
                     'complaint_response' => post('response'),
                     'response_status'    => $this->input->post('status'),
                     'admin_id'           => $this->session->userdata('admin_id'),
+                    'res_status' => 'pending',
                 );      
 
                 $this->Admin_model->insert('complaint_response',$array); 

@@ -37,6 +37,13 @@
                   <form class="form-horizontal" action="<?php echo base_url() ?>dashboard/Traffic_wardens/update_warden_place" method="post" enctype="multipart/form-data">
                      <div class="box-body">
                         <div class="form-group">
+                           <label for="shift" class="control-label">Duty point end date</label>
+                           <div>
+                              <input type="date" class="form-control" name="duty_point_end_date" id="start_date" maxlength="30" required>
+                              <?php echo '<span class="error">' . form_error('duty_point_end_date') . '</span>'; ?>
+                           </div>
+                        </div>
+                        <div class="form-group">
                            <label for="shift" class="control-label">Appointed As</label>
                            <div>
                               <input type="date" class="form-control" name="start_date" id="start_date" maxlength="30" placeholder="Enter New Position Start Date" required>
@@ -63,9 +70,9 @@
                            </div>
                         </div>
                         <div class="form-group">
-                           <label for="end_date" class="control-label">End Date</label>
+                           <label for="end_date" class="control-label">End Date(optional)</label>
                            <div>
-                              <input type="date" class="form-control" name="end_date" id="end_date" maxlength="30" placeholder="Enter end_date" required>
+                              <input type="date" class="form-control" name="end_date" id="end_date" maxlength="30">
                               <?php echo '<span class="error">' . form_error('end_date') . '</span>'; ?>
                            </div>
                         </div>
@@ -192,7 +199,7 @@
    
        $.ajax({
    
-         url: '<?php echo base_url() ?>dashboard/Traffic_wardens/duty_point_sector/'+id,
+         url: '<?php echo base_url() ?>dashboard/Traffic_wardens/change_duty_point_sector/'+id,
          
          success: function(data)
          {
@@ -209,7 +216,7 @@
 
        $.ajax({
    
-         url: '<?php echo base_url() ?>dashboard/Traffic_wardens/get_duty_points/'+id,
+         url: '<?php echo base_url() ?>dashboard/Traffic_wardens/change_get_duty_points/'+id,
          
          success: function(data)
           {

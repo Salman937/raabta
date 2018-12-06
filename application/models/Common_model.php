@@ -78,7 +78,7 @@ class Common_model extends CI_Model
 			return false;
 		}
 	}
-	function DJoin($field,$first_tbl,$jointbl1,$Joinone,$jointbl3='',$row='',$Where='',$order='',$groupy = '',$limit = '',$like = '')
+	function DJoin($field,$first_tbl,$jointbl1,$Joinone,$jointbl3='',$Where='',$order='',$groupy = '',$limit = '',$like = '')
     {
         $this->db->select($field);
         $this->db->from($first_tbl);

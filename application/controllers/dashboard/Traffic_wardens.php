@@ -17,6 +17,8 @@ class Traffic_wardens extends CI_Controller
 		}
 	}
 
+	public $data;
+
 	/**
 	 * [Load Traffic Warden]
 	 * @return [void]
@@ -63,7 +65,6 @@ class Traffic_wardens extends CI_Controller
 		$this->form_validation->set_rules('duty_point', 'Duty Point', 'trim|required');
 		$this->form_validation->set_rules('shift', 'Shift', 'trim|required');
 		$this->form_validation->set_rules('str_date', 'Start Date', 'trim|required');
-		$this->form_validation->set_rules('end_date', 'End Date	', 'trim|required');
 
 		if ($this->form_validation->run() == false) {
 			$this->index();
@@ -85,6 +86,8 @@ class Traffic_wardens extends CI_Controller
 				$data = array('upload_data' => $this->upload->data());
 				$image = base_url() . 'uploads/traffic_warden_images/' . $data['upload_data']['file_name'];
 			}
+
+			// echo post('end_date');die;
 
 			$data = array(
 				'personal_no' => post('personal_no'),
@@ -112,7 +115,7 @@ class Traffic_wardens extends CI_Controller
 				'duty_point_id' => post('duty_point'),
 				'shift' => post('shift'),
 				'start_date' => date("Y-m-d", strtotime(post('str_date'))),
-				'end_date' => date("Y-m-d", strtotime(post('end_date'))),
+				'end_date' => post('end_date'),
 				'Image' => $image,
 				'created_at' => date('Y-m-d H:i:s'),
 				'updated_at' => date('Y-m-d H:i:s'),
@@ -191,9 +194,9 @@ class Traffic_wardens extends CI_Controller
 
 		$data['circles'] = $this->common_model->getAllData('traffic_warden_circles', '*', '', array('level' => 0));
 
-		$data['sectors'] = $this->common_model->getAllData('traffic_warden_circles', '*', '', array('parent_id' => $data['warden']->circle_id));
+		$data['sectors'] = $this->common_model->getAllData('traffic_warden_circles', '*', '', array('parent_id' => $data['warden'][0]->circle_id));
 
-		$data['duty_points'] = $this->common_model->getAllData('traffic_warden_duty_point', '*', '', array('sector_id' => $data['warden']->sector_id));
+		$data['duty_points'] = $this->common_model->getAllData('traffic_warden_duty_point', '*', '', array('sector_id' => $data['warden'][0]->sector_id));
 
         // pr($data['warden']);die;
 
@@ -280,7 +283,7 @@ class Traffic_wardens extends CI_Controller
 				'duty_point_id' => post('duty_point'),
 				'shift' => post('shift'),
 				'start_date' => date("Y-m-d", strtotime(post('str_date'))),
-				'end_date' => date("Y-m-d", strtotime(post('end_date'))),
+				'end_date' => empty(post('end_date')) ? : date("Y-m-d", strtotime(post('end_date'))),
 				'Image' => $image,
 				'updated_at' => date('Y-m-d H:i:s'),
 			);
@@ -316,7 +319,7 @@ class Traffic_wardens extends CI_Controller
 	public function update_warden_place()
 	{
 		$this->form_validation->set_rules('shift', 'Shift', 'trim|required');
-		$this->form_validation->set_rules('end_date', 'End Date', 'trim|required');
+		$this->form_validation->set_rules('duty_point_end_date', 'Duty point end date', 'trim|required');
 		$this->form_validation->set_rules('start_date', 'Start Date', 'trim|required');
 		$this->form_validation->set_rules('circle', 'Circle', 'trim|required');
 		$this->form_validation->set_rules('sector', 'Sector', 'trim|required');
@@ -325,26 +328,40 @@ class Traffic_wardens extends CI_Controller
 		if ($this->form_validation->run() == false) {
 			$this->change_place();
 		} else {
+
 			$warden = $this->common_model->getAllData('traffic_wardens', '*', '1', array('id' => post('id')));
+
+			if ($warden->end_date == 0000 - 00 - 00) {
+
+				$warden_date = date("Y-m-d", strtotime(post('duty_point_end_date')));
+
+				$data = array(
+					'end_date' => date("Y-m-d", strtotime(post('duty_point_end_date'))),
+				);
+
+				$this->common_model->UpdateDB('traffic_wardens', array('id' => post('id')), $data);
+
+			} else {
+				$warden_date = date("Y-m-d", strtotime($warden->end_date));
+			}
 
 			$data = array(
 				'traffic_warden_id' => post('id'),
 				'duty_point_id' => $warden->duty_point_id,
 				'shift' => $warden->shift,
 				'start_date' => date("Y-m-d", strtotime($warden->start_date)),
-				'end_date' => date("Y-m-d", strtotime($warden->end_date)),
+				'end_date' => $warden_date,
 				'updated_at' => date('Y-m-d H:i:s'),
 				'created_at' => date('Y-m-d H:i:s')
 			);
 
 			$this->common_model->InsertData('traffic_wardens_history', $data);
 
-
 			$data = array(
 				'duty_point_id' => post('duty_point'),
 				'shift' => post('shift'),
-				'start_date' => post('start_date'),
-				'end_date' => post('end_date'),
+				'start_date' => date("Y-m-d", strtotime(post('start_date'))),
+				'end_date' => empty(post('end_date')) ? : date("Y-m-d", strtotime(post('end_date'))),
 				'updated_at' => date('Y-m-d H:i:s')
 			);
 
@@ -402,7 +419,6 @@ class Traffic_wardens extends CI_Controller
 		$data['heading'] = 'Traffic Wardens';
 		$data['page_name'] = 'admin/traffic_wardens/add_traffic_warden_duty_point';
 		$data['circles'] = $this->common_model->getAllData('traffic_warden_circles', '*', '', array('level' => 0));
-
 
 		view('template', $data);
 	}
@@ -763,9 +779,23 @@ class Traffic_wardens extends CI_Controller
 	 */
 	public function get_sector($id)
 	{
-		$data['sectors'] = $this->common_model->getAllData('traffic_warden_circles', '*', '', array('parent_id' => $id));
+		$sectors = $this->common_model->getAllData('traffic_warden_circles', '*', '', array('parent_id' => $id));
 
-		$this->load->view('admin/traffic_wardens/get_sector', $data);
+		echo '<div class="form-group">
+				<label for="sector" class="col-sm-3 control-label">Sector</label>
+				<div class="col-sm-9">
+					<select name="sector" class="form-control" onchange="get_duty_point(this)" required>';
+
+		foreach ($sectors as $sector) :
+
+			echo '<option value="' . $sector->id . '"> ' . $sector->circle_and_sector . '</option>';
+
+		endforeach;
+
+		echo '</select>
+				</div>
+			</div>
+		';
 	}
 
 	/**
@@ -776,7 +806,30 @@ class Traffic_wardens extends CI_Controller
 		$sectors = $this->common_model->getAllData('traffic_warden_circles', '*', '', array('parent_id' => $id));
 
 		echo '<div class="form-group">
-				<label for="sector" control-label">Sector</label>
+				<label class="col-sm-3 control-label">Sector</label>
+				<div class="col-sm-6">
+					<select name="sector" class="form-control" onchange="get_duty_point(this)" required>';
+
+		foreach ($sectors as $sector) :
+
+			echo '<option value="' . $sector->id . '"> ' . $sector->circle_and_sector . ' </option>';
+
+		endforeach;
+
+		echo '</select>
+				</div>
+			  </div>';
+	}
+
+	/**
+	 * get sector for duty point
+	 */
+	public function change_duty_point_sector($id)
+	{
+		$sectors = $this->common_model->getAllData('traffic_warden_circles', '*', '', array('parent_id' => $id));
+
+		echo '<div class="form-group">
+				<label class="control-label">Sector</label>
 				<div>
 					<select name="sector" class="form-control" onchange="get_duty_point(this)" required>';
 
@@ -792,6 +845,31 @@ class Traffic_wardens extends CI_Controller
 	}
 
 	public function get_duty_points($id)
+	{
+		$duty_points = $this->common_model->getAllData('traffic_warden_duty_point', '*', '', array('sector_id' => $id));
+
+		echo '<div class="form-group">
+				<label for="sector" class="col-sm-3 control-label">Duty Points</label>
+				<div class="col-sm-9">
+					<select name="duty_point" class="form-control" onchange="duty_point_wardens(this)" required>';
+
+		if (empty($duty_points)) {
+			echo '<option>Duty Points not Availabe. please add some duty points</option>';
+		} else {
+			foreach ($duty_points as $duty_point) :
+
+				echo '<option value="' . $duty_point->id . '"> ' . $duty_point->duty_point . ' </option>';
+
+			endforeach;
+		}
+
+
+		echo '		</select>
+				</div>
+			  </div>';
+	}
+
+	public function change_get_duty_points($id)
 	{
 		$duty_points = $this->common_model->getAllData('traffic_warden_duty_point', '*', '', array('sector_id' => $id));
 
@@ -834,37 +912,34 @@ class Traffic_wardens extends CI_Controller
 				</tr>
 				</thead>
 				<tbody>';
-		
-		if (empty($get_users)) 
-			{
-				echo '<tr>
+
+		if (empty($get_users)) {
+			echo '<tr>
 						<td>Wardens Not Available at this Point</td>
 					</tr>';
-			} 
-		else {
-			foreach($get_users as $get_user)
-			{	
-				echo'	<tr>
-						<td>';	
-				echo		$get_user->name;
-				echo'	</td>
+		} else {
+			foreach ($get_users as $get_user) {
+				echo '	<tr>
 						<td>';
-				echo	'<img src="'.$get_user->Image.'" width="100">';
-				echo	'</td>
+				echo $get_user->name;
+				echo '	</td>
 						<td>';
-				echo		$get_user->duty_point;
-				echo	'</td>
+				echo '<img src="' . $get_user->Image . '" width="100">';
+				echo '</td>
 						<td>';
-				echo		$get_user->personal_no;
-				echo	'</td>
+				echo $get_user->duty_point;
+				echo '</td>
 						<td>';
-				echo		$get_user->belt_no;
-				echo	'</td>
+				echo $get_user->personal_no;
+				echo '</td>
+						<td>';
+				echo $get_user->belt_no;
+				echo '</td>
 					</tr>';
 			}
-				echo	'</tbody>
+			echo '</tbody>
 				</table>';
-		}		
+		}
 	}
 	function duty_point_wardens($id)
 	{
@@ -881,37 +956,67 @@ class Traffic_wardens extends CI_Controller
 				</tr>
 				</thead>
 				<tbody>';
-		
-		if (empty($get_users)) 
-			{
-				echo '<tr>
+
+		if (empty($get_users)) {
+			echo '<tr>
 						<td>Wardens Not Available at this Point</td>
 					</tr>';
-			} 
-		else {
-			foreach($get_users as $get_user)
-			{	
-				echo'	<tr>
-						<td>';	
-				echo		$get_user->name;
-				echo'	</td>
+		} else {
+			foreach ($get_users as $get_user) {
+				echo '	<tr>
 						<td>';
-				echo	'<img src="'.$get_user->Image.'" width="100">';
-				echo	'</td>
+				echo $get_user->name;
+				echo '	</td>
 						<td>';
-				echo		$get_user->duty_point;
-				echo	'</td>
+				echo '<img src="' . $get_user->Image . '" width="100">';
+				echo '</td>
 						<td>';
-				echo		$get_user->personal_no;
-				echo	'</td>
+				echo $get_user->duty_point;
+				echo '</td>
 						<td>';
-				echo		$get_user->belt_no;
-				echo	'</td>
+				echo $get_user->personal_no;
+				echo '</td>
+						<td>';
+				echo $get_user->belt_no;
+				echo '</td>
 					</tr>';
 			}
-				echo	'</tbody>
+			echo '</tbody>
 				</table>';
-		}	
+		}
+	}
+	public function wardern_details($id)
+	{
+		$data['title'] = 'Traffic Police | Dashboard';
+		$data['heading'] = 'Warden History';
+		$data['page_name'] = 'admin/traffic_wardens/warden_details';
+
+		$data['current_duty_point'] = $this->common_model->DJoin('*', 'traffic_wardens', 'traffic_warden_duty_point', 'traffic_wardens.duty_point_id = traffic_warden_duty_point.id', '', array('traffic_wardens.id' => $id));
+
+		$array = array(
+			'traffic_warden_duty_point' => 'traffic_warden_duty_point.id = traffic_wardens_history.duty_point_id'
+		);
+
+		$data['duty_point_history'] = $this->common_model->DJoin('*', 'traffic_wardens', 'traffic_wardens_history', 'traffic_wardens.id = traffic_wardens_history.traffic_warden_id', $array, array('traffic_wardens.id' => $id));
+
+
+		// pr($data['duty_point_history']);die;
+		view('template', $data);
+	}
+
+	public function traffic_wardens_history()
+	{
+		$data['title'] = 'Traffic Police | Dashboard';
+		$data['heading'] = 'All Traffic Warden History';
+		$data['page_name'] = 'admin/traffic_wardens/all_traffic_warden_history';
+
+		$array = array(
+			'traffic_warden_duty_point' => 'traffic_warden_duty_point.id = traffic_wardens_history.duty_point_id'
+		);
+
+		$data['all_wardens_history'] = $this->common_model->DJoin('*', 'traffic_wardens', 'traffic_wardens_history', 'traffic_wardens.id = traffic_wardens_history.traffic_warden_id',$array);
+
+		view('template', $data);
 	}
 }
 

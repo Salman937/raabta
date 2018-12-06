@@ -20,17 +20,20 @@
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">ALL Traffic Wardens</h3>
+              <a href="<?php bs() ?>dashboard/traffic_wardens/traffic_wardens_history">
+                <button class="btn btn-info btn-sm pull-right"><i class="fa fa-eye"></i> View All Traffic Warden History</button>
+              </a>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
                  <!-- session message -->
-              <?php if($this->session->flashdata('msg')):?>
+              <?php if ($this->session->flashdata('msg')) : ?>
               <div class="callout callout-success" id="msg">
                   <p align="center" style="position:relative; font-size:16px;">
-                      <?=$this->session->flashdata('msg')?>
+                      <?= $this->session->flashdata('msg') ?>
                   </p>
               </div>
-              <?php endif;?>
+              <?php endif; ?>
 
               <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
@@ -48,7 +51,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                  <?php if (empty($wardens)): ?>
+                  <?php if (empty($wardens)) : ?>
 
                     <tr>
                       <td>
@@ -56,9 +59,9 @@
                       </td>  
                     </tr>
 
-                  <?php else: ?>
+                  <?php else : ?>
                   
-                    <?php foreach ($wardens as $warden): ?>
+                    <?php foreach ($wardens as $warden) : ?>
 
                     <tr>
                       <td> <?php echo $warden->name ?> </td>
@@ -68,7 +71,7 @@
                       <td> <?php echo $warden->duty_point ?> </td>
                       <td> <?php echo $warden->designation ?> </td>
                       <td> <?php echo $warden->shift ?> </td>
-                      <td> <?php echo date('m-d-Y',strtotime($warden->start_date)) ?> </td>
+                      <td> <?php echo date('m-d-Y', strtotime($warden->start_date)) ?> </td>
                       <td>
                            <button class='btn btn-success btn-xs'>current</button>
                       </td>
@@ -78,25 +81,30 @@
                             <i class="fa fa-eye"></i>
                           </button>
 
-                          <a href="<?php bs('dashboard/Traffic_wardens/change_place/'.$warden->warden_id.'') ?>" title="Chnge Place"> 
+                          <a href="<?php bs('dashboard/Traffic_wardens/change_place/' . $warden->warden_id . '') ?>" title="Chnge Place"> 
                             <button type="button" class="btn btn-primary btn-xs">
                             <i class="fa fa-map-marker" aria-hidden="true"></i> 
                             </button> 
                           </a>
                         
-                          <a href="<?php echo base_url('dashboard/Traffic_wardens/delete/'.$warden->warden_id.'') ?>" title="Delete">
+                          <a href="<?php echo base_url('dashboard/Traffic_wardens/delete/' . $warden->warden_id . '') ?>" title="Delete">
                             <button type="button" class="btn btn-danger btn-xs">
                               <i class="fa fa-trash"></i>
                             </button> 
                           </a>
-                          <a href="<?php echo base_url('dashboard/Traffic_wardens/edit/'.$warden->warden_id.'') ?>" title='Edit'>
+                          <a href="<?php echo base_url('dashboard/Traffic_wardens/edit/' . $warden->warden_id . '') ?>" title='Edit'>
                             <button type="button" class="btn btn-info btn-xs">
                               <i class="fa fa-pencil"></i>
                             </button>
                           </a>  
-                          <a href="<?php echo base_url('dashboard/Traffic_wardens/wardens_history/'.$warden->warden_id.'') ?>" title="History">
+                          <a href="<?php echo base_url('dashboard/Traffic_wardens/wardens_history/' . $warden->warden_id . '') ?>" title="History">
                             <button type="button" class="btn btn-success btn-xs">
                               <i class="fa fa-history" aria-hidden="true"></i>
+                            </button>
+                          </a>
+                          <a href="<?php echo base_url('dashboard/Traffic_wardens/wardern_details/' . $warden->warden_id . '') ?>" title="View Report">
+                            <button type="button" class="btn btn-default btn-xs">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
                             </button>
                           </a>
                       </td>
@@ -150,8 +158,8 @@
 </div>  
 
 <!-- DataTables -->
-<script src="<?php echo base_url();?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?php echo base_url();?>assets/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/plugins/datatables/dataTables.bootstrap.min.js"></script>
 
 
 <script>

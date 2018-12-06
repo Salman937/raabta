@@ -50,7 +50,7 @@
                               <div class="form-group">
                                 <label for="personal_no" class="col-sm-3 control-label">Personal No</label>
                                 <div class="col-sm-9">
-                                  <input type="text" class="form-control" name="personal_no" id="personal_no" maxlength="30" value="<?= $warden->personal_no ?>" placeholder="Enter Personal No" required>
+                                  <input type="text" class="form-control" name="personal_no" id="personal_no" maxlength="30" value="<?= $warden[0]->personal_no ?>" placeholder="Enter Personal No" required>
                                   <?php echo '<span class="error">'. form_error('personal_no').'</span>'; ?>
                                 </div>  
                               </div>
@@ -60,7 +60,7 @@
                               <div class="form-group">
                                 <label for="belt_no" class="col-sm-3 control-label">Belt No</label>
                                 <div class="col-sm-9">
-                                  <input type="text" class="form-control" name="belt_no" id="belt_no" maxlength="30" value="<?= $warden->belt_no ?>" placeholder="Enter Belt No" required>
+                                  <input type="text" class="form-control" name="belt_no" id="belt_no" maxlength="30" value="<?= $warden[0]->belt_no ?>" placeholder="Enter Belt No" required>
                                   <?php echo '<span class="error">'. form_error('belt_no').'</span>'; ?>
                                 </div>  
                               </div>
@@ -73,7 +73,7 @@
                               <div class="form-group">
                                 <label for="name" class="col-sm-3 control-label">Name</label>
                                 <div class="col-sm-9">
-                                  <input type="text" class="form-control" name="name" id="name" maxlength="30" placeholder="Enter Name" value="<?= $warden->name ?>" required>
+                                  <input type="text" class="form-control" name="name" id="name" maxlength="30" placeholder="Enter Name" value="<?= $warden[0]->name ?>" required>
                                   <?php echo '<span class="error">'. form_error('name').'</span>'; ?>
                                 </div>  
                               </div>
@@ -83,7 +83,7 @@
                               <div class="form-group">
                                 <label for="father_name" class="col-sm-3 control-label">Father/Husband's Name</label>
                                 <div class="col-sm-9">
-                                  <input type="text" class="form-control" name="father_name" id="father_name" maxlength="30" value="<?= $warden->father_husband_name ?>" placeholder="Enter Father/Husband's Name" required>
+                                  <input type="text" class="form-control" name="father_name" id="father_name" maxlength="30" value="<?= $warden[0]->father_husband_name ?>" placeholder="Enter Father/Husband's Name" required>
                                   <?php echo '<span class="error">'. form_error('father_name').'</span>'; ?>
                                 </div>  
                               </div>
@@ -96,7 +96,7 @@
                               <div class="form-group">
                                 <label for="nic_no" class="col-sm-3 control-label">NIC No</label>
                                 <div class="col-sm-9">
-                                  <input type="text" class="form-control" name="nic_no" id="nic_no" maxlength="30" value="<?= $warden->nic_no ?>" placeholder="Enter NIC NO" required>
+                                  <input type="text" class="form-control" name="nic_no" id="nic_no" maxlength="30" value="<?= $warden[0]->nic_no ?>" placeholder="Enter NIC NO" required>
                                   <?php echo '<span class="error">'. form_error('nic_no').'</span>'; ?>
                                 </div>  
                               </div>
@@ -106,7 +106,7 @@
                               <div class="form-group">
                                 <label for="passport_no" class="col-sm-3 control-label">Passport No</label>
                                 <div class="col-sm-9">
-                                  <input type="text" class="form-control" name="passport_no" id="passport_no" maxlength="30" value="<?= $warden->passport_no ?>" placeholder="Enter Passport No" required>
+                                  <input type="text" class="form-control" name="passport_no" id="passport_no" maxlength="30" value="<?= $warden[0]->passport_no ?>" placeholder="Enter Passport No" required>
                                   <?php echo '<span class="error">'. form_error('passport_no').'</span>'; ?>
                                 </div>  
                               </div>
@@ -120,7 +120,7 @@
                               <div class="form-group">
                                 <label for="license_no" class="col-sm-3 control-label">Diriving License No</label>
                                 <div class="col-sm-9">
-                                  <input type="text" class="form-control" name="license_no" id="license_no" maxlength="30" value="<?= $warden->diriving_license_no ?>" placeholder="Enter Diriving License No" required>
+                                  <input type="text" class="form-control" name="license_no" id="license_no" maxlength="30" value="<?= $warden[0]->diriving_license_no ?>" placeholder="Enter Diriving License No" required>
                                   <?php echo '<span class="error">'. form_error('license_no').'</span>'; ?>
                                 </div>  
                               </div>
@@ -130,7 +130,7 @@
                               <div class="form-group">
                                 <label for="dob" class="col-sm-3 control-label">Date of Brith</label>
                                 <div class="col-sm-9">
-                                  <input type="date" class="form-control" name="dob" id="dob" maxlength="30" value="<?= $warden->date_of_brith ?>" required>
+                                  <input type="date" class="form-control" name="dob" id="dob" maxlength="30" value="<?= $warden[0]->date_of_brith ?>" required>
                                   <?php echo '<span class="error">'. form_error('dob').'</span>'; ?>
                                 </div>  
                               </div>
@@ -142,7 +142,7 @@
                                 <label for="sex" class="col-sm-3 control-label">Gender/Sex</label>
                                 <div class="col-sm-9">
                                   <select name="sex" class="form-control" required>
-                                    <option value="<?= $warden->sex ?>" selected><?= $warden->sex ?></option>
+                                    <option value="<?= $warden[0]->sex ?>" selected><?= $warden[0]->sex ?></option>
                                     <option>Male</option>
                                     <option>Female</option>
                                     <option>Married</option>
@@ -159,7 +159,7 @@
                               <div class="form-group">
                                 <label for="religion" class="col-sm-3 control-label">Religion</label>
                                 <div class="col-sm-9">
-                                  <input type="text" class="form-control" name="religion" id="religion" maxlength="30" value="<?= $warden->religion ?>" placeholder="Enter Religion" required>
+                                  <input type="text" class="form-control" name="religion" id="religion" maxlength="30" value="<?= $warden[0]->religion ?>" placeholder="Enter Religion" required>
                                   <?php echo '<span class="error">'. form_error('religion').'</span>'; ?>
                                 </div>  
                               </div>
@@ -171,7 +171,7 @@
                               <div class="form-group">
                                 <label for="blood_group" class="col-sm-3 control-label">Blood Group</label>
                                 <div class="col-sm-9">
-                                  <input type="text" class="form-control" name="blood_group" id="blood_group" maxlength="30" value="<?= $warden->blood_group ?>" placeholder="Enter Blood Group" required>
+                                  <input type="text" class="form-control" name="blood_group" id="blood_group" maxlength="30" value="<?= $warden[0]->blood_group ?>" placeholder="Enter Blood Group" required>
                                   <?php echo '<span class="error">'. form_error('blood_group').'</span>'; ?>
                                 </div>  
                               </div>
@@ -181,7 +181,7 @@
                               <div class="form-group">
                                 <label for="mobile" class="col-sm-3 control-label">Mobile</label>
                                 <div class="col-sm-9">
-                                  <input type="text" class="form-control" name="mobile" id="mobile" maxlength="30" placeholder="Enter Mobile" value="<?= $warden->mobile ?>" required>
+                                  <input type="text" class="form-control" name="mobile" id="mobile" maxlength="30" placeholder="Enter Mobile" value="<?= $warden[0]->mobile ?>" required>
                                   <?php echo '<span class="error">'. form_error('mobile').'</span>'; ?>
                                 </div>  
                               </div>
@@ -193,7 +193,7 @@
                               <div class="form-group">
                                 <label for="domicile" class="col-sm-3 control-label">District of Domicile</label>
                                 <div class="col-sm-9">
-                                  <input type="text" class="form-control" name="domicile" id="domicile" maxlength="30" value="<?= $warden->district_of_domicile ?>" placeholder="Enter Domicile" required>
+                                  <input type="text" class="form-control" name="domicile" id="domicile" maxlength="30" value="<?= $warden[0]->district_of_domicile ?>" placeholder="Enter Domicile" required>
                                   <?php echo '<span class="error">'. form_error('domicile').'</span>'; ?>
                                 </div>  
                               </div>
@@ -203,7 +203,7 @@
                               <div class="form-group">
                                 <label for="present_address" class="col-sm-3 control-label">Present Address</label>
                                 <div class="col-sm-9">
-                                  <textarea name="present_address" class="form-control" placeholder="Enter Present Address" ><?= $warden->present_address ?></textarea>
+                                  <textarea name="present_address" class="form-control" placeholder="Enter Present Address" ><?= $warden[0]->present_address ?></textarea>
                                   <?php echo '<span class="error">'. form_error('present_address').'</span>'; ?>
                                 </div>  
                               </div>
@@ -215,7 +215,7 @@
                               <div class="form-group">
                                 <label for="permanent_address" class="col-sm-3 control-label">Permanent Address</label>
                                 <div class="col-sm-9">
-                                  <textarea name="permanent_address" class="form-control" placeholder="Enter Present Address"><?= $warden->permanent_address ?></textarea>
+                                  <textarea name="permanent_address" class="form-control" placeholder="Enter Present Address"><?= $warden[0]->permanent_address ?></textarea>
                                   <?php echo '<span class="error">'. form_error('permanent_address').'</span>'; ?>
                                 </div>  
                               </div>
@@ -227,7 +227,7 @@
                                 <div class="col-sm-9">
                                   <br>
                                     <input type="file" name="image">
-                                    <input type="hidden" name="old_img" value="<?= $warden->Image ?>">
+                                    <input type="hidden" name="old_img" value="<?= $warden[0]->Image ?>">
                                     <input type="hidden" name="id" value="<?= $id ?>">
                                 </div>
                               </div>
@@ -240,7 +240,7 @@
                                 <label for="marital_status" class="col-sm-3 control-label">Marital Status</label>
                                 <div class="col-sm-9">
                                 <select name="marital_status" class="form-control" required>
-                                    <option selected><?= $warden->marital_status ?></option>
+                                    <option selected><?= $warden[0]->marital_status ?></option>
                                     <option>Married</option>
                                     <option>Unmarried</option>
                                     <option>Divorced</option>
@@ -270,7 +270,7 @@
                               <div class="form-group">
                                 <label for="qualification" class="col-sm-3 control-label">Qualification</label>
                                 <div class="col-sm-9">
-                                  <input type="text" class="form-control" name="qualification" id="qualification" maxlength="30" value="<?= $warden->qualification ?>" placeholder="Enter Qualification" required>
+                                  <input type="text" class="form-control" name="qualification" id="qualification" maxlength="30" value="<?= $warden[0]->qualification ?>" placeholder="Enter Qualification" required>
                                   <?php echo '<span class="error">'. form_error('qualification').'</span>'; ?>
                                 </div>  
                               </div>
@@ -282,13 +282,13 @@
                                 <div class="col-sm-3">
                                   <div class="radio">
                                     <label>
-                                      <input type="radio" name="computer_literate" id="optionsRadios1" value="yes" <?php echo ($warden->computer_literate == "yes") ? 'checked="checked"' : ''; ?>>
+                                      <input type="radio" name="computer_literate" id="optionsRadios1" value="yes" <?php echo ($warden[0]->computer_literate == "yes") ? 'checked="checked"' : ''; ?>>
                                       Yes
                                     </label>
                                   </div>
                                   <div class="radio">
                                     <label>
-                                      <input type="radio" name="computer_literate" id="optionsRadios2" value="no" <?php echo ($warden->computer_literate == "no") ? 'checked="checked"' : ''; ?>>
+                                      <input type="radio" name="computer_literate" id="optionsRadios2" value="no" <?php echo ($warden[0]->computer_literate == "no") ? 'checked="checked"' : ''; ?>>
                                       No
                                     </label>
                                   </div>
@@ -315,7 +315,7 @@
                                 <label for="service_group" class="col-sm-3 control-label">Service Group</label>
                                 <div class="col-sm-9">
                                   <select name="service_group" class="form-control">
-                                    <option value="<?= $warden->service_group ?>" selected><?= $warden->service_group ?></option>
+                                    <option value="<?= $warden[0]->service_group ?>" selected><?= $warden[0]->service_group ?></option>
                                     <option>Police</option>
                                     <option>Warden</option>
                                   </select>
@@ -328,7 +328,7 @@
                               <div class="form-group">
                                 <label for="designation" class="col-sm-3 control-label">Rank/Designation</label>
                                 <div class="col-sm-9">
-                                  <input type="text" name="designation" class="form-control" placeholder="Enter Designation/Rank" value="<?= $warden->designation ?>">  
+                                  <input type="text" name="designation" class="form-control" placeholder="Enter Designation/Rank" value="<?= $warden[0]->designation ?>">  
                                   <?php echo '<span class="error">'. form_error('designation').'</span>'; ?>
                                 </div>  
                               </div>
@@ -340,7 +340,7 @@
                               <div class="form-group">
                                 <label for="current_designation" class="col-sm-3 control-label">Current Designation</label>
                                 <div class="col-sm-9">
-                                  <input type="text" name="current_designation" class="form-control" value="<?= $warden->current_designation ?>" placeholder="Enter Current Designation">  
+                                  <input type="text" name="current_designation" class="form-control" value="<?= $warden[0]->current_designation ?>" placeholder="Enter Current Designation">  
                                   <?php echo '<span class="error">'. form_error('current_designation').'</span>'; ?>
                                 </div>  
                               </div>
@@ -350,7 +350,7 @@
                               <div class="form-group">
                                 <label for="d_o_j" class="col-sm-3 control-label">Date of Joining</label>
                                 <div class="col-sm-9">
-                                  <input type="date" name="d_o_j" value="<?= $warden->date_of_joining ?>" class="form-control" placeholder="Enter Designation/Rank">  
+                                  <input type="date" name="d_o_j" value="<?= $warden[0]->date_of_joining ?>" class="form-control" placeholder="Enter Designation/Rank">  
                                   <?php echo '<span class="error">'. form_error('d_o_j').'</span>'; ?>
                                 </div>  
                               </div>
@@ -374,7 +374,7 @@
                                 <label for="image" class="col-sm-3 control-label">Circle</label>
                                 <div class="col-sm-9">
                                     <select name="circle" class="form-control" onchange="getSector(this)">
-                                      <option value="<?= $warden->circle ?>" selected><?= $warden->circle ?></option>
+                                      <option value="<?= $warden[0]->circle ?>" selected><?= $warden[0]->circle ?></option>
 
                                       <?php foreach ($circles as $circle): ?>
                                         
@@ -391,7 +391,7 @@
                                   <label for="sector" class="col-sm-3 control-label">Sector</label>
                                   <div class="col-sm-9">
                                     <select name="sector" class="form-control" onchange="get_duty_point(this)" required>
-                                    <option value="<?= $warden->sector_id ?>" selected><?= $warden->sector ?></option>
+                                    <option value="<?= $warden[0]->sector_id ?>" selected><?= $warden[0]->sector ?></option>
                                     <?php foreach ($sectors as $sector): ?>
                                       
                                       <option value="<?= $sector->id ?>"> <?= $sector->circle_and_sector ?> </option>
@@ -408,8 +408,8 @@
                                   <label for="sector" class="col-sm-3 control-label">Duty Points</label>
                                   <div class="col-sm-9">
                                     <select name="duty_point" class="form-control" required>
-                                      <option value="<?= $warden->duty_point_id ?>" selected>
-                                        <?= $warden->duty_point ?>
+                                      <option value="<?= $warden[0]->duty_point_id ?>" selected>
+                                        <?= $warden[0]->duty_point ?>
                                       </option>  
 
                                       <?php foreach ($duty_points as $duty_point): ?>
@@ -431,7 +431,7 @@
                                 <label for="shift" class="col-sm-3 control-label">Shift</label>
                                 <div class="col-sm-9">
                                   <select name="shift" class="form-control" required>
-                                    <option value="<?= $warden->shift ?>" selected><?= $warden->shift ?></option>
+                                    <option value="<?= $warden[0]->shift ?>" selected><?= $warden[0]->shift ?></option>
                                     <option>Morning</option>
                                     <option>Eevning</option>
                                     <option>Night</option>
@@ -447,7 +447,7 @@
                               <div class="form-group">
                                 <label for="str_date" class="col-sm-3 control-label">Start Date</label>
                                 <div class="col-sm-9">
-                                    <input type="date" class="form-control" name="str_date" id="str_date" value="<?= $warden->start_date ?>" maxlength="30" required>
+                                    <input type="date" class="form-control" name="str_date" id="str_date" value="<?= $warden[0]->start_date ?>" maxlength="30" required>
                                     <?php echo '<span class="error">'. form_error('str_date').'</span>'; ?>
                                 </div>
                               </div>
@@ -457,7 +457,7 @@
                               <div class="form-group">
                                 <label for="end_date" class="col-sm-3 control-label">End Date</label>
                                 <div class="col-sm-9">
-                                  <input type="date" class="form-control" name="end_date" id="end_date" maxlength="30" value="<?= $warden->end_date ?>" required>
+                                  <input type="date" class="form-control" name="end_date" id="end_date" maxlength="30" value="<?= $warden[0]->end_date ?>" required>
                                   <?php echo '<span class="error">'. form_error('end_date').'</span>'; ?>
                                 </div>
                               </div>

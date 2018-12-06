@@ -415,9 +415,9 @@
                               
                             <div class="col-sm-6">
                               <div class="form-group">
-                                <label for="end_date" class="col-sm-3 control-label">End Date</label>
+                                <label for="end_date" class="col-sm-3 control-label">End Date(optional)</label>
                                 <div class="col-sm-9">
-                                    <input type="date" class="form-control" name="end_date" id="end_date" maxlength="30" required>
+                                    <input type="date" class="form-control" name="end_date" id="end_date" maxlength="30">
                                     <?php echo '<span class="error">'. form_error('end_date').'</span>'; ?>
                                 </div>
                               </div>
@@ -454,45 +454,6 @@
 
 
 <script>
-
-// function myMap() 
-// {
-
-//   if ($('#update_lat').val().length === 0 && $('#update_long').val().length === 0)
-//   {
-//     var new_lat = 33.996249;
-//     var new_long = 71.459671;
-//   }
-//   else
-//   {
-//     var new_lat  = $('#update_lat').val();
-//     var new_long = $('#update_long').val();
-//   }
-
-//   $('#map-view').locationpicker({
-
-//    location: {latitude: new_lat, longitude:new_long},
-//    enableAutocomplete: true,
-//    radius:0,
-//    onchanged: function (currentLocation, radius, isMarkerDropped) {
-//        var addressComponents = $(this).locationpicker('map').location.addressComponents;
-//        // updateControls(addressComponents);
-//    },
-//    oninitialized: function(component) {
-//        var addressComponents = $(component).locationpicker('map').location.addressComponents;
-//        // updateControls(addressComponents);
-//    },
-//    inputBinding: {
-//        latitudeInput: $('#lat'),
-//        longitudeInput: $('#lon'),
-//        locationNameInput: $('#address')
-//    },
-
-//   });
-// }
-
-
-// myMap();
 
 function getval(sel)
 {
