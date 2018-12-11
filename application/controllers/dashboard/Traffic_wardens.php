@@ -190,7 +190,7 @@ class Traffic_wardens extends CI_Controller
 			'traffic_warden_circles AS D' => 'B.sector_id = D.id',
 		);
 
-		$data['warden'] = $this->common_model->DJoin('*,A.id AS warden_id,C.circle_and_sector AS circle,D.circle_and_sector AS sector,', 'traffic_wardens AS A', 'traffic_warden_duty_point AS B', 'A.duty_point_id = B.id', $where, 1, array('A.id' => $id));
+		$data['warden'] = $this->common_model->DJoin('*,A.id AS warden_id,C.circle_and_sector AS circle,D.circle_and_sector AS sector,', 'traffic_wardens AS A', 'traffic_warden_duty_point AS B', 'A.duty_point_id = B.id', $where,array('A.id' => $id));
 
 		$data['circles'] = $this->common_model->getAllData('traffic_warden_circles', '*', '', array('level' => 0));
 
@@ -498,11 +498,11 @@ class Traffic_wardens extends CI_Controller
 		$data['page_name'] = 'admin/traffic_wardens/edit_duty_point';
 
 
-		$data['get_circle'] = $this->common_model->DJoin('*,A.id AS duty_point_id', 'traffic_warden_duty_point AS A', 'traffic_warden_circles AS B', 'A.circle_id = B.id', '', 1, array('A.id' => $id));
+		$data['get_circle'] = $this->common_model->DJoin('*,A.id AS duty_point_id', 'traffic_warden_duty_point AS A', 'traffic_warden_circles AS B', 'A.circle_id = B.id', '', array('A.id' => $id));
 
-		$data['sectors'] = $this->common_model->getAllData('traffic_warden_circles', '*', '', array('parent_id' => $data['get_circle']->circle_id));
+		$data['sectors'] = $this->common_model->getAllData('traffic_warden_circles', '*', '', array('parent_id' => $data['get_circle'][0]->circle_id));
 
-		$data['get_sector'] = $this->common_model->DJoin('*', 'traffic_warden_duty_point AS A', 'traffic_warden_circles AS B', 'A.sector_id = B.id', '', 1, array('A.id' => $id));
+		$data['get_sector'] = $this->common_model->DJoin('*', 'traffic_warden_duty_point AS A', 'traffic_warden_circles AS B', 'A.sector_id = B.id', '', array('A.id' => $id));
 
 		$data['circles'] = $this->common_model->getAllData('traffic_warden_circles', '*', '', array('level' => 0));
 		
@@ -898,7 +898,7 @@ class Traffic_wardens extends CI_Controller
 	{
 		$duty_points = $this->common_model->getAllData('traffic_warden_duty_point', '*', '', array('sector_id' => $id));
 
-		$get_users = $this->common_model->DJoin('*', 'traffic_warden_duty_point', 'traffic_wardens', 'traffic_wardens.duty_point_id = traffic_warden_duty_point.id', '', '', array('traffic_wardens.duty_point_id' => $duty_points[0]->id));
+		$get_users = $this->common_model->DJoin('*', 'traffic_warden_duty_point', 'traffic_wardens', 'traffic_wardens.duty_point_id = traffic_warden_duty_point.id', '', array('traffic_wardens.duty_point_id' => $duty_points[0]->id));
 
 
 		echo '<table class="table">
@@ -943,7 +943,7 @@ class Traffic_wardens extends CI_Controller
 	}
 	function duty_point_wardens($id)
 	{
-		$get_users = $this->common_model->DJoin('*', 'traffic_warden_duty_point', 'traffic_wardens', 'traffic_wardens.duty_point_id = traffic_warden_duty_point.id', '', '', array('traffic_wardens.duty_point_id' => $id));
+		$get_users = $this->common_model->DJoin('*', 'traffic_warden_duty_point', 'traffic_wardens', 'traffic_wardens.duty_point_id = traffic_warden_duty_point.id', '', array('traffic_wardens.duty_point_id' => $id));
 
 		echo '<table class="table">
 				<thead>

@@ -384,7 +384,6 @@ class Admin extends CI_Controller {
     }
 
     // Ajax Calls For Data :: Complaints
-
     function complaintList()
     {
         if ($this->session->userdata('admin_district') == 'peshawar' ) 
@@ -447,10 +446,32 @@ class Admin extends CI_Controller {
             );
             $i++;
         }
-        $output = array(
-             "data" => $fetchAllUsers
-        );
-        echo json_encode($output);
+
+        if (empty($fetchAllUsers)) {
+
+            $fetchAllUsers[] = array(
+                '0'         => 'Complaints Not Found',
+                '1'         => '',
+                '5'         => '',
+                '3'         => '',
+                '4'         => '',
+                '6'         => '',
+                '8'         => '',
+                '7'         => ''
+            );
+
+            $output = array(
+                "data" => $fetchAllUsers
+           );
+           echo json_encode($output);
+        }
+        else
+        {
+            $output = array(
+                 "data" => $fetchAllUsers
+            );
+            echo json_encode($output);
+        }
     }
 
     function inProgressComplaints()
@@ -506,10 +527,31 @@ class Admin extends CI_Controller {
             );
             $i++;
         }
-        $output = array(
-             "data" => $fetchAllUsers
-        );
-        echo json_encode($output);
+        if (empty($fetchAllUsers)) {
+
+            $fetchAllUsers[] = array(
+                '0'         => 'Complaints Not Found',
+                '1'         => '',
+                '5'         => '',
+                '3'         => '',
+                '4'         => '',
+                '6'         => '',
+                '8'         => '',
+                '7'         => ''
+            );
+
+            $output = array(
+                "data" => $fetchAllUsers
+           );
+           echo json_encode($output);
+        }
+        else
+        {
+            $output = array(
+                 "data" => $fetchAllUsers
+            );
+            echo json_encode($output);
+        }
     }
 
 
@@ -571,10 +613,31 @@ class Admin extends CI_Controller {
             );
             $i++;
         }
-        $output = array(
-             "data" => $fetchAllUsers
-        );
-        echo json_encode($output);
+        if (empty($fetchAllUsers)) {
+
+            $fetchAllUsers[] = array(
+                '0'         => 'Complaints Not Found',
+                '1'         => '',
+                '5'         => '',
+                '3'         => '',
+                '4'         => '',
+                '6'         => '',
+                '8'         => '',
+                '7'         => ''
+            );
+
+            $output = array(
+                "data" => $fetchAllUsers
+           );
+           echo json_encode($output);
+        }
+        else
+        {
+            $output = array(
+                 "data" => $fetchAllUsers
+            );
+            echo json_encode($output);
+        }
     }
 
     function notUnderstandableComplaints()
@@ -635,11 +698,31 @@ class Admin extends CI_Controller {
             );
             $i++;
         }
-        $output = array(
-             "data" => $fetchAllUsers
-        );
+        if (empty($fetchAllUsers)) {
 
-        echo json_encode($output);
+            $fetchAllUsers[] = array(
+                '0'         => 'Complaints Not Found',
+                '1'         => '',
+                '5'         => '',
+                '3'         => '',
+                '4'         => '',
+                '6'         => '',
+                '8'         => '',
+                '7'         => ''
+            );
+
+            $output = array(
+                "data" => $fetchAllUsers
+           );
+           echo json_encode($output);
+        }
+        else
+        {
+            $output = array(
+                 "data" => $fetchAllUsers
+            );
+            echo json_encode($output);
+        }
 
     }
 
@@ -699,10 +782,31 @@ class Admin extends CI_Controller {
             );
             $i++;
         }
-        $output = array(
-             "data" => $fetchAllUsers
-        );
-        echo json_encode($output);
+        if (empty($fetchAllUsers)) {
+
+            $fetchAllUsers[] = array(
+                '0'         => 'Complaints Not Found',
+                '1'         => '',
+                '5'         => '',
+                '3'         => '',
+                '4'         => '',
+                '6'         => '',
+                '8'         => '',
+                '7'         => ''
+            );
+
+            $output = array(
+                "data" => $fetchAllUsers
+           );
+           echo json_encode($output);
+        }
+        else
+        {
+            $output = array(
+                 "data" => $fetchAllUsers
+            );
+            echo json_encode($output);
+        }
     }
     
     function pendingComplaints()
@@ -759,10 +863,31 @@ class Admin extends CI_Controller {
             );
             $i++;
         }
-        $output = array(
-             "data" => $fetchAllUsers
-        );
-        echo json_encode($output);
+        if (empty($fetchAllUsers)) {
+
+            $fetchAllUsers[] = array(
+                '0'         => 'Complaints Not Found',
+                '1'         => '',
+                '5'         => '',
+                '3'         => '',
+                '4'         => '',
+                '6'         => '',
+                '8'         => '',
+                '7'         => ''
+            );
+
+            $output = array(
+                "data" => $fetchAllUsers
+           );
+           echo json_encode($output);
+        }
+        else
+        {
+            $output = array(
+                 "data" => $fetchAllUsers
+            );
+            echo json_encode($output);
+        }
     }
     
     // Get Single Complete Complaint
@@ -812,7 +937,10 @@ class Admin extends CI_Controller {
 		$data['record']   = $this->Admin_model->get_record($id);
         $data['types']    = $this->Admin_model->get_complaint_types();
         $data['status']   = $this->Admin_model->get_complaint_status();
-        $data['responses']   = $this->common_model->DJoin('*','complaint_response','complaints_status','complaint_response.response_status = complaints_status.complaints_status_id','','',array('complaint_id' => $id));
+        $data['responses']   = $this->common_model->DJoin('*','complaint_response','complaints_status','complaint_response.response_status = complaints_status.complaints_status_id','',array('complaint_id' => $id));
+
+        // pr($data['record']);die;
+        
         $data['action']   = base_url('admin/complaint_process');
         
         // pr($data['responses']);die;
@@ -1458,7 +1586,7 @@ class Admin extends CI_Controller {
             $where = array( 'complaints.district' => $this->session->userdata('admin_district'));
         endif;
 
-        $data['revisions']  =   $this->common_model->DJoin('*','complaint_response','complaints','complaint_response.complaint_id = complaints.complaint_id',$user,'',$where);
+        $data['revisions']  =   $this->common_model->DJoin('*','complaint_response','complaints','complaint_response.complaint_id = complaints.complaint_id',$user,$where);
 
         // pr($data['revisions']);die;
 

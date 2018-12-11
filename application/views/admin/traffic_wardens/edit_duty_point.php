@@ -45,7 +45,7 @@
                       <label class="col-sm-3 control-label">Select Circle</label>
                       <div class="col-sm-6">
                       <select name="circle" class="form-control" onchange="getSector(this)">
-                          <option value="<?php echo $get_circle->circle_id ?>" selected = ""><?= $get_circle->circle_and_sector ?></option>
+                          <option value="<?php echo $get_circle[0]->circle_id ?>" selected = ""><?= $get_circle[0]->circle_and_sector ?></option>
 
                           <?php foreach ($circles as $circle): ?>
                             
@@ -65,7 +65,7 @@
                         <div class="col-sm-6">
                             <select name="sector" class="form-control">
 
-                              <option value="<?= $get_sector->sector_id ?>" selected=""> <?= $get_sector->circle_and_sector ?> </option>
+                              <option value="<?= $get_sector[0]->sector_id ?>" selected=""> <?= $get_sector[0]->circle_and_sector ?> </option>
 
                               <?php foreach ($sectors as $sector): ?>
                                 
@@ -81,7 +81,7 @@
                     <div class="form-group">
                       <label class="col-sm-3 control-label">Duty Point</label>
                       <div class="col-sm-6">
-                          <input type="text" class="form-control" name="duty_point" value="<?php echo $get_circle->duty_point ?>" maxlength="30" placeholder="Traffic Warden Duty Point" required>
+                          <input type="text" class="form-control" name="duty_point" value="<?php echo $get_circle[0]->duty_point ?>" maxlength="30" placeholder="Traffic Warden Duty Point" required>
                           <?php echo '<span class="error">'. form_error('duty_point').'</span>'; ?>
                       </div>
                     </div>
@@ -89,7 +89,7 @@
                     <div class="form-group">
                       <label class="col-sm-3 control-label">Latitude</label>
                       <div class="col-sm-6">
-                          <input type="text" class="form-control" name="lat" id="lat" value="<?php echo $get_circle->latitude ?>" maxlength="30" placeholder="Enter Latitude" required>
+                          <input type="text" class="form-control" name="lat" id="lat" value="<?php echo $get_circle[0]->latitude ?>" maxlength="30" placeholder="Enter Latitude" required>
                           <?php echo '<span class="error">'. form_error('lat').'</span>'; ?>
                       </div>
                     </div>              
@@ -97,12 +97,12 @@
                     <div class="form-group">
                       <label class="col-sm-3 control-label">Longitude</label>
                       <div class="col-sm-6">
-                          <input type="text" class="form-control" name="long" id="long" value="<?php echo $get_circle->longitude ?>" maxlength="30" placeholder="Enter Logitude" required>
+                          <input type="text" class="form-control" name="long" id="long" value="<?php echo $get_circle[0]->longitude ?>" maxlength="30" placeholder="Enter Logitude" required>
                           <?php echo '<span class="error">'. form_error('long').'</span>'; ?>
                       </div>
                     </div>
 
-                    <input type="hidden" name="id" value="<?php echo $get_circle->duty_point_id ?>">
+                    <input type="hidden" name="id" value="<?php echo $get_circle[0]->duty_point_id ?>">
 
                   <!-- /.box-body -->
                   <div class="box-footer">
