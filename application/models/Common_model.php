@@ -55,6 +55,9 @@ class Common_model extends CI_Model
 			$GetData = $this->db->get($table);
 			return $GetData->result();
 		endif;	
+
+		pr($this->db->last_query());
+		die;
 	}
 	function UpdateDB($table,$Where,$Data)
 	{

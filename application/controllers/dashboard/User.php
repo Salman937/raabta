@@ -129,10 +129,19 @@ class User extends CI_Controller
 		} 
 		else 
 		{
+			if(!empty(post('password')))
+			{
+				$pass = md5(post('password'));
+			}
+			else {
+				$pass = post('old_pass');
+			}
+
 			$data = array(
 							'admin_name'     => post('username'),
 							'admin_email'    => post('email'),
 							'admin_district' => post('district'),
+							'admin_password' => $pass,
 						 );
 
 			$where = array('admin_id' => post('id'));
@@ -194,6 +203,24 @@ class User extends CI_Controller
 				echo	'</tbody>
 				</table>';
 		}	
+	}
+	public function district_result()
+	{
+		// Prevent from Direct Access
+        if (!isset($_SESSION['admin_id'])) {
+            redirect('admin/login');
+        }
+
+        $data['title'] = 'Traffic Police | Complaints';
+        $data['heading'] = 'Peshawar Complaints';
+        $data['page_name'] = 'admin/users/district-report';
+
+		$district_result = $this->common_model->getAllData('complaints','*, COUNT(district) AS total_district,COUNT(complaints_status_id) AS total_status_complaints','','','','',array('complaints_status_id','district'));
+		
+		pr($district_result);die;
+        //Json Complete list
+        $this->load->view('template', $data);
+
 	}
 }
 

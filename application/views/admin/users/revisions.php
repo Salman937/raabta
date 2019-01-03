@@ -33,6 +33,7 @@
               <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
                   <tr>
+                    <th>Complaint ID</th>
                     <th>Username</th>
                     <th>Email</th>
                     <th>Admin district</th>
@@ -50,6 +51,7 @@
                     <?php foreach ($revisions as $revision): ?>
 
                     <tr>
+                      <td><?php echo $revision->complaint_id ?></td>
                       <td> <?php echo $revision->admin_name ?> </td>
                       <td> <?php echo $revision->admin_email ?> </td>
                       <td> <?php echo $revision->admin_district ?> </td>

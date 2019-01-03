@@ -11,7 +11,15 @@
         <li class="active">Complaints</li>
       </ol>
     </section>
-
+    <style>
+    @media print
+    {    
+        .no-print, .no-print *
+        {
+            display: none !important;
+        }
+    }
+    </style>
     <!-- Main content -->
     <section class="content">
 
@@ -48,6 +56,24 @@
                           </select>
                       </div>
                     </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-3 control-label">Complaint District</label>
+                      
+                      <div class="col-sm-6">
+                          <select name="district" class="form-control">
+                            <!--<option>Choose Complaint Status</option>-->
+                            <?php 
+                            if (isset($districts)) foreach ($districts as $district) {
+                              ?>
+                            <option value="<?= $district->slug; ?>" <?php if ($record['district'] == $district->slug) {
+                                                                      echo 'selected="selected"';
+                                                                    } ?>><?= $district->district_name; ?></option>
+                            <?php 
+                          } ?>
+                          </select>
+                      </div>
+                    </div>
                     
                     <!-- textarea -->
                     <div class="form-group">
@@ -58,7 +84,7 @@
                         </div>
                     </div>
                     
-                    <div class="form-group">
+                    <div class="form-group no-print">
                       <label for="image" class="col-sm-3 control-label">Upload Image/Video</label>
                       
                       <div class="col-sm-6">
@@ -89,8 +115,8 @@
                             if (isset($types)) foreach ($types as $row) {
                               ?>
                             <option value="<?= $row->complaint_type_id; ?>" <?php if ($record['complaint_type_id'] == $row->complaint_type_id) {
-                                                                            echo 'selected="selected"';
-                                                                          } ?>><?= $row->complaint_type; ?></option>
+                                                                              echo 'selected="selected"';
+                                                                            } ?>><?= $row->complaint_type; ?></option>
                             <?php 
                           } ?>
                           </select>

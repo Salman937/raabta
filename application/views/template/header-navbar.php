@@ -9,7 +9,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>TP</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>Traffic-Police</span>
+      <b>District: <?php echo $this->session->userdata('admin_district') ?> </b>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->

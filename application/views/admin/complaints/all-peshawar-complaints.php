@@ -7,7 +7,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Complaints</li>
+        <li class="active">Peshawar Complaints</li>
       </ol>
     </section>
     
@@ -17,7 +17,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">ALL Complaints List</h3>
+              <h3 class="box-title">ALL Peshawar Complaints List</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -36,10 +36,10 @@
                   <th width="25%">Complaint Description</th>
                   <th>Name</th>
                   <th>Phone No</th>
-                  <th>District</th>
+                  <th>Date</th>
                   <th>Complaint Type</th>
-                  <!-- <th>Date</th> -->
                   <th>Complaint Status</th>
+                  <!-- <th>District</th> -->
                   <th width="80">Action</th>
                 </tr>
                 </thead>
@@ -85,7 +85,7 @@
     function loadDataintoTable()
     {
       $('#example').DataTable({
-        "ajax": "<?php echo base_url('Admin/complaintList') ?>",
+        "ajax": "<?php echo base_url('Admin/get_all_peshawar_complaints') ?>",
         "columns": [
                       { "data": "0" },
                       { "data": "1" },

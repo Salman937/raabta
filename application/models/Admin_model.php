@@ -424,7 +424,7 @@
     function get_complaints($table,$where="")
     {
         $this->db
-            ->select("complaint_id, latitude, longitude, description, image, video,dated, complaint_type, status, signup.name, signup.phone_no,complaints.phone")
+            ->select("complaint_id, latitude, longitude, description, image, video,dated, complaint_type, status, signup.name, signup.phone_no,complaints.phone,complaints.district")
             ->from($table)
             ->join('signup', 'signup.signup_id = complaints.signup_id', 'INNER ')
             ->join('complaint_types','complaint_types.complaint_type_id = complaints.complaint_type_id', 'inner')
@@ -586,7 +586,8 @@
             description, 
             image, 
             video,
-            dated
+            dated,
+            district
 			')
 			->from('complaints')
 			->where('complaint_id',$id);
