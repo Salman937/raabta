@@ -587,6 +587,7 @@
             image, 
             video,
             dated,
+            phone,
             district
 			')
 			->from('complaints')

@@ -960,7 +960,7 @@ class Admin extends CI_Controller
 
         $this->Admin_model->update_complaint($id, $data);
         $this->session->set_flashdata('msg', 'Record has been Updated Successfully!!');
-        redirect('admin/get_complaints');
+        redirect('admin/edit_complaint/'.$id);
     }
 
     public function map()

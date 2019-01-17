@@ -142,7 +142,8 @@
             <div class="form-group">
               <label for="password" class="col-sm-3 control-label">Password</label>
               <div class="col-sm-6">
-                <input type="password" class="form-control" name="password" id="password" maxlength="50" placeholder="Update Password">
+                <input type="password" class="form-control" id="myInput" name="password" id="password" maxlength="50" placeholder="Update Password">
+                <input type="checkbox" onclick="myFunction()"> Show Password
               </div>
             </div>
                     
@@ -189,5 +190,14 @@ $("body").on('click','.update',function(event)
          }
 
      })
- })
+ });
+
+ function myFunction() {
+  var x = document.getElementById("myInput");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
 </script>

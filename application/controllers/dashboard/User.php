@@ -212,12 +212,23 @@ class User extends CI_Controller
         }
 
         $data['title'] = 'Traffic Police | Complaints';
-        $data['heading'] = 'Peshawar Complaints';
+        $data['heading'] = 'Report';
         $data['page_name'] = 'admin/users/district-report';
 
-		$district_result = $this->common_model->getAllData('complaints','*, COUNT(district) AS total_district,COUNT(complaints_status_id) AS total_status_complaints','','','','',array('complaints_status_id','district'));
+		$new_districts = $this->common_model->getAllData('complaints','*, COUNT(district) AS total_district','','','','',array('district'));
+
+		foreach($new_districts as $key => $get_districts):
+
+			$new_districts[$key]->level2 = $this->common_model->getAllData('complaints','*, COUNT(complaints_status_id) AS total_complaint_status','',array('district' => $get_districts->district),'','',array('complaints_status_id'));
+
+			// array_push($arr, $get_status);
+
+		endforeach;
+
+		// pr($new_districts);die;
 		
-		pr($district_result);die;
+		$data['district_results'] = $new_districts;
+
         //Json Complete list
         $this->load->view('template', $data);
 

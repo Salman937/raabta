@@ -11,15 +11,6 @@
         <li class="active">Complaints</li>
       </ol>
     </section>
-    <style>
-    @media print
-    {    
-        .no-print, .no-print *
-        {
-            display: none !important;
-        }
-    }
-    </style>
     <!-- Main content -->
     <section class="content">
 
@@ -34,6 +25,13 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
+                <?php if ($this->session->flashdata('msg')) : ?>
+                  <div class="callout callout-success" id="msg">
+                      <p align="center" style="position:relative; font-size:16px;">
+                          <?= $this->session->flashdata('msg') ?>
+                      </p>
+                  </div>
+                <?php endif; ?>
                 <h4 class="text-center">Complaint ID: <?php echo $this->uri->segment(3); ?></h4>
                 <form class="form-horizontal" action="<?= $action; ?>" method="post" enctype="multipart/form-data">
                   <div class="box-body">
@@ -146,7 +144,7 @@
                     <div class="col-sm-offset-7 col-sm-3">
                         <a href="<?php echo base_url() . 'admin/get_complaints'; ?>" class="btn btn-default">Cancel</a>
                         <button type="submit" class="btn btn-info">Update</button>
-                        <a href="javascript:window.print()" class="btn btn-danger">Print</a>
+                        <a class="btn btn-danger" onclick="printDiv('print_comp')" ><i class="fa fa-print"></i>  Print</a>
                     </div>
                   </div>
                   <!-- /.box-footer -->
@@ -205,7 +203,121 @@
                       </table>
                     </div>
                   </div>
-            </div>
+
+                  <div class="container" id="print_comp" style="display:none">
+                    <div class="row">
+                      <div class="col-md-2 text-center col-md-offset-1">
+                            <img src="<?php bs() ?>assets/images/kp-logo.png" id="print_logo" alt="Logo" style="width:180px">
+                      </div>
+                      <div class="col-md-8 text-center">
+                          <h1 style=""> <b>Raabta Complaint Cell</b></h1>
+                          <h1> <b>Traffic Police Khyber Pakhtunkhwa</b></h1>
+                      </div>
+                    </div>
+                    <div class="row" style="margin-top:3em">
+                      <div class="col-md-5 col-md-offset-1">
+                        Complaint Date: <?php echo date('d-m-Y', strtotime($record['dated'])); ?>
+                        <br>
+                        Complaint Type:
+                        <?php
+                        if ($record['complaint_type_id'] == 1) :
+                          echo '<span class="label label-success">Traffic Jam</span> ';
+                        elseif ($record['complaint_type_id'] == 2) :
+                          echo '<span class="label label-danger">Compliant against Wardens </span>';
+                        elseif ($record['complaint_type_id'] == 3) :
+                          echo '<span class="label label-warning">Illegal Parking</span>';
+                        elseif ($record['complaint_type_id'] == 4) :
+                          echo '<span class="label" style="background:#8e44ad !important;">Other</span>';
+                        endif;
+                        ?>
+                      </div>
+                      <div class="col-md-4 text-right" style="margin-top:-3em">
+                        Current Status: 
+                       
+                         <?php
+                        if ($record['complaints_status_id'] == 1) :
+                          echo '<span class="label label-success">Completed</span> ';
+                        elseif ($record['complaints_status_id'] == 2) :
+                          echo '<span class="label label-danger">Pending</span>';
+                        elseif ($record['complaints_status_id'] == 3) :
+                          echo '<span class="label label-warning">In Progress</span>';
+                        elseif ($record['complaints_status_id'] == 4) :
+                          echo '<span class="label" style="background:#8e44ad !important;">Irrelevant</span>';
+                        elseif ($record['complaints_status_id'] == 5) :
+                          echo '<span class="label" style="background:#8e44ad !important;">Not Understandable</span>';
+                        endif;
+                        ?>
+                        <br>
+                        GPS add:
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-9 col-md-offset-1" style="margin-top:3em">
+                            <b> Complaint Description: </b>
+                            <br>
+                            <br>
+                            <div>
+                              <?php echo $record['description']; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:3em">
+                      <div class="col-md-5 col-md-offset-1">
+                        <b> District:</b>  <?php echo $record['district'] ?>
+                      </div>
+                      <div class="col-md-4 text-right" style="margin-top:-1em">
+                        <b> Contact Number: </b> <?php echo $record['phone'] ?>
+                      </div>
+                    </div>
+                    <div class="row" style="margin-top:3em">
+                      <div class="col-md-4 col-md-offset-1">
+                        <b> User Feedback: </b> 
+                      </div>
+                    </div>
+                    <div class="row" style="margin-top:3em">
+                      <div class="col-md-10 col-md-offset-1">
+                        <b> User Response: </b> 
+                        <br>
+                        <br>
+                        <table class="table">
+                        <thead>
+                          <tr class="active">
+                            <th>
+                              Status
+                            </th>
+                            <th>
+                              Responses
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php if (empty($responses)) : ?> 
+                          <tr>
+                            <td>
+                            <font color="red">Response No Available</font>
+                            </td>
+                          </tr>
+                          <?php else : ?> 
+                          
+                          <?php foreach ($responses as $response) : ?>
+                          <tr>
+                            <td>
+                              <?php echo $response->status ?>
+                            </td>
+                            <td>
+                              <?php echo $response->complaint_response ?>
+                            </td>
+                          </tr>
+                          <?php endforeach; ?>
+
+                          <?php endif; ?>
+                        </tbody>
+                      </table>
+                      </div>
+                    </div>
+                    </div>  
+                  </div>
+                </div>
             <!-- /.box -->
         </div>
         <!-- /.col -->
@@ -219,3 +331,14 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
+<script type="text/javascript">
+    function printDiv(print_comp){
+      var printContents = document.getElementById(print_comp).innerHTML;
+      var originalContents = document.body.innerHTML;
+      document.body.innerHTML = printContents;
+      window.print();
+      document.body.innerHTML = originalContents;
+      window.location.reload();
+  }
+</script>

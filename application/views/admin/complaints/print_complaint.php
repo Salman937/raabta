@@ -23,7 +23,7 @@
             <div class="box-body">
                 <div class="col-md-6 col-md-offset-2">
                     <a class="btn btn-default" href="javascript:window.print()" >
-                    <i class="fa fa-print" aria-hidden="true"></i> Print
+                      <i class="fa fa-print" aria-hidden="true"></i> Print
                     </a>
                     <br>
                     <br>

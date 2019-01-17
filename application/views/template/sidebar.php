@@ -34,22 +34,81 @@
        </a>
        <ul class="treeview-menu">
         <li class="<?= $this->uri->segment(2) == "get_complaints" ? "active" : ""; ?>">
-          <a href="<?= base_url() . 'admin/get_complaints'; ?>"><i class="fa fa-list-alt"></i> All Complaints</a>
+          <a href="<?= base_url() . 'admin/get_complaints'; ?>"><i class="fa fa-list-alt"></i> All Complaints 
+            <span class="badge pull-right">
+              <?php
+                  if ($this->session->userdata('admin_district') == 'peshawar') {
+                      $where = "";
+                  } else {
+                      $where = array('complaints.district' => $this->session->userdata('admin_district'));
+                  }
+
+                  $total_complaints = $this->common_model->getAllData('complaints','COUNT(complaint_id) AS total_complaints',1,$where);
+
+                  echo $total_complaints->total_complaints;
+              ?>
+            </span>
+        </a>
         </li>
         <li class="<?= $this->uri->segment(2) == "pending_complaints" ? "active" : ""; ?>">
-          <a href="<?= base_url() . 'admin/pending_complaints'; ?>"><i class="fa fa-exclamation-circle"></i> Pending Complaints</a>
+          <a href="<?= base_url() . 'admin/pending_complaints'; ?>"><i class="fa fa-exclamation-circle"></i> Pending Complaints
+            <span class="badge pull-right">
+              <?php
+        
+                $pendingComplaints = $this->Admin_model->pending_complaints_list('complaints', $where);
+
+                echo $total = count($pendingComplaints);
+              ?>
+            </span>
+        </a>
         </li>
         <li class="<?= $this->uri->segment(2) == "inprogress_complaints" ? "active" : ""; ?>">
-          <a href="<?= base_url() . 'admin/inprogress_complaints'; ?>"><i class="fa fa-inbox"></i> In Progress Complaints</a>
+          <a href="<?= base_url() . 'admin/inprogress_complaints'; ?>"><i class="fa fa-inbox"></i> In Progress Complaints
+            <span class="badge pull-right">
+              <?php
+        
+                $inProgessComplaints = $this->Admin_model->inprogress_complaints_list('complaints', $where);
+
+                echo $total_inProgessComplaints = count($inProgessComplaints);
+              ?>
+            </span>
+        </a>
         </li>
         <li class="<?= $this->uri->segment(2) == "completed_complaints" ? "active" : ""; ?>">
-          <a href="<?= base_url() . 'admin/completed_complaints'; ?>"><i class="fa fa-check-square-o"></i> Completed Complaints</a>
+          <a href="<?= base_url() . 'admin/completed_complaints'; ?>"><i class="fa fa-check-square-o"></i> Completed Complaints
+                  
+            <span class="badge pull-right">
+              <?php
+        
+                $completedList = $this->Admin_model->completed_complaints_list('complaints', $where);
+
+                echo $total_completedList = count($completedList);
+              ?>
+            </span>
+        </a>
         </li>
         <li class="<?= $this->uri->segment(2) == "irrelevant_complaints" ? "active" : ""; ?>">
-          <a href="<?= base_url() . 'admin/irrelevant_complaints'; ?>"><i class="fa fa-check-square-o"></i> Irrelevant Complaints</a>
+          <a href="<?= base_url() . 'admin/irrelevant_complaints'; ?>"><i class="fa fa-check-square-o"></i> Irrelevant Complaints
+            <span class="badge pull-right">
+              <?php
+        
+                $Irrelevant = $this->Admin_model->irrelevant_complaints_list('complaints', $where);
+
+                echo $total_Irrelevant = count($Irrelevant);
+              ?>
+            </span>
+          </a>
         </li>
         <li class="<?= $this->uri->segment(2) == "notUndestandable_complaints" ? "active" : ""; ?>">
-          <a href="<?= base_url() . 'admin/notUndestandable_complaints'; ?>"><i class="fa fa-check-square-o"></i> Not Understandable</a>
+          <a href="<?= base_url() . 'admin/notUndestandable_complaints'; ?>"><i class="fa fa-check-square-o"></i> Not Understandable
+          <span class="badge pull-right">
+              <?php
+                $notunderstandable = $this->Admin_model->notunderstandable_complaints_list('complaints', $where);
+
+                echo $total_notunderstandable = count($notunderstandable);
+              ?>
+            </span>
+          </a>
         </li>
       </ul>
     </li>
@@ -71,22 +130,93 @@
        <li class="<?= $this->uri->segment(2) == "all_peshawar_complaints" ? "active" : ""; ?>">
           <a href="<?= base_url() . 'admin/all_peshawar_complaints'; ?>">
             <i class="fa fa-list-alt"></i> All Complaints
+            <span class="badge pull-right">
+              <?php
+                $where_pesh = array(
+                  'district' => $this->session->userdata('admin_district')
+                );
+      
+                $all_pesh_complaints = $this->Admin_model->get_complaints('complaints', $where_pesh);
+
+                echo $total_all_pesh_complaints = count($all_pesh_complaints);
+              ?>
+            </span>
           </a>
         </li>
         <li class="<?= $this->uri->segment(2) == "peshawar_complaints" ? "active" : ""; ?>">
-          <a href="<?= base_url() . 'admin/peshawar_complaints'; ?>"><i class="fa fa-list-alt"></i> Completed Complaints</a>
+          <a href="<?= base_url() . 'admin/peshawar_complaints'; ?>"><i class="fa fa-list-alt"></i> Completed Complaints
+          <span class="badge pull-right">
+              <?php
+                $where_pesh = array(
+                  'district' => $this->session->userdata('admin_district')
+                );
+      
+                $pesh_completed_complaints_list = $this->Admin_model->completed_complaints_list('complaints', $where_pesh);
+
+                echo $total_completed_complaints_list = count($pesh_completed_complaints_list);
+              ?>
+            </span>
+        </a>
         </li>
         <li class="<?= $this->uri->segment(2) == "peshawar_pending_complaints" ? "active" : ""; ?>">
-          <a href="<?= base_url() . 'admin/peshawar_pending_complaints'; ?>"><i class="fa fa-exclamation-circle"></i> Pending Complaints</a>
+          <a href="<?= base_url() . 'admin/peshawar_pending_complaints'; ?>"><i class="fa fa-exclamation-circle"></i> Pending Complaints
+          <span class="badge pull-right">
+              <?php
+                $where_pesh = array(
+                  'district' => $this->session->userdata('admin_district')
+                );
+      
+                $pesh_pending_complaints_list = $this->Admin_model->pending_complaints_list('complaints', $where_pesh);
+
+                echo $total_pesh_pending_complaints_list = count($pesh_pending_complaints_list);
+              ?>
+            </span>
+        </a>
         </li>
         <li class="<?= $this->uri->segment(2) == "peshawar_inprogress_complaints" ? "active" : ""; ?>">
-          <a href="<?= base_url() . 'admin/peshawar_inprogress_complaints'; ?>"><i class="fa fa-inbox"></i> In Progress Complaints</a>
+          <a href="<?= base_url() . 'admin/peshawar_inprogress_complaints'; ?>"><i class="fa fa-inbox"></i> In Progress Complaints
+            <span class="badge pull-right">
+              <?php
+                $where_pesh = array(
+                  'district' => $this->session->userdata('admin_district')
+                );
+      
+                $pesh_inprogress_complaints_list = $this->Admin_model->inprogress_complaints_list('complaints', $where_pesh);
+
+                echo $total_inprogress_complaints_list = count($pesh_inprogress_complaints_list);
+              ?>
+            </span>
+        </a>
         </li>
         <li class="<?= $this->uri->segment(2) == "peshawar_irrelevant_complaints" ? "active" : ""; ?>">
-          <a href="<?= base_url() . 'admin/peshawar_irrelevant_complaints'; ?>"><i class="fa fa-check-square-o"></i> Irrelevant Complaints</a>
+          <a href="<?= base_url() . 'admin/peshawar_irrelevant_complaints'; ?>"><i class="fa fa-check-square-o"></i> Irrelevant Complaints
+            <span class="badge pull-right">
+              <?php
+                $where_pesh = array(
+                  'district' => $this->session->userdata('admin_district')
+                );
+      
+                $pesh_irrelevant_complaints_list = $this->Admin_model->irrelevant_complaints_list('complaints', $where_pesh);
+
+                echo $total_irrelevant_complaints_list = count($pesh_irrelevant_complaints_list);
+              ?>
+            </span>
+        </a>
         </li>
         <li class="<?= $this->uri->segment(2) == "peshawar_not_understandable_complaints" ? "active" : ""; ?>">
-          <a href="<?= base_url() . 'admin/peshawar_not_understandable_complaints'; ?>"><i class="fa fa-check-square-o"></i> Not Understandable</a>
+          <a href="<?= base_url() . 'admin/peshawar_not_understandable_complaints'; ?>"><i class="fa fa-check-square-o"></i> Not Understandable
+          <span class="badge pull-right">
+              <?php
+                $where_pesh = array(
+                  'district' => $this->session->userdata('admin_district')
+                );
+      
+                $pesh_notunderstandable_complaints_list = $this->Admin_model->notunderstandable_complaints_list('complaints', $where_pesh);
+
+                echo $total_notunderstandable_complaints_list = count($pesh_notunderstandable_complaints_list);
+              ?>
+            </span>
+        </a>
         </li>
       </ul>
     </li>
@@ -250,7 +380,7 @@
           </ul>
         </li>
 
-        <li class="treeview <?= $heading == "Revisions" ? "active" : ""; ?>">
+        <li class="treeview <?= $heading == "Report" ? "active" : ""; ?>">
           <a href="<?php bs() ?>dashboard/User/district_result">
           <i class="fa fa-list" aria-hidden="true"></i> <span>District Report</span>
           </a>
