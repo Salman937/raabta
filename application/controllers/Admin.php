@@ -397,7 +397,7 @@ class Admin extends CI_Controller
             $Button = '<div class="btn-group"> 
                 <a onclick="viewDetails(' . $each->complaint_id . ')" class="btn btn-success btn-xs"><i class="fa fa-eye" data-toggle="modal" data-target="#exampleModalLong"></i></a>
                 <a href="admin/edit_complaint/' . $each->complaint_id . '" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o"></i></a>
-                <a href="admin/print_complaint/' . $each->complaint_id . '" class="btn btn-default btn-xs"><i class="fa fa-print" aria-hidden="true"></i></a>';
+                ';
             if ($each->status == 'Completed') {
                 $Button .= '<a onclick="return confirm("Are you sure you want to delete this?"");" href="admin/delete_complaint/' . $each->complaint_id . '" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>';
             } else {
@@ -1550,7 +1550,7 @@ class Admin extends CI_Controller
             $Button = '<div class="btn-group"> 
                 <a onclick="viewDetails(' . $each->complaint_id . ')" class="btn btn-success btn-xs"><i class="fa fa-eye" data-toggle="modal" data-target="#exampleModalLong"></i></a>
                 <a href="admin/edit_complaint/' . $each->complaint_id . '" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o"></i></a>
-                <a href="admin/print_complaint/' . $each->complaint_id . '" class="btn btn-default btn-xs"><i class="fa fa-print" aria-hidden="true"></i></a>';
+                ';
             if ($each->status == 'Completed') {
                 $Button .= '<a onclick="return confirm("Are you sure you want to delete this?"");" href="admin/delete_complaint/' . $each->complaint_id . '" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>';
             } else {
@@ -1641,7 +1641,7 @@ class Admin extends CI_Controller
             $Button = '<div class="btn-group"> 
                 <a onclick="viewDetails(' . $each->complaint_id . ')" class="btn btn-success btn-xs"><i class="fa fa-eye" data-toggle="modal" data-target="#exampleModalLong"></i></a>
                 <a href="admin/edit_complaint/' . $each->complaint_id . '" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o"></i></a>
-                <a href="admin/print_complaint/' . $each->complaint_id . '" class="btn btn-default btn-xs"><i class="fa fa-print" aria-hidden="true"></i></a>';
+                ';
             if ($each->status == 'Completed') {
                 $Button .= '<a onclick="return confirm("Are you sure you want to delete this?"");" href="admin/delete_complaint/' . $each->complaint_id . '" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>';
             } else {
@@ -1732,7 +1732,7 @@ class Admin extends CI_Controller
             $Button = '<div class="btn-group"> 
                 <a onclick="viewDetails(' . $each->complaint_id . ')" class="btn btn-success btn-xs"><i class="fa fa-eye" data-toggle="modal" data-target="#exampleModalLong"></i></a>
                 <a href="admin/edit_complaint/' . $each->complaint_id . '" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o"></i></a>
-                <a href="admin/print_complaint/' . $each->complaint_id . '" class="btn btn-default btn-xs"><i class="fa fa-print" aria-hidden="true"></i></a>';
+                ';
             if ($each->status == 'Completed') {
                 $Button .= '<a onclick="return confirm("Are you sure you want to delete this?"");" href="admin/delete_complaint/' . $each->complaint_id . '" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>';
             } else {
@@ -1827,7 +1827,7 @@ class Admin extends CI_Controller
             $Button = '<div class="btn-group"> 
                 <a onclick="viewDetails(' . $each->complaint_id . ')" class="btn btn-success btn-xs"><i class="fa fa-eye" data-toggle="modal" data-target="#exampleModalLong"></i></a>
                 <a href="admin/edit_complaint/' . $each->complaint_id . '" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o"></i></a>
-                <a href="admin/print_complaint/' . $each->complaint_id . '" class="btn btn-default btn-xs"><i class="fa fa-print" aria-hidden="true"></i></a>';
+                ';
             if ($each->status == 'Completed') {
                 $Button .= '<a onclick="return confirm("Are you sure you want to delete this?"");" href="admin/delete_complaint/' . $each->complaint_id . '" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>';
             } else {
@@ -1922,7 +1922,7 @@ class Admin extends CI_Controller
             $Button = '<div class="btn-group"> 
                 <a onclick="viewDetails(' . $each->complaint_id . ')" class="btn btn-success btn-xs"><i class="fa fa-eye" data-toggle="modal" data-target="#exampleModalLong"></i></a>
                 <a href="admin/edit_complaint/' . $each->complaint_id . '" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o"></i></a>
-                <a href="admin/print_complaint/' . $each->complaint_id . '" class="btn btn-default btn-xs"><i class="fa fa-print" aria-hidden="true"></i></a>';
+                ';
             if ($each->status == 'Completed') {
                 $Button .= '<a onclick="return confirm("Are you sure you want to delete this?"");" href="admin/delete_complaint/' . $each->complaint_id . '" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>';
             } else {
@@ -2017,7 +2017,7 @@ class Admin extends CI_Controller
             $Button = '<div class="btn-group"> 
                 <a onclick="viewDetails(' . $each->complaint_id . ')" class="btn btn-success btn-xs"><i class="fa fa-eye" data-toggle="modal" data-target="#exampleModalLong"></i></a>
                 <a href="admin/edit_complaint/' . $each->complaint_id . '" class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o"></i></a>
-                <a href="admin/print_complaint/' . $each->complaint_id . '" class="btn btn-default btn-xs"><i class="fa fa-print" aria-hidden="true"></i></a>';
+                ';
             if ($each->status == 'Completed') {
                 $Button .= '<a onclick="return confirm("Are you sure you want to delete this?"");" href="admin/delete_complaint/' . $each->complaint_id . '" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>';
             } else {

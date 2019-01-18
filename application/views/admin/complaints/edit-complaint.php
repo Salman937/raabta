@@ -207,11 +207,11 @@
                   <div class="container" id="print_comp" style="display:none">
                     <div class="row">
                       <div class="col-md-2 text-center col-md-offset-1">
-                            <img src="<?php bs() ?>assets/images/kp-logo.png" id="print_logo" alt="Logo" style="width:180px">
+                            <img src="<?php bs() ?>assets/images/kp-logo.svg"  alt="Logo" style="width:100px">
                       </div>
-                      <div class="col-md-8 text-center">
-                          <h1 style=""> <b>Raabta Complaint Cell</b></h1>
-                          <h1> <b>Traffic Police Khyber Pakhtunkhwa</b></h1>
+                      <div class="col-md-8 text-center" style="margin:-1.5em">
+                          <h3 style=""> <b>Raabta Complaint Cell</b></h3>
+                          <h3 style="margin:-0.4em"> <b>Traffic Police Khyber Pakhtunkhwa</b></h3>
                       </div>
                     </div>
                     <div class="row" style="margin-top:3em">
@@ -221,34 +221,32 @@
                         Complaint Type:
                         <?php
                         if ($record['complaint_type_id'] == 1) :
-                          echo '<span class="label label-success">Traffic Jam</span> ';
+                          echo '<b>Traffic Jam</b> ';
                         elseif ($record['complaint_type_id'] == 2) :
-                          echo '<span class="label label-danger">Compliant against Wardens </span>';
+                          echo '<b> Compliant against Wardens </b>';
                         elseif ($record['complaint_type_id'] == 3) :
-                          echo '<span class="label label-warning">Illegal Parking</span>';
+                          echo '<b>Illegal Parking</b>';
                         elseif ($record['complaint_type_id'] == 4) :
-                          echo '<span class="label" style="background:#8e44ad !important;">Other</span>';
+                          echo '<b>Other</b>';
                         endif;
                         ?>
                       </div>
                       <div class="col-md-4 text-right" style="margin-top:-3em">
                         Current Status: 
-                       
+                        <br>
                          <?php
                         if ($record['complaints_status_id'] == 1) :
-                          echo '<span class="label label-success">Completed</span> ';
+                          echo '<b>Completed</b> ';
                         elseif ($record['complaints_status_id'] == 2) :
-                          echo '<span class="label label-danger">Pending</span>';
+                          echo '<b>Pending</b>';
                         elseif ($record['complaints_status_id'] == 3) :
-                          echo '<span class="label label-warning">In Progress</span>';
+                          echo '<b>In Progress</b>';
                         elseif ($record['complaints_status_id'] == 4) :
-                          echo '<span class="label" style="background:#8e44ad !important;">Irrelevant</span>';
+                          echo '<b>Irrelevant</b>';
                         elseif ($record['complaints_status_id'] == 5) :
-                          echo '<span class="label" style="background:#8e44ad !important;">Not Understandable</span>';
+                          echo '<b>Not Understandable</b>';
                         endif;
                         ?>
-                        <br>
-                        GPS add:
                       </div>
                     </div>
                     <div class="row">

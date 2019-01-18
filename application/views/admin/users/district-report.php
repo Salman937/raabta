@@ -30,18 +30,18 @@
               </div>
               <?php endif;?>
 
-              <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+              <table id="" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <a class="btn btn-success pull-right" href="javascript:window.print()" >
                       <i class="fa fa-print" aria-hidden="true"></i> Print
                     </a>
                 <thead>
                   <tr>
                     <th>District</th>
+                    <th>Completed</th>
                     <th>Pending</th>
                     <th>In Progress</th>
                     <th>Irrelevant</th>
                     <th>Not Understandable</th>
-                    <th>Completed</th>
                     <!-- <th>Total Complaints</th> -->
                  </tr>
                 </thead>
@@ -56,7 +56,7 @@
                       <td>
                         <?php echo $get_district->district ?>
                       </td>
-                      <?php foreach ($get_district->level2 as $district_result): ?>
+                      <?php foreach ($get_district->result as $district_result): ?>
 
                         <td> 
                           <?php echo $district_result->total_complaint_status ?>

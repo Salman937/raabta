@@ -217,11 +217,28 @@ class User extends CI_Controller
 
 		$new_districts = $this->common_model->getAllData('complaints','*, COUNT(district) AS total_district','','','','',array('district'));
 
+		$complaint_status = $this->common_model->getAllData('complaints_status','*');
+
 		foreach($new_districts as $key => $get_districts):
 
-			$new_districts[$key]->level2 = $this->common_model->getAllData('complaints','*, COUNT(complaints_status_id) AS total_complaint_status','',array('district' => $get_districts->district),'','',array('complaints_status_id'));
+			foreach($complaint_status as $key1 => $comp_status):
 
-			// array_push($arr, $get_status);
+				$var= $this->common_model->getAllData('complaints','*, COUNT(complaints_status_id) AS total_complaint_status','1',
+						array(
+								'district' => $get_districts->district,
+								'complaints_status_id ' => $comp_status->complaints_status_id
+							)
+						);
+				
+				if($var)
+				{
+					$new_districts[$key]->result[$comp_status->status] = $var;
+				}
+				else {
+					$new_districts[$key]->result[$comp_status->status] = 0;
+				}
+
+			endforeach;	
 
 		endforeach;
 
